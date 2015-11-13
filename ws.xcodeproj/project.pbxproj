@@ -10,6 +10,12 @@
 		996CAB941BF67A7C00931EAD /* ws.h in Headers */ = {isa = PBXBuildFile; fileRef = 996CAB931BF67A7C00931EAD /* ws.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 996CAB901BF67A7C00931EAD /* ws.framework */; };
 		996CABA01BF67A7C00931EAD /* wsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996CAB9F1BF67A7C00931EAD /* wsTests.swift */; };
+		99CCC3111BF67C1500497064 /* WS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CCC3101BF67C1500497064 /* WS.swift */; };
+		99CCC3131BF67CBF00497064 /* Pormise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CCC3121BF67CBF00497064 /* Pormise.swift */; };
+		99CCC3151BF67D2D00497064 /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CCC3141BF67D2D00497064 /* Arrow.framework */; };
+		99CCC3171BF67DF500497064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CCC3161BF67DF500497064 /* Alamofire.framework */; };
+		99CCC3181BF6845900497064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CCC3161BF67DF500497064 /* Alamofire.framework */; };
+		99CCC3191BF6845C00497064 /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CCC3141BF67D2D00497064 /* Arrow.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +35,10 @@
 		996CAB9A1BF67A7C00931EAD /* wsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		996CAB9F1BF67A7C00931EAD /* wsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wsTests.swift; sourceTree = "<group>"; };
 		996CABA11BF67A7C00931EAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		99CCC3101BF67C1500497064 /* WS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WS.swift; sourceTree = "<group>"; };
+		99CCC3121BF67CBF00497064 /* Pormise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pormise.swift; sourceTree = "<group>"; };
+		99CCC3141BF67D2D00497064 /* Arrow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Arrow.framework; path = Carthage/Build/iOS/Arrow.framework; sourceTree = "<group>"; };
+		99CCC3161BF67DF500497064 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +46,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99CCC3151BF67D2D00497064 /* Arrow.framework in Frameworks */,
+				99CCC3171BF67DF500497064 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,7 +55,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99CCC3191BF6845C00497064 /* Arrow.framework in Frameworks */,
 				996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */,
+				99CCC3181BF6845900497064 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +67,8 @@
 		996CAB861BF67A7C00931EAD = {
 			isa = PBXGroup;
 			children = (
+				99CCC3161BF67DF500497064 /* Alamofire.framework */,
+				99CCC3141BF67D2D00497064 /* Arrow.framework */,
 				996CAB921BF67A7C00931EAD /* ws */,
 				996CAB9E1BF67A7C00931EAD /* wsTests */,
 				996CAB911BF67A7C00931EAD /* Products */,
@@ -72,6 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				996CAB931BF67A7C00931EAD /* ws.h */,
+				99CCC3101BF67C1500497064 /* WS.swift */,
+				99CCC3121BF67CBF00497064 /* Pormise.swift */,
 				996CAB951BF67A7C00931EAD /* Info.plist */,
 			);
 			path = ws;
@@ -108,6 +126,7 @@
 				996CAB8C1BF67A7C00931EAD /* Frameworks */,
 				996CAB8D1BF67A7C00931EAD /* Headers */,
 				996CAB8E1BF67A7C00931EAD /* Resources */,
+				99CCC30E1BF67B7000497064 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -125,6 +144,7 @@
 				996CAB961BF67A7C00931EAD /* Sources */,
 				996CAB971BF67A7C00931EAD /* Frameworks */,
 				996CAB981BF67A7C00931EAD /* Resources */,
+				99CCC30F1BF67BE800497064 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -189,11 +209,45 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		99CCC30E1BF67B7000497064 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Arrow.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		99CCC30F1BF67BE800497064 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Arrow.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		996CAB8B1BF67A7C00931EAD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99CCC3111BF67C1500497064 /* WS.swift in Sources */,
+				99CCC3131BF67CBF00497064 /* Pormise.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,26 +362,37 @@
 		996CABA51BF67A7C00931EAD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ws/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.s4cha.ws.ws;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		996CABA61BF67A7C00931EAD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ws/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -340,6 +405,10 @@
 		996CABA81BF67A7C00931EAD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = wsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.s4cha.ws.wsTests;
@@ -350,6 +419,10 @@
 		996CABA91BF67A7C00931EAD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = wsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.s4cha.ws.wsTests;
@@ -376,6 +449,7 @@
 				996CABA61BF67A7C00931EAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		996CABA71BF67A7C00931EAD /* Build configuration list for PBXNativeTarget "wsTests" */ = {
 			isa = XCConfigurationList;
@@ -384,6 +458,7 @@
 				996CABA91BF67A7C00931EAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
