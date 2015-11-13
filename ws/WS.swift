@@ -10,18 +10,18 @@ import Foundation
 import Alamofire
 import Arrow
 
-class WS {
+public class WS {
     
-    init(_ aBaseURL:String) {
+    public init(_ aBaseURL:String) {
         baseURL = aBaseURL
     }
     
-    var baseURL = ""
-    var OAuthToken: String?
+    public var baseURL = ""
+    public var OAuthToken: String?
     
     //MARK: - Call building helpers
     
-    func call() -> WSCall {
+    public func call() -> WSCall {
         let r = WSCall()
         r.baseURL = baseURL
         if let token = OAuthToken {
@@ -31,7 +31,7 @@ class WS {
     }
     
     
-    func call(url:String, verb:HTTPVerb = .GET, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
+    public func call(url:String, verb:HTTPVerb = .GET, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
         let c = call()
         c.httpVerb = verb
         c.URL = url
@@ -40,16 +40,8 @@ class WS {
         return c.fetch()
     }
     
-    func call(verb:HTTPVerb = .GET, url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
-        let c = call()
-        c.httpVerb = verb
-        c.URL = url
-        c.params = params
-        c.returnsJSON = verb != .DELETE
-        return c.fetch()
-    }
     
-    func Call<T:ArrowParsable>(verb:HTTPVerb = .GET, url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func resourceCall<T:ArrowParsable>(verb:HTTPVerb = .GET, url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         let c = call()
         c.httpVerb = verb
         c.URL = url
@@ -65,24 +57,7 @@ class WS {
         }
     }
     
-    
-    func resourceCall<T:ArrowParsable>(verb:HTTPVerb = .GET, url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
-        let c = call()
-        c.httpVerb = verb
-        c.URL = url
-        c.params = params
-        c.returnsJSON = verb != .DELETE
-        
-        
-        // Apply corresponding JSON mapper
-        return c.fetch().then { json -> T in
-            let mapper = ModelJSONParser<T>()
-            let model = mapper.toModel(json)
-            return model
-        }
-    }
-    
-    func resourcesCall<T:ArrowParsable>(verb:HTTPVerb = .GET, url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
+    public func resourcesCall<T:ArrowParsable>(verb:HTTPVerb = .GET, url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
         let c = call()
         c.httpVerb = verb
         c.URL = url
@@ -135,12 +110,6 @@ public class WSCall {
             } else {
                 req.validate()
                 req.validate().responseJSON { response in
-//                    if let JSON = response.result.value {
-//                         resolve(object: JSON)
-//                    } else {
-//                        reject(err:WSError.NetworkError)
-//                    }
-//                    //TODO handle error
                     switch response.result {
                     case .Success(let value):
                         resolve(object: value)
@@ -202,9 +171,6 @@ class ModelJSONParser<T:ArrowParsable> {
     }
     
     private let collectionFromData = { (data: AnyObject) -> [AnyObject]? in
-//        var c:[AnyObject]? = [AnyObject]()
-//        c <-- data["collection"]
-//        return c
         if let a = data as? [AnyObject] {
             return a
         } else {
