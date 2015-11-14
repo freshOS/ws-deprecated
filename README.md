@@ -2,6 +2,8 @@
 Lightweight JSON WebService maganer in swift
 
 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Build Status](https://www.bitrise.io/app/a6d157138f9ee86d.svg?token=W7-x9K5U976xiFrI8XqcJw&branch=master)](https://www.bitrise.io/app/a6d157138f9ee86d)
 
 ## Installation
 
