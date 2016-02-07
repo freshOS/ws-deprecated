@@ -270,6 +270,8 @@ public class WSCall {
 
 public class ModelJSONParser<T:ArrowParsable> {
     
+    public init() { }
+    
     public func toModel(json:JSON) -> T {
         return resourceParsingBlock(json)!
     }

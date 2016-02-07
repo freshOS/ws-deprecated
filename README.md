@@ -52,9 +52,13 @@ ws.call("/users").then { json in
 
 
 ```swift
+// Design your api
+func latestUsers() -> Promise<[User]> {
+  return ws.list("/users")
+}
+
 // Get back some sweet swift models <3
-let latestUsersCall:Promise<[User]> = ws.resourcesCall(url: "/users")
-latestUsersCall.succeeds { users in
+latestUsers().then { users in
     print(users) // users is STRONGLY typed <3
 }
 
