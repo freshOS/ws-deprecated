@@ -7,8 +7,14 @@
 //
 
 import Foundation
+
 import Alamofire
+import then
 import Arrow
+
+enum WSError:ErrorType {
+    case NetworkError
+}
 
 public class WS {
     
@@ -102,9 +108,9 @@ public class WSCall {
                         print("CODE: \(sc)")
                     }
                     if error == nil {
-                        resolve(object: "")
+                        resolve(result: "")
                     } else {
-                        reject(err:WSError.NetworkError)
+                        reject(error:WSError.NetworkError)
                     }
                 })
             } else {
@@ -112,9 +118,9 @@ public class WSCall {
                 req.validate().responseJSON { response in
                     switch response.result {
                     case .Success(let value):
-                        resolve(object: value)
+                        resolve(result: value)
                     case .Failure(let error):
-                        reject(err:error)
+                        reject(error:error)
                     }
                 }
             }

@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import ws
+import then
 
 // MARK: - Models
 
@@ -106,22 +107,22 @@ class wsTests: XCTestCase {
         let exp = expectationWithDescription("")
         
         // use "call" to get back a json
-        ws.call("/users").succeeds { json in
+        ws.call("/users").then { json in
             print(json)
             exp.fulfill()
         }
-        waitForExpectationsWithTimeout(3, handler: nil)
+        waitForExpectationsWithTimeout(10, handler: nil)
     }
     
     func testModels() {
         let exp = expectationWithDescription("")
-        latestUsers().succeeds { users in
+        latestUsers().then { users in
             for u in users {
                 print(u)
             }
             exp.fulfill()
         }
-        waitForExpectationsWithTimeout(3, handler: nil)
+        waitForExpectationsWithTimeout(10, handler: nil)
     }
     
     // Here is typically how you would define an api endpoint.

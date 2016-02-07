@@ -1,2 +1,3 @@
-github "s4cha/Arrow"
 github "Alamofire/Alamofire"
+github "s4cha/Arrow"
+github "s4cha/then"

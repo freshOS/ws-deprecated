@@ -11,11 +11,6 @@
 		996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 996CAB901BF67A7C00931EAD /* ws.framework */; };
 		996CABA01BF67A7C00931EAD /* wsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996CAB9F1BF67A7C00931EAD /* wsTests.swift */; };
 		99CCC3111BF67C1500497064 /* WS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CCC3101BF67C1500497064 /* WS.swift */; };
-		99CCC3131BF67CBF00497064 /* Pormise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CCC3121BF67CBF00497064 /* Pormise.swift */; };
-		99CCC3151BF67D2D00497064 /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CCC3141BF67D2D00497064 /* Arrow.framework */; };
-		99CCC3171BF67DF500497064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CCC3161BF67DF500497064 /* Alamofire.framework */; };
-		99CCC3181BF6845900497064 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CCC3161BF67DF500497064 /* Alamofire.framework */; };
-		99CCC3191BF6845C00497064 /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CCC3141BF67D2D00497064 /* Arrow.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,9 +31,6 @@
 		996CAB9F1BF67A7C00931EAD /* wsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wsTests.swift; sourceTree = "<group>"; };
 		996CABA11BF67A7C00931EAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		99CCC3101BF67C1500497064 /* WS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WS.swift; sourceTree = "<group>"; };
-		99CCC3121BF67CBF00497064 /* Pormise.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pormise.swift; sourceTree = "<group>"; };
-		99CCC3141BF67D2D00497064 /* Arrow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Arrow.framework; path = Carthage/Build/iOS/Arrow.framework; sourceTree = "<group>"; };
-		99CCC3161BF67DF500497064 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,8 +38,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99CCC3151BF67D2D00497064 /* Arrow.framework in Frameworks */,
-				99CCC3171BF67DF500497064 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,9 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99CCC3191BF6845C00497064 /* Arrow.framework in Frameworks */,
 				996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */,
-				99CCC3181BF6845900497064 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,8 +55,6 @@
 		996CAB861BF67A7C00931EAD = {
 			isa = PBXGroup;
 			children = (
-				99CCC3161BF67DF500497064 /* Alamofire.framework */,
-				99CCC3141BF67D2D00497064 /* Arrow.framework */,
 				996CAB921BF67A7C00931EAD /* ws */,
 				996CAB9E1BF67A7C00931EAD /* wsTests */,
 				996CAB911BF67A7C00931EAD /* Products */,
@@ -89,7 +75,6 @@
 			children = (
 				996CAB931BF67A7C00931EAD /* ws.h */,
 				99CCC3101BF67C1500497064 /* WS.swift */,
-				99CCC3121BF67CBF00497064 /* Pormise.swift */,
 				996CAB951BF67A7C00931EAD /* Info.plist */,
 			);
 			path = ws;
@@ -216,7 +201,7 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Arrow.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/then.framework",
 			);
 			outputPaths = (
 			);
@@ -247,7 +232,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				99CCC3111BF67C1500497064 /* WS.swift in Sources */,
-				99CCC3131BF67CBF00497064 /* Pormise.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +357,7 @@
 				);
 				INFOPLIST_FILE = ws/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.s4cha.ws.ws;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -395,6 +380,7 @@
 				);
 				INFOPLIST_FILE = ws/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.s4cha.ws.ws;
 				PRODUCT_NAME = "$(TARGET_NAME)";
