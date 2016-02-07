@@ -1,6 +1,6 @@
-# ws [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+# ws ☁️ [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-Lightweight JSON WebService in Swift
+Elegant JSON WebService in Swift
 
 ```swift
 let ws = WS("http://jsonplaceholder.typicode.com")
@@ -19,7 +19,7 @@ We developers should **focus on our app logic** rather than *boilerplate code* .
 
 ## How
 By providing a lightweight client that **automates boilerplate code everyone has to write**.  
-By Exposing a **delightfully simple** api to get the job done simply, clearly, quickly.  
+By exposing a **delightfully simple** api to get the job done simply, clearly, quickly.  
 Getting swift models from a JSON api is now *a problem of the past*
 
 ## What
