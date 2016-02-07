@@ -268,13 +268,13 @@ public class WSCall {
 
 // MARK: - Parser
 
-class ModelJSONParser<T:ArrowParsable> {
+public class ModelJSONParser<T:ArrowParsable> {
     
-    func toModel(json:JSON) -> T {
+    public func toModel(json:JSON) -> T {
         return resourceParsingBlock(json)!
     }
     
-    func toModels(json:JSON) -> [T] {
+    public func toModels(json:JSON) -> [T] {
         if let resources = resourcesParsingBlock(json) {
             return resources
         } else {
@@ -347,7 +347,7 @@ public enum WSError:ErrorType {
 
 // Abstract Model -> Rest URL
 
-func restURL<T:RestResource>(r:T) -> String {
+public func restURL<T:RestResource>(r:T) -> String {
     return "/\(T.restName())/\(r.restId())"
 }
 
