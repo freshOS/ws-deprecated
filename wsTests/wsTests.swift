@@ -91,6 +91,11 @@ extension Geo:ArrowParsable {
     }
 }
 
+extension User:RestResource {
+    static func restName() -> String { return "users" }
+    func restId() -> String { return "\(identifier)" }
+}
+
 // MARK: - Usage
 
 class wsTests: XCTestCase {
@@ -107,7 +112,7 @@ class wsTests: XCTestCase {
         let exp = expectationWithDescription("")
         
         // use "call" to get back a json
-        ws.call("/users").then { json in
+        ws.get("/users").then { json in
             print(json)
             exp.fulfill()
         }
@@ -128,7 +133,7 @@ class wsTests: XCTestCase {
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects
     func latestUsers() -> Promise<[User]> {
-        return ws.resourcesCall(url: "/users")
+        return ws.list("/users")
     }
     
 }

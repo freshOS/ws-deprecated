@@ -1,10 +1,15 @@
-# ws
-Lightweight JSON WebService maganer in swift
+# ws [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Build Status](https://www.bitrise.io/app/a6d157138f9ee86d.svg?token=W7-x9K5U976xiFrI8XqcJw&branch=master)](https://www.bitrise.io/app/a6d157138f9ee86d)
 
+Lightweight JSON WebService in swift
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Build Status](https://www.bitrise.io/app/a6d157138f9ee86d.svg?token=W7-x9K5U976xiFrI8XqcJw&branch=master)](https://www.bitrise.io/app/a6d157138f9ee86d)
+```swift
+let ws = WS("http://jsonplaceholder.typicode.com")
 
+// Get back some json \o/
+ws.get("/users").then { json in
+    print(json)
+}
+```
 ## Installation
 
 ### Carthage
@@ -18,8 +23,9 @@ go to  `Project` > `Target` > `Build Phases` + `New run Script Phase`
 Add input files
 ```
 $(SRCROOT)/Carthage/Build/iOS/ws.framework
-$(SRCROOT)/Carthage/Build/iOS/Arrow.framework
 $(SRCROOT)/Carthage/Build/iOS/Alamofire.framework
+$(SRCROOT)/Carthage/Build/iOS/Arrow.framework
+$(SRCROOT)/Carthage/Build/iOS/then.framework
 ```
 
 This links ws and its dependencies.
