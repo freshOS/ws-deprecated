@@ -10,6 +10,56 @@ ws.get("/users").then { json in
     print(json)
 }
 ```
+
+## Usage
+
+### Import ws at the top of your file
+
+```swift
+import ws
+```
+
+### Set webservice base URL
+
+```swift
+let ws = WS("http://jsonplaceholder.typicode.com")
+```
+
+### Get back some json instantly \o/
+```swift
+ws.get("/users").then { json in
+    print(json)
+}
+```
+
+### Design your Api
+
+```swift
+func latestUsers() -> Promise<[User]> {
+    return ws.list("/users")
+}
+```
+
+### Tell ws how to map your user models
+```swift
+extension User:ArrowParsable {
+    init(json: JSON) {
+        identifier <-- json["id"]
+        username <-- json["username"]
+        email <-- json["email"]
+    }
+}
+```
+
+### Get back some sweet swift models ❤️
+```swift
+latestUsers().then { users in
+    print(users) // STRONGLY typed [Users] ❤️
+}
+
+```
+
+
 ## Installation
 
 ### Carthage
@@ -31,35 +81,3 @@ $(SRCROOT)/Carthage/Build/iOS/then.framework
 This links ws and its dependencies.
 
 And voila !
-
-
-## Usage
-
-```swift
-import ws // import ws at the top of your file
-
-
-// Set webservice base URL
-let ws = WS("http://jsonplaceholder.typicode.com")
-
-// Get back some json \o/
-ws.call("/users").then { json in
-    print(json)
-}
-```
-
- Want to automatically parse JSON to your nice Swift models??
-
-
-```swift
-// Design your api
-func latestUsers() -> Promise<[User]> {
-  return ws.list("/users")
-}
-
-// Get back some sweet swift models <3
-latestUsers().then { users in
-    print(users) // users is STRONGLY typed <3
-}
-
-```
