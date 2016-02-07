@@ -12,7 +12,21 @@ import Alamofire
 import Arrow
 import then
 
+var kWSJsonParsingSingleResourceKey:String? = nil
+var kWSJsonParsingColletionKey:String? = nil
+
 public class WS {
+    
+    public var jsonParsingSingleResourceKey:String? = nil {
+        didSet {
+            kWSJsonParsingSingleResourceKey = jsonParsingSingleResourceKey
+        }
+    }
+    public var jsonParsingColletionKey:String? = nil {
+        didSet {
+            kWSJsonParsingColletionKey = jsonParsingColletionKey
+        }
+    }
     
     public init(_ aBaseURL:String) {
         baseURL = aBaseURL
@@ -176,8 +190,9 @@ public class WSCall {
     public var fullURL:String { return baseURL + URL}
     public var timeout:NSTimeInterval?
     private var req:Alamofire.Request?
+    public init() {}
     
-    func cancel() {
+    public func cancel() {
         req?.cancel()
     }
     
@@ -252,9 +267,6 @@ public class WSCall {
 
 
 // MARK: - Parser
-
-var kWSJsonParsingSingleResourceKey:String? = nil
-var kWSJsonParsingColletionKey:String? = nil
 
 class ModelJSONParser<T:ArrowParsable> {
     
