@@ -1,6 +1,6 @@
 # ws [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-Lightweight JSON WebService in swift
+Lightweight JSON WebService in Swift
 
 ```swift
 let ws = WS("http://jsonplaceholder.typicode.com")
@@ -10,6 +10,26 @@ ws.get("/users").then { json in
     print(json)
 }
 ```
+
+
+## Why
+Because JSON apis are used in **99% of iOS Apps**, this should be  **simple**.  
+We developers should **focus on our app logic** rather than *boilerplate code* .  
+*Less* code is *better* code
+
+## How
+By providing a lightweight client that **automates boilerplate code everyone has to write**.  
+By Exposing a **delightfully simple** api to get the job done simply, clearly, quickly.  
+Getting swift models from a JSON api is now *a problem of the past*
+
+## What
+- [x] Simple
+- [x] Lightweight (1 file)
+- [x] Pure Swift
+- [x] No magic involved
+- [x] Strongly Typed
+- [x] Chainable
+- [x] Uses popular Promise/Future concept
 
 ## Usage
 
@@ -81,3 +101,9 @@ $(SRCROOT)/Carthage/Build/iOS/then.framework
 This links ws and its dependencies.
 
 And voila !
+
+## Other repos ❤️
+ws is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze* :
+- Async code : [then](https://github.com/s4cha/then)
+- Layout : [Stevia](https://github.com/s4cha/Stevia)
+- Json Parsing : [Arrow](https://github.com/s4cha/Arrow)
