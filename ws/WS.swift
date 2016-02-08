@@ -247,8 +247,9 @@ public class WSCall {
                             default:
                                 reject(error:WSError.NetworkError)
                             }
+                        } else {
+                            reject(error:WSError.NetworkError)
                         }
-                        reject(error:WSError.NetworkError)
                     }
                 })
             }
