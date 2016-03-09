@@ -112,4 +112,4 @@ And voila !
 ws is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze* :
 - Async code : [then](https://github.com/s4cha/then)
 - Layout : [Stevia](https://github.com/s4cha/Stevia)
-- Json Parsing : [Arrow](https://github.com/s4cha/Arrow)
+- JSON Parsing : [Arrow](https://github.com/s4cha/Arrow)
