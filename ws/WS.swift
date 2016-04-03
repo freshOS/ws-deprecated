@@ -100,6 +100,32 @@ public class WS {
         return r.fetch()
     }
     
+    public func get<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
+        let c = defaultCall()
+        c.httpVerb = .GET
+        c.URL = url
+        c.params = params
+        // Apply corresponding JSON mapper
+        return c.fetch().then { json -> [T] in
+            let mapper = ModelJSONParser<T>()
+            let models = mapper.toModels(json)
+            return models
+        }
+    }
+    
+    // Keep here for now for backwards compatibility
+    public func list<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
+        let c = defaultCall()
+        c.httpVerb = .GET
+        c.URL = url
+        c.params = params
+        // Apply corresponding JSON mapper
+        return c.fetch().then { json -> [T] in
+            let mapper = ModelJSONParser<T>()
+            let models = mapper.toModels(json)
+            return models
+        }
+    }
     
     //MARK: - POST
     
@@ -173,19 +199,6 @@ public class WS {
             let mapper = ModelJSONParser<T>()
             let model = mapper.toModel(json)
             return model
-        }
-    }
-    
-    public func list<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
-        let c = defaultCall()
-        c.httpVerb = .GET
-        c.URL = url
-        c.params = params
-        // Apply corresponding JSON mapper
-        return c.fetch().then { json -> [T] in
-            let mapper = ModelJSONParser<T>()
-            let models = mapper.toModels(json)
-            return models
         }
     }
 }

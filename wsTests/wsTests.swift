@@ -131,7 +131,7 @@ class wsTests: XCTestCase {
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects
     func latestUsers() -> Promise<[User]> {
-        return ws.list("/users")
+        return ws.get("/users")
     }
     
 }

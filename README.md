@@ -62,7 +62,7 @@ ws.get("/users").then { json in
 
 ```swift
 func latestUsers() -> Promise<[User]> {
-    return ws.list("/users")
+    return ws.get("/users")
 }
 ```
 
