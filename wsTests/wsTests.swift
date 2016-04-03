@@ -49,7 +49,7 @@ struct Geo {
 
 import Arrow
 
-extension User:WSParsable {
+extension User:ArrowParsable {
     init(json: JSON) {
         identifier <-- json["id"]
         username <-- json["username"]
@@ -66,7 +66,7 @@ extension User:WSParsable {
     }
 }
 
-extension Company:WSParsable {
+extension Company:ArrowParsable {
     init(json: JSON) {
         bs <-- json["bs"]
         catchPhrase <-- json["catchPhrase"]
@@ -74,7 +74,7 @@ extension Company:WSParsable {
     }
 }
 
-extension Address:WSParsable {
+extension Address:ArrowParsable {
     init(json: JSON) {
         city <-- json["city"]
         street <-- json["street"]
@@ -84,7 +84,7 @@ extension Address:WSParsable {
     }
 }
 
-extension Geo:WSParsable {
+extension Geo:ArrowParsable {
     init(json: JSON) {
         lat <-- json["lat"]
         lng <-- json["lng"]
