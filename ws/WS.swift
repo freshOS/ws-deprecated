@@ -12,6 +12,8 @@ import Alamofire
 import Arrow
 import then
 
+public typealias WSParsable = ArrowParsable
+
 public enum WSLogLevel {
     case None
     case Calls
@@ -81,15 +83,15 @@ public class WS {
     //MARK: - GET
     
     
-    public func get<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func get<T:protocol<WSParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return get(restURL(restResource), params: params)
     }
     
-    public func get<T:ArrowParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func get<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return resourceCall(.GET, url: url, params: params)
     }
     
-    public func get<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    public func get<T:protocol<WSParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         return get(restURL(restResource), params: params).then { _ -> Void in }
     }
     
@@ -101,15 +103,15 @@ public class WS {
     
     //MARK: - POST
     
-    public func post<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func post<T:protocol<WSParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return post(restURL(restResource), params: params)
     }
     
-    public func post<T:ArrowParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func post<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return resourceCall(.POST, url: url, params: params)
     }
     
-    public func post<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    public func post<T:protocol<WSParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         return post(restURL(restResource), params: params)
     }
     
@@ -121,15 +123,15 @@ public class WS {
     
     //MARK: - PUT
     
-    public func put<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func put<T:protocol<WSParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return put(restURL(restResource), params: params)
     }
     
-    public func put<T:ArrowParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func put<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return resourceCall(.PUT, url: url, params: params)
     }
     
-    public func put<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    public func put<T:protocol<WSParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         return put(restURL(restResource), params: params)
     }
     
@@ -142,16 +144,16 @@ public class WS {
     //MARK: - DELETE
     
     // auto find resource url + auto give good promise back
-    public func delete<T:protocol<ArrowParsable,RestResource>>(restResource:T) -> Promise<T> {
+    public func delete<T:protocol<WSParsable,RestResource>>(restResource:T) -> Promise<T> {
         return delete(restURL(restResource))
     }
     
     // auto give good promise back
-    public func delete<T:ArrowParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func delete<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return resourceCall(.DELETE, url: url, params: params)
     }
 
-    public func delete<T:protocol<ArrowParsable,RestResource>>(restResource:T) -> Promise<Void> {
+    public func delete<T:protocol<WSParsable,RestResource>>(restResource:T) -> Promise<Void> {
         return delete(restURL(restResource))
     }
     
@@ -159,7 +161,7 @@ public class WS {
         return deleteRequest(url).fetch().then { _ -> Void in }
     }
     
-    private func resourceCall<T:ArrowParsable>(verb:HTTPVerb = .GET, url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    private func resourceCall<T:WSParsable>(verb:HTTPVerb = .GET, url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
@@ -174,7 +176,7 @@ public class WS {
         }
     }
     
-    public func list<T:ArrowParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
+    public func list<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
         let c = defaultCall()
         c.httpVerb = .GET
         c.URL = url
@@ -287,7 +289,7 @@ public class WSCall {
 
 // MARK: - Parser
 
-public class ModelJSONParser<T:ArrowParsable> {
+public class ModelJSONParser<T:WSParsable> {
     
     public init() { }
     
