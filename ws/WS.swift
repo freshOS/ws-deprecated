@@ -114,7 +114,7 @@ public class WS {
     }
     
     // Keep here for now for backwards compatibility
-    public func list<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
+    @available(*, deprecated=1.2.1, message="Use 'get' instead") public func list<T:WSParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
         let c = defaultCall()
         c.httpVerb = .GET
         c.URL = url
