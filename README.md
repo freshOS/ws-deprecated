@@ -1,19 +1,19 @@
-# ws ☁️
+# ws ☁️ - *Elegant JSON WebService in Swift*
 
 
 [![Language: Swift 2](https://img.shields.io/badge/language-swift2-f48041.svg?style=flat)](https://developer.apple.com/swift)
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/ws/blob/master/LICENSE)
+[![Release version](https://img.shields.io/badge/release-1.1-blue.svg)]()
 
-Elegant JSON WebService in Swift
+[Reason](#why) - [Example](#usage) - [Installation](#installation)
 
 ```swift
 let ws = WS("http://jsonplaceholder.typicode.com")
 
-// Get back some json \o/
 ws.get("/users").then { json in
-    print(json)
+    // Get back some json \o/
 }
 ```
 
