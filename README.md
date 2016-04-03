@@ -89,10 +89,13 @@ latestUsers().then { users in
 ## Installation
 
 ### Carthage
+In your Cartfile
 ```
 github "s4cha/ws"
 ```
-go to  `Project` > `Target` > `Build Phases` + `New run Script Phase`
+- Run `carthage update`
+- Drag and drop `ws.framework` from `Carthage/Build/iOS` to `Linked Frameworks and Libraries` (“General” settings tab)
+- Go to  `Project` > `Target` > `Build Phases` + `New run Script Phase`
 
 `/usr/local/bin/carthage copy-frameworks`
 
