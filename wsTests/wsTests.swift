@@ -106,6 +106,7 @@ class wsTests: XCTestCase {
         super.setUp()
         // Create webservice with base URL
         ws = WS("http://jsonplaceholder.typicode.com")
+        ws.logLevels = .CallsAndResponses
     }
     
     func testJSON() {
@@ -113,7 +114,6 @@ class wsTests: XCTestCase {
         
         // use "call" to get back a json
         ws.get("/users").then { json in
-            print(json)
             exp.fulfill()
         }
         waitForExpectationsWithTimeout(10, handler: nil)
@@ -122,9 +122,7 @@ class wsTests: XCTestCase {
     func testModels() {
         let exp = expectationWithDescription("")
         latestUsers().then { users in
-            for u in users {
-                print(u)
-            }
+            XCTAssertEqual(users.count, 10)
             exp.fulfill()
         }
         waitForExpectationsWithTimeout(10, handler: nil)

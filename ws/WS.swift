@@ -12,10 +12,18 @@ import Alamofire
 import Arrow
 import then
 
+public enum WSLogLevel {
+    case None
+    case Calls
+    case CallsAndResponses
+}
+
 var kWSJsonParsingSingleResourceKey:String? = nil
 var kWSJsonParsingColletionKey:String? = nil
 
 public class WS {
+    
+    public var logLevels = WSLogLevel.None
     
     public var jsonParsingSingleResourceKey:String? = nil {
         didSet {
@@ -63,6 +71,7 @@ public class WS {
     public func defaultCall() -> WSCall {
         let r = WSCall()
         r.baseURL = baseURL
+        r.logLevels = logLevels
         if let token = OAuthToken {
             r.OAuthToken = token
         }
@@ -189,6 +198,7 @@ public class WSCall {
     public var OAuthToken: String?
     public var fullURL:String { return baseURL + URL}
     public var timeout:NSTimeInterval?
+    public var logLevels = WSLogLevel.None
     private var req:Alamofire.Request?
     public init() {}
     
@@ -202,7 +212,9 @@ public class WSCall {
         r.HTTPMethod = httpVerb.rawValue
         if let token = OAuthToken {
             r.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization") // Test without bearer
-            print("TOKEN :\(token)")
+            if logLevels != .None {
+                print("TOKEN :\(token)")
+            }
         }
         if let t = self.timeout {
             r.timeoutInterval = t
@@ -212,13 +224,17 @@ public class WSCall {
     
     public func fetch() -> Promise<JSON> {
         return Promise<JSON> { resolve, reject in
-            print("\(self.httpVerb) \(self.URL)")
-            print("params : \(self.params)")
+            if self.logLevels != .None {
+                print("\(self.httpVerb) \(self.URL)")
+                print("params : \(self.params)")
+            }
             self.req = request(self.buildRequest())
             if !self.returnsJSON {
                 self.req?.validate().response(completionHandler: { req, response, data, error in
-                    if let sc = response?.statusCode {
-                        print("CODE: \(sc)")
+                    if self.logLevels == .CallsAndResponses {
+                        if let sc = response?.statusCode {
+                            print("CODE: \(sc)")
+                        }
                     }
                     if error == nil {
                         resolve(result: "")
@@ -228,14 +244,16 @@ public class WSCall {
                 })
             } else {
                 self.req?.validate().responseJSON(completionHandler: { (response) -> Void in
-                    
-                    if let sc = response.response?.statusCode {
-                        print("CODE: \(sc)")
+                    if self.logLevels == .CallsAndResponses {
+                        if let sc = response.response?.statusCode {
+                            print("CODE: \(sc)")
+                        }
                     }
-                    
                     switch response.result {
                     case .Success(let value):
-                        print(value)
+                        if self.logLevels == .CallsAndResponses {
+                            print(value)
+                        }
                         resolve(result: value)
                     case .Failure(_):
                         if let sc = response.response?.statusCode {
@@ -302,7 +320,6 @@ public class ModelJSONParser<T:ArrowParsable> {
     }
     
     private func resourceParsingBlock(data: AnyObject) -> T? {
-        print(data)
         if let resourceKey = resourceKeyFromData(data) {
             return T(json: resourceKey)
         } else {
