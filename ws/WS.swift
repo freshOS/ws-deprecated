@@ -24,6 +24,7 @@ var kWSJsonParsingColletionKey:String? = nil
 public class WS {
     
     public var logLevels = WSLogLevel.None
+    public var showsNetworkActivityIndicator = true
     
     public var jsonParsingSingleResourceKey:String? = nil {
         didSet {
@@ -72,6 +73,7 @@ public class WS {
         let r = WSCall()
         r.baseURL = baseURL
         r.logLevels = logLevels
+        r.showsNetworkActivityIndicator = showsNetworkActivityIndicator
         if let token = OAuthToken {
             r.OAuthToken = token
         }
@@ -212,6 +214,7 @@ public class WSCall {
     public var fullURL:String { return baseURL + URL}
     public var timeout:NSTimeInterval?
     public var logLevels = WSLogLevel.None
+    public var showsNetworkActivityIndicator = true
     private var req:Alamofire.Request?
     public init() {}
     
@@ -237,6 +240,9 @@ public class WSCall {
     
     public func fetch() -> Promise<JSON> {
         return Promise<JSON> { resolve, reject in
+            if self.showsNetworkActivityIndicator {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            }
             if self.logLevels != .None {
                 print("\(self.httpVerb) \(self.URL)")
                 print("params : \(self.params)")
@@ -244,6 +250,7 @@ public class WSCall {
             self.req = request(self.buildRequest())
             if !self.returnsJSON {
                 self.req?.validate().response(completionHandler: { req, response, data, error in
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     if self.logLevels == .CallsAndResponses {
                         if let sc = response?.statusCode {
                             print("CODE: \(sc)")
@@ -257,6 +264,7 @@ public class WSCall {
                 })
             } else {
                 self.req?.validate().responseJSON(completionHandler: { (response) -> Void in
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                     if self.logLevels == .CallsAndResponses {
                         if let sc = response.response?.statusCode {
                             print("CODE: \(sc)")
