@@ -107,6 +107,7 @@ class wsTests: XCTestCase {
         // Create webservice with base URL
         ws = WS("http://jsonplaceholder.typicode.com")
         ws.logLevels = .CallsAndResponses
+        ws.showsNetworkActivityIndicator = false
     }
     
     func testJSON() {

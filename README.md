@@ -86,6 +86,18 @@ latestUsers().then { users in
 
 ```
 
+## Settings
+
+Want to log all network calls and responses ?
+```swift
+ws.logLevels = .CallsAndResponses
+```
+
+Want to hide network activity indicator ?
+
+```swift
+ws.showsNetworkActivityIndicator = false
+```
 
 ## Installation
 
