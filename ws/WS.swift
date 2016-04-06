@@ -23,7 +23,18 @@ var kWSJsonParsingColletionKey:String? = nil
 
 public class WS {
     
+    
+    /**
+        Prints network calls to the console. 
+        Values Available are .None, Calls and CallsAndResponses.
+        Default is None
+    */
     public var logLevels = WSLogLevel.None
+    
+    /**
+        Displays network activity indicator at the top left hand corner of the iPhone's screen in the status bar.
+        Is shown by dafeult, set it to false to hide it.
+     */
     public var showsNetworkActivityIndicator = true
     
     public var jsonParsingSingleResourceKey:String? = nil {
@@ -37,6 +48,11 @@ public class WS {
         }
     }
     
+    /**
+        Create a webservice instance.
+        @param Pass the base url of your webservice, E.g : "http://jsonplaceholder.typicode.com"
+     
+     */
     public init(_ aBaseURL:String) {
         baseURL = aBaseURL
     }
