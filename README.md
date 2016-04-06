@@ -99,6 +99,66 @@ Want to hide network activity indicator ?
 ws.showsNetworkActivityIndicator = false
 ```
 
+## Api Example
+Here is a Typical CRUD example for Articles :
+
+```swift
+extension Article {
+
+    static func list() -> Promise<[Article]> {
+        return ws.get("/articles")
+    }
+
+    func save() -> Promise<Article> {
+        return ws.post("/articles", params: ["name":name])
+    }
+
+    func fetch() -> Promise<Article> {
+        return ws.get("/articles/\(id)")
+    }
+
+    func update() -> Promise<Void> {
+        return ws.put("/articles/\(id)", params: ["name":name])
+    }
+
+    func delete() -> Promise<Void> {
+        return ws.delete("/users/\(name)")
+    }
+
+}
+```
+
+Here is how we use it in code :
+```swift
+// List Articles
+Article.list().then { articles in
+
+}
+
+// Create Article
+var newArticle = Article(name:"Cool story")
+newArticle.save().then { createdArticle in
+
+}
+
+// Fetch Article
+var existingArticle = Article(id:42)
+existingArticle.fetch().then { fetchedArticle in
+
+}
+
+// Edit Article
+existingArticle.name = "My new name"
+existingArticle.update().then {
+
+}
+
+// Delete Article
+existingArticle.delete().then {
+
+}
+```
+
 ## Installation
 
 ### Carthage
