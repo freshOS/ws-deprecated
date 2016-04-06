@@ -122,7 +122,7 @@ extension Article {
     }
 
     func delete() -> Promise<Void> {
-        return ws.delete("/users/\(name)")
+        return ws.delete("/articles/\(id)")
     }
 
 }
