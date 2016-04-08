@@ -273,9 +273,9 @@ public class WSCall {
                         }
                     }
                     if error == nil {
-                        resolve(result: "")
+                        resolve("")
                     } else {
-                        reject(error:WSError.NetworkError)
+                        reject(WSError.NetworkError)
                     }
                 })
             } else {
@@ -291,19 +291,19 @@ public class WSCall {
                         if self.logLevels == .CallsAndResponses {
                             print(value)
                         }
-                        resolve(result: value)
+                        resolve(value)
                     case .Failure(_):
                         if let sc = response.response?.statusCode {
                             switch sc {
                             case 401:
-                                reject(error:WSError.UnauthorizedError)
+                                reject(WSError.UnauthorizedError)
                             case 404:
-                                reject(error:WSError.NotFoundError)
+                                reject(WSError.NotFoundError)
                             default:
-                                reject(error:WSError.NetworkError)
+                                reject(WSError.NetworkError)
                             }
                         } else {
-                            reject(error:WSError.NetworkError)
+                            reject(WSError.NetworkError)
                         }
                     }
                 })
