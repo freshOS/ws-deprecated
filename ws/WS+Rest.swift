@@ -20,7 +20,7 @@ extension WS {
 
     /// <Void> version
     public func get<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
-        return get(restURL(restResource), params: params).then { _ -> Void in }
+        return get(restURL(restResource), params: params)
     }
     
     //MARK: - POST

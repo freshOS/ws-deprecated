@@ -114,7 +114,7 @@ class wsTests: XCTestCase {
         let exp = expectationWithDescription("")
         
         // use "call" to get back a json
-        ws.get("/users").then { json in
+        ws.get("/users").then { (json:JSON) in
             exp.fulfill()
         }
         waitForExpectationsWithTimeout(10, handler: nil)
@@ -130,7 +130,7 @@ class wsTests: XCTestCase {
     }
     
     func testPostMultipart() {
-        ws.postMultipart("/photos/1234/upload", params: ["title": "Great day"], name: "file", data: NSData()).then {
+        ws.postMultipart("/photos/1234/upload", params: ["title": "Great day"], name: "file", data: NSData(), fileName: "photo.jpg", mimeType: "image/jpeg").then { json in
             // photo posted
         }
     }

@@ -10,20 +10,40 @@ import Foundation
 
 extension WS {
     
-    public func getRequest(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> WSCall {
+    public func getRequest(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> WSRequest {
         return call(url, verb: .GET, params: params)
     }
     
-    public func putRequest(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> WSCall {
+    public func putRequest(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> WSRequest {
         return call(url, verb: .PUT, params: params)
     }
     
-    public func postRequest(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> WSCall {
+    public func postRequest(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> WSRequest {
         return call(url, verb: .POST, params: params)
     }
     
-    public func deleteRequest(url:String) -> WSCall {
-        return call(url, verb: .DELETE)
+    public func deleteRequest(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> WSRequest {
+        return call(url, verb: .DELETE, params: params)
+    }
+    
+    public func postMultipartRequest(url:String, params:[String:AnyObject] = [String:AnyObject](), name:String, data:NSData, fileName:String, mimeType:String) -> WSRequest {
+        let c = call(url, verb: .POST, params: params)
+        c.isMultipart = true
+        c.multipartData = data
+        c.multipartName = name
+        c.multipartFileName = fileName
+        c.multipartMimeType = mimeType
+        return c
+    }
+    
+    public func putMultipartRequest(url:String, params:[String:AnyObject] = [String:AnyObject](), name:String, data:NSData, fileName:String, mimeType:String) -> WSRequest {
+        let c = call(url, verb: .PUT, params: params)
+        c.isMultipart = true
+        c.multipartData = data
+        c.multipartName = name
+        c.multipartFileName = fileName
+        c.multipartMimeType = mimeType
+        return c
     }
     
 }

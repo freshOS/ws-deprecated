@@ -50,7 +50,7 @@ public class WS {
         baseURL = aBaseURL
     }
     
-    internal func call(url:String, verb:WSHTTPVerb = .GET, params:[String:AnyObject] = [String:AnyObject]()) -> WSCall {
+    internal func call(url:String, verb:WSHTTPVerb = .GET, params:[String:AnyObject] = [String:AnyObject]()) -> WSRequest {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
@@ -59,8 +59,8 @@ public class WS {
         return c
     }
     
-    public func defaultCall() -> WSCall {
-        let r = WSCall()
+    public func defaultCall() -> WSRequest {
+        let r = WSRequest()
         r.baseURL = baseURL
         r.logLevels = logLevels
         r.showsNetworkActivityIndicator = showsNetworkActivityIndicator
@@ -72,16 +72,38 @@ public class WS {
     
     //MARK: - Calls
     
-    public func get(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
-        return getRequest(url, params: params).fetch()
-    }
-    
     public func get<T:ArrowParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
         return getRequest(url, params: params).fetch().then { json -> [T] in
             let mapper = WSModelJSONParser<T>()
             let models = mapper.toModels(json)
             return models
         }
+    }
+    
+    //MARK JSON versions
+    
+    public func get(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
+        return getRequest(url, params: params).fetch()
+    }
+    
+    public func post(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
+        return postRequest(url, params: params).fetch()
+    }
+    
+    public func put(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
+        return putRequest(url, params: params).fetch()
+    }
+    
+    public func delete(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
+        return deleteRequest(url, params: params).fetch()
+    }
+    
+    //MARK Void versions
+    
+    public func get(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+        let r = getRequest(url, params: params)
+        r.returnsJSON = false
+        return r.fetch().then { json -> Void in }
     }
     
     public func post(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
@@ -96,16 +118,22 @@ public class WS {
         return r.fetch().then { _ -> Void in }
     }
     
-    public func delete(url:String) -> Promise<Void> {
-        return deleteRequest(url).fetch().then { _ -> Void in }
+    public func delete(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+        let r = deleteRequest(url, params: params)
+        r.returnsJSON = false
+        return r.fetch().then { _ -> Void in }
     }
     
     //MARK: - Multipart
     
-    public func postMultipart(url:String, params:[String:AnyObject] = [String:AnyObject](), name:String, data:NSData) -> Promise<Void> {
-        let r = postRequest(url, params: params)
-        r.returnsJSON = false
-        return r.fetch().then { json -> Void in }
+    public func postMultipart(url:String, params:[String:AnyObject] = [String:AnyObject](), name:String, data:NSData, fileName:String, mimeType:String) -> Promise<JSON> {
+        let r = postMultipartRequest(url, params:params, name:name, data: data, fileName: fileName, mimeType: mimeType)
+        return r.fetch()
+    }
+    
+    public func putMultipart(url:String, params:[String:AnyObject] = [String:AnyObject](), name:String, data:NSData, fileName:String, mimeType:String) -> Promise<JSON> {
+        let r = putMultipartRequest(url, params:params, name:name, data: data, fileName: fileName, mimeType: mimeType)
+        return r.fetch()
     }
     
     // Keep here for now for backwards compatibility

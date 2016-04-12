@@ -1,5 +1,5 @@
 //
-//  WSCall.swift
+//  WSRequest.swift
 //  ws
 //
 //  Created by Sacha Durand Saint Omer on 06/04/16.
@@ -11,8 +11,8 @@ import Alamofire
 import then
 import Arrow
 
-public class WSCall {
-    
+public class WSRequest {
+   
     //TEST multipart
     var isMultipart = false
     var multipartData = NSData()
