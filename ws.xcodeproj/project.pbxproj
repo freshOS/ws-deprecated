@@ -10,6 +10,7 @@
 		996CAB941BF67A7C00931EAD /* ws.h in Headers */ = {isa = PBXBuildFile; fileRef = 996CAB931BF67A7C00931EAD /* ws.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 996CAB901BF67A7C00931EAD /* ws.framework */; };
 		996CABA01BF67A7C00931EAD /* wsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996CAB9F1BF67A7C00931EAD /* wsTests.swift */; };
+		99BD0D951CBE587900995392 /* Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BD0D941CBE587900995392 /* Mapping.swift */; };
 		99CCC3111BF67C1500497064 /* WS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CCC3101BF67C1500497064 /* WS.swift */; };
 		99E3EDD51CB5A1490042C854 /* WSRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDD41CB5A1490042C854 /* WSRequest.swift */; };
 		99E3EDD71CB5A1B80042C854 /* WSLogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDD61CB5A1B80042C854 /* WSLogLevel.swift */; };
@@ -39,6 +40,7 @@
 		996CAB9A1BF67A7C00931EAD /* wsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		996CAB9F1BF67A7C00931EAD /* wsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wsTests.swift; sourceTree = "<group>"; };
 		996CABA11BF67A7C00931EAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		99BD0D941CBE587900995392 /* Mapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mapping.swift; sourceTree = "<group>"; };
 		99CCC3101BF67C1500497064 /* WS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WS.swift; sourceTree = "<group>"; };
 		99E3EDD41CB5A1490042C854 /* WSRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRequest.swift; sourceTree = "<group>"; };
 		99E3EDD61CB5A1B80042C854 /* WSLogLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSLogLevel.swift; sourceTree = "<group>"; };
@@ -111,9 +113,18 @@
 			isa = PBXGroup;
 			children = (
 				996CAB9F1BF67A7C00931EAD /* wsTests.swift */,
+				99BD0D931CBE587000995392 /* Mapping */,
 				996CABA11BF67A7C00931EAD /* Info.plist */,
 			);
 			path = wsTests;
+			sourceTree = "<group>";
+		};
+		99BD0D931CBE587000995392 /* Mapping */ = {
+			isa = PBXGroup;
+			children = (
+				99BD0D941CBE587900995392 /* Mapping.swift */,
+			);
+			name = Mapping;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99BD0D951CBE587900995392 /* Mapping.swift in Sources */,
 				996CABA01BF67A7C00931EAD /* wsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
