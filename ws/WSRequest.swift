@@ -133,10 +133,11 @@ public class WSRequest {
                 if self.logLevels == .CallsAndResponses {
                     print(value)
                 }
-                
-                let json:JSON = JSON(value)!
-                print(json)
-                resolve(result: json)
+                if let json:JSON = JSON(value) {
+                    resolve(result: json)
+                } else {
+                    self.rejectCallWithMatchingError(response.response, reject: reject)
+                }
             case .Failure(_):
                 self.rejectCallWithMatchingError(response.response, reject: reject)
             }
