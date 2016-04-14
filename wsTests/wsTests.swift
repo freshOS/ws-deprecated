@@ -79,6 +79,8 @@ class wsTests: XCTestCase {
         latestUsers().then { users in
             XCTAssertEqual(users.count, 10)
             exp.fulfill()
+            
+            print(users)
         }
         waitForExpectationsWithTimeout(10, handler: nil)
     }

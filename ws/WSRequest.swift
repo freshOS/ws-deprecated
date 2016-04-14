@@ -116,7 +116,7 @@ public class WSRequest {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             self.printResponseStatusCodeIfNeeded(response)
             if error == nil {
-                resolve(result: "")
+                resolve(result:JSON(["":""])!)
             } else {
                 self.rejectCallWithMatchingError(response, reject: reject)
             }
@@ -133,7 +133,10 @@ public class WSRequest {
                 if self.logLevels == .CallsAndResponses {
                     print(value)
                 }
-                resolve(result: value)
+                
+                let json:JSON = JSON(value)!
+                print(json)
+                resolve(result: json)
             case .Failure(_):
                 self.rejectCallWithMatchingError(response.response, reject: reject)
             }

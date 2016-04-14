@@ -44,7 +44,9 @@ public class WSModelJSONParser<T:ArrowParsable> {
     private func resourceParsingBlock(data: AnyObject) -> T? {
         if let resourceKey = resourceKeyFromData(data) {
             var t = T()
-            t.deserialize(resourceKey)
+            if let json = JSON(resourceKey) {
+                t.deserialize(json)
+            }
             return t
         } else {
             return nil
@@ -66,8 +68,11 @@ public class WSModelJSONParser<T:ArrowParsable> {
             var c:[AnyObject]? = [AnyObject]()
             c <-- data[k]
             return c
-        } else if let a = data as? [AnyObject] {
-            return a
+        } else if let a = data as? JSON {
+            if let array = a.data as? [AnyObject] {
+                return array
+            }
+            return [""]
         } else {
             return nil
         }

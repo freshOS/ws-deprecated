@@ -17,7 +17,7 @@ extension User:ArrowParsable {
         phone <-- json["phone"]
         var urlString = ""
         urlString <-- json["website"]
-        website = NSURL(string: urlString)
+        website = NSURL(string: urlString) // TODO simplify?
         company <== json["company"]
         address <== json["address"]
         
