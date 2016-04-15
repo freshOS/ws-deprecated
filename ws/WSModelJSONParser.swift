@@ -25,56 +25,41 @@ public class WSModelJSONParser<T:ArrowParsable> {
         }
     }
     
-    private func resourcesParsingBlock(data: AnyObject) -> [T]? {
+    private func resourcesParsingBlock(json: JSON) -> [T]? {
         var array = [T]()
-        if let collection = collectionFromData(data) {
-            for json in collection {
-                if let o:T = resourceParsingBlock(json) {
+        let collection = collectionFrom(json)
+    
+        if let a = collection.data as? [AnyObject] {
+            for jsonEntry in a {
+                if let jsonPart = JSON(jsonEntry), o:T = resourceParsingBlock(jsonPart) {
                     array.append(o)
                 } else {
                     return nil
                 }
             }
             return array
-        } else {
-            return nil
         }
+        return nil
     }
     
-    private func resourceParsingBlock(data: AnyObject) -> T? {
-        if let resourceKey = resourceKeyFromData(data) {
-            var t = T()
-            if let json = JSON(resourceKey) {
-                t.deserialize(json)
-            }
-            return t
-        } else {
-            return nil
-        }
+    private func resourceParsingBlock(json: JSON) -> T? {
+        let resourceKey = resourceKeyFromData(json)
+        var t = T()
+        t.deserialize(resourceKey)
+        return t
     }
     
-    private let resourceKeyFromData = { (data: AnyObject) -> AnyObject? in
-        if let k = kWSJsonParsingSingleResourceKey {
-            var r: AnyObject = data
-            r <-- data[k]
-            return r
-        } else {
-            return data
+    private let resourceKeyFromData = { (json: JSON) -> JSON in
+        if let k = kWSJsonParsingSingleResourceKey, v = json[k], j = JSON(v) {
+            return j
         }
+        return json
     }
     
-    private let collectionFromData = { (data: AnyObject) -> [AnyObject]? in
-        if let k = kWSJsonParsingColletionKey {
-            var c:[AnyObject]? = [AnyObject]()
-            c <-- data[k]
-            return c
-        } else if let a = data as? JSON {
-            if let array = a.data as? [AnyObject] {
-                return array
-            }
-            return [""]
-        } else {
-            return nil
+    private func collectionFrom(json: JSON) -> JSON {
+        if let k = kWSJsonParsingColletionKey, v = json[k], j = JSON(v) {
+            return j
         }
+        return json
     }
 }

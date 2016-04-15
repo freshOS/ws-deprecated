@@ -64,32 +64,35 @@ class wsTests: XCTestCase {
         ws.showsNetworkActivityIndicator = false
     }
     
-    func testJSON() {
-        let exp = expectationWithDescription("")
-        
-        // use "call" to get back a json
-        ws.get("/users").then { (json:JSON) in
-            exp.fulfill()
-        }
-        waitForExpectationsWithTimeout(10, handler: nil)
-    }
+//    func testJSON() {
+//        let exp = expectationWithDescription("")
+//        
+//        // use "call" to get back a json
+//        ws.get("/users").then { (json:JSON) in
+//            exp.fulfill()
+//        }
+//        waitForExpectationsWithTimeout(10, handler: nil)
+//    }
     
     func testModels() {
         let exp = expectationWithDescription("")
         latestUsers().then { users in
             XCTAssertEqual(users.count, 10)
+            
+            let u = users[0]
+            XCTAssertEqual(u.identifier, 1)
             exp.fulfill()
             
             print(users)
         }
         waitForExpectationsWithTimeout(10, handler: nil)
     }
-    
-    func testPostMultipart() {
-        ws.postMultipart("/photos/1234/upload", params: ["title": "Great day"], name: "file", data: NSData(), fileName: "photo.jpg", mimeType: "image/jpeg").then { json in
-            // photo posted
-        }
-    }
+//    
+//    func testPostMultipart() {
+//        ws.postMultipart("/photos/1234/upload", params: ["title": "Great day"], name: "file", data: NSData(), fileName: "photo.jpg", mimeType: "image/jpeg").then { json in
+//            // photo posted
+//        }
+//    }
     
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects

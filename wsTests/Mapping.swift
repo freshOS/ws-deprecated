@@ -9,7 +9,7 @@
 import Arrow
 
 extension User:ArrowParsable {
-    mutating func deserialize(json: JSON) {
+    mutating func deserialize(json: JSON) {        
         identifier <-- json["id"]
         username <-- json["username"]
         email <-- json["email"]
@@ -18,8 +18,8 @@ extension User:ArrowParsable {
         var urlString = ""
         urlString <-- json["website"]
         website = NSURL(string: urlString) // TODO simplify?
-        company <== json["company"]
-        address <== json["address"]
+        company <-- json["company"]
+        address <-- json["address"]
         
     }
 }
@@ -38,7 +38,7 @@ extension Address:ArrowParsable {
         street <-- json["street"]
         zipcode <-- json["zipcode"]
         suite <-- json["suite"]
-        geo <== json["geo"]
+        geo <-- json["geo"]
     }
 }
 
