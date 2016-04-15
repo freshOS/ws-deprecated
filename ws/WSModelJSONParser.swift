@@ -50,14 +50,14 @@ public class WSModelJSONParser<T:ArrowParsable> {
     }
     
     private let resourceKeyFromData = { (json: JSON) -> JSON in
-        if let k = kWSJsonParsingSingleResourceKey, v = json[k], j = JSON(v) {
+        if let k = kWSJsonParsingSingleResourceKey, j = json[k] {
             return j
         }
         return json
     }
     
     private func collectionFrom(json: JSON) -> JSON {
-        if let k = kWSJsonParsingColletionKey, v = json[k], j = JSON(v) {
+        if let k = kWSJsonParsingColletionKey, j = json[k] {
             return j
         }
         return json
