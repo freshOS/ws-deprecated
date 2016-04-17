@@ -33,6 +33,18 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		99CB94E31CC3E4BD00F4E1FD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		996CAB901BF67A7C00931EAD /* ws.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ws.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		996CAB931BF67A7C00931EAD /* ws.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ws.h; sourceTree = "<group>"; };
@@ -149,7 +161,6 @@
 				996CAB8C1BF67A7C00931EAD /* Frameworks */,
 				996CAB8D1BF67A7C00931EAD /* Headers */,
 				996CAB8E1BF67A7C00931EAD /* Resources */,
-				99CCC30E1BF67B7000497064 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -166,8 +177,8 @@
 			buildPhases = (
 				996CAB961BF67A7C00931EAD /* Sources */,
 				996CAB971BF67A7C00931EAD /* Frameworks */,
-				996CAB981BF67A7C00931EAD /* Resources */,
-				99CCC30F1BF67BE800497064 /* ShellScript */,
+				99CB94E31CC3E4BD00F4E1FD /* CopyFiles */,
+				99CB94E41CC3E4C700F4E1FD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -223,36 +234,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		996CAB981BF67A7C00931EAD /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		99CCC30E1BF67B7000497064 /* ShellScript */ = {
+		99CB94E41CC3E4C700F4E1FD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/then.framework",
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		99CCC30F1BF67BE800497064 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Arrow.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 			);
