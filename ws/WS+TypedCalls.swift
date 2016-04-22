@@ -37,7 +37,7 @@ extension WS {
         c.returnsJSON = verb != .DELETE
         
         // Apply corresponding JSON mapper
-        return c.fetch().then { json -> T in
+        return c.fetch().registerThen { json -> T in
             let mapper = WSModelJSONParser<T>()
             let model = mapper.toModel(json)
             return model
