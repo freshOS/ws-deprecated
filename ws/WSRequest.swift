@@ -79,35 +79,38 @@ public class WSRequest {
     }
     
     func sendMultipartRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
-//            upload(self.buildRequest(), multipartFormData: { (formData:MultipartFormData) -> Void in
-//                for (key,value) in self.params {
-//                    if let int = value as? Int {
-//                        let str = "\(int)"
-//                        if let d = str.dataUsingEncoding(NSUTF8StringEncoding) {
-//                            formData.appendBodyPart(data: d, name: key)
-//                        }
-//                    } else {
-//                        if let d = value.dataUsingEncoding(NSUTF8StringEncoding) {
-//                            formData.appendBodyPart(data: d, name: key)
-//                        }
-//                    }
-//                }
-//
-//                formData.appendBodyPart(data: self.multipartData, name: self.multipartName, fileName: self.multipartFileName, mimeType: self.multipartMimeType)
-//
-//                }, encodingCompletion: { encodingResult in
-//                    switch encodingResult {
-//                    case .Success(let upload, _, _):
-//                        upload.validate().responseJSON(completionHandler:jsonSuccessClosure).progress {
-//                            (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
-//                            dispatch_async(dispatch_get_main_queue()) {
-//                                let percentage:Float = Float(totalBytesWritten)/Float(totalBytesExpectedToWrite)
+            upload(self.buildRequest(), multipartFormData: { (formData:MultipartFormData) -> Void in
+                
+                for (key,value) in self.params {
+                    if let int = value as? Int {
+                        let str = "\(int)"
+                        if let d = str.dataUsingEncoding(NSUTF8StringEncoding) {
+                            formData.appendBodyPart(data: d, name: key)
+                        }
+                    } else {
+                        if let d = value.dataUsingEncoding(NSUTF8StringEncoding) {
+                            formData.appendBodyPart(data: d, name: key)
+                        }
+                    }
+                }
+
+                formData.appendBodyPart(data: self.multipartData, name: self.multipartName, fileName: self.multipartFileName, mimeType: self.multipartMimeType)
+                }, encodingCompletion: { encodingResult in
+                    switch encodingResult {
+                    case .Success(let upload, _, _):
+                        upload.validate().responseJSON(completionHandler: { r in
+                            print("Upload done")
+                            self.handleJSONResponse(r, resolve: resolve, reject: reject)
+                        }).progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
+                            dispatch_async(dispatch_get_main_queue()) {
+                                let percentage:Float = Float(totalBytesWritten)/Float(totalBytesExpectedToWrite)
+                                print(percentage)
 //                                progress(percentage: percentage)
-//                            }
-//                        }
-//                    case .Failure(_):()
-//                    }
-//            })
+                            }
+                        }
+                    case .Failure(_):()
+                    }
+            })
     }
     
     func sendRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
@@ -125,23 +128,27 @@ public class WSRequest {
     
     func sendJSONRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
         self.req = request(self.buildRequest())
-        req?.validate().responseJSON(completionHandler: { response in
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-            self.printResponseStatusCodeIfNeeded(response.response)
-            switch response.result {
-            case .Success(let value):
-                if self.logLevels == .CallsAndResponses {
-                    print(value)
-                }
-                if let json:JSON = JSON(value) {
-                    resolve(result: json)
-                } else {
-                    self.rejectCallWithMatchingError(response.response, reject: reject)
-                }
-            case .Failure(_):
+        req?.validate().responseJSON { r in
+            self.handleJSONResponse(r, resolve: resolve, reject: reject)
+        }
+    }
+    
+    func handleJSONResponse(response:Response<AnyObject, NSError>, resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        self.printResponseStatusCodeIfNeeded(response.response)
+        switch response.result {
+        case .Success(let value):
+            if self.logLevels == .CallsAndResponses {
+                print(value)
+            }
+            if let json:JSON = JSON(value) {
+                resolve(result: json)
+            } else {
                 self.rejectCallWithMatchingError(response.response, reject: reject)
             }
-        })
+        case .Failure(_):
+            self.rejectCallWithMatchingError(response.response, reject: reject)
+        }
     }
     
     func printResponseStatusCodeIfNeeded(response:NSHTTPURLResponse?) {

@@ -88,11 +88,11 @@ class wsTests: XCTestCase {
         waitForExpectationsWithTimeout(10, handler: nil)
     }
 //    
-//    func testPostMultipart() {
-//        ws.postMultipart("/photos/1234/upload", params: ["title": "Great day"], name: "file", data: NSData(), fileName: "photo.jpg", mimeType: "image/jpeg").then { json in
-//            // photo posted
-//        }
-//    }
+    func testPostMultipart() {
+        ws.postMultipart("/photos/1234/upload", params: ["title": "Great day"], name: "file", data: NSData(), fileName: "photo.jpg", mimeType: "image/jpeg").then { json in
+            // photo posted
+        }
+    }
     
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects
