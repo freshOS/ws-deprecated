@@ -61,18 +61,19 @@ class wsTests: XCTestCase {
         // Create webservice with base URL
         ws = WS("http://jsonplaceholder.typicode.com")
         ws.logLevels = .CallsAndResponses
+        ws.postParameterEncoding = .JSON
         ws.showsNetworkActivityIndicator = false
     }
     
-//    func testJSON() {
-//        let exp = expectationWithDescription("")
-//        
-//        // use "call" to get back a json
-//        ws.get("/users").then { (json:JSON) in
-//            exp.fulfill()
-//        }
-//        waitForExpectationsWithTimeout(10, handler: nil)
-//    }
+    func testJSON() {
+        let exp = expectationWithDescription("")
+        
+        // use "call" to get back a json
+        ws.get("/users").then { (json:JSON) in
+            exp.fulfill()
+        }
+        waitForExpectationsWithTimeout(10, handler: nil)
+    }
     
     func testModels() {
         let exp = expectationWithDescription("")
@@ -86,12 +87,6 @@ class wsTests: XCTestCase {
             print(users)
         }
         waitForExpectationsWithTimeout(10, handler: nil)
-    }
-//    
-    func testPostMultipart() {
-        ws.postMultipart("/photos/1234/upload", params: ["title": "Great day"], name: "file", data: NSData(), fileName: "photo.jpg", mimeType: "image/jpeg").then { json in
-            // photo posted
-        }
     }
     
     // Here is typically how you would define an api endpoint.

@@ -23,6 +23,7 @@ public class WS {
         Default is None
     */
     public var logLevels = WSLogLevel.None
+    public var postParameterEncoding = ParameterEncoding.URL
     
     /**
         Displays network activity indicator at the top left hand corner of the iPhone's screen in the status bar.
@@ -63,6 +64,7 @@ public class WS {
         let r = WSRequest()
         r.baseURL = baseURL
         r.logLevels = logLevels
+        r.postParameterEncoding = postParameterEncoding
         r.showsNetworkActivityIndicator = showsNetworkActivityIndicator
         if let token = OAuthToken {
             r.OAuthToken = token

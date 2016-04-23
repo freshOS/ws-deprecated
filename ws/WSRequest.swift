@@ -13,7 +13,6 @@ import Arrow
 
 public class WSRequest {
    
-    //TEST multipart
     var isMultipart = false
     var multipartData = NSData()
     var multipartName = ""
@@ -29,6 +28,7 @@ public class WSRequest {
     public var fullURL:String { return baseURL + URL}
     public var timeout:NSTimeInterval?
     public var logLevels = WSLogLevel.None
+    public var postParameterEncoding = ParameterEncoding.URL
     public var showsNetworkActivityIndicator = true
     private var req:Alamofire.Request?
     public init() {}
@@ -50,7 +50,12 @@ public class WSRequest {
         if let t = self.timeout {
             r.timeoutInterval = t
         }
-        return ParameterEncoding.URL.encode(r, parameters: params).0
+        
+        if httpVerb == .POST {
+            return postParameterEncoding.encode(r, parameters: params).0
+        } else {
+            return ParameterEncoding.URL.encode(r, parameters: params).0
+        }
     }
     
     public func fetch() -> Promise<JSON> {
@@ -65,9 +70,6 @@ public class WSRequest {
                     print("\(self.multipartName): \(self.multipartMimeType) \(self.multipartFileName)")
                 }
             }
-//            self.req = request(self.buildRequest())
-            
-            
             if self.isMultipart {
                 self.sendMultipartRequest(resolve, reject: reject)
             } else if !self.returnsJSON {
