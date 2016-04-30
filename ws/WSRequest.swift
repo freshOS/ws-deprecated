@@ -51,7 +51,7 @@ public class WSRequest {
             r.timeoutInterval = t
         }
         
-        if httpVerb == .POST {
+        if httpVerb == .POST || httpVerb == .PUT {
             return postParameterEncoding.encode(r, parameters: params).0
         } else {
             return ParameterEncoding.URL.encode(r, parameters: params).0
