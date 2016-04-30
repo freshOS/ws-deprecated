@@ -182,6 +182,18 @@ $(SRCROOT)/Carthage/Build/iOS/then.framework
 
 This links ws and its dependencies.
 
+### Manually
+
+Carthage is pretty useful since it takes care of pulling dependencies such as Arrow, then and Alamofire.
+What's cool is that it really is transparent. What I mean is that you could just use carthage on the side to pull and build dependencies and manually link frameworks to your Xcode project.
+
+Without Carthage, I'd see 2 solutions :
+1 - Copy paste all the source code : ws / then / Arrow / Alamofire which doesn't sound like a lot of fun ;)
+2 - Manually link the frameworks (ws + dependencies) by A grabbing .frameworks them on each repo, or B use Carthage to build them
+
+### Cocoapods
+Cocoapods is not supported at the moment.
+
 And voila !
 
 ## Other repos ❤️
