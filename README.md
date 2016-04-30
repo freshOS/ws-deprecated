@@ -6,7 +6,7 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/ws/blob/master/LICENSE)
 [![Build Status](https://www.bitrise.io/app/a6d157138f9ee86d.svg?token=W7-x9K5U976xiFrI8XqcJw)](https://www.bitrise.io/app/a6d157138f9ee86d)
-[![Release version](https://img.shields.io/badge/release-1.1-blue.svg)]()
+[![Release version](https://img.shields.io/badge/release-1.2-blue.svg)]()
 
 [Reason](#why) - [Example](#usage) - [Installation](#installation)
 
