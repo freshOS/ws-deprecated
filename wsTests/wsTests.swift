@@ -9,6 +9,7 @@
 import XCTest
 @testable import ws
 import then
+import Arrow
 
 // MARK: - Models
 
@@ -44,53 +45,6 @@ struct Geo {
     var lng = ""
 }
 
-
-// MARK: - JSON mapping
-
-import Arrow
-
-extension User:ArrowParsable {
-    init(json: JSON) {
-        identifier <-- json["id"]
-        username <-- json["username"]
-        email <-- json["email"]
-        name <-- json["name"]
-        phone <-- json["phone"]
-        
-        var urlString = ""
-        urlString <-- json["website"]
-        website = NSURL(string: urlString)
-        company <== json["company"]
-        address <== json["address"]
-        
-    }
-}
-
-extension Company:ArrowParsable {
-    init(json: JSON) {
-        bs <-- json["bs"]
-        catchPhrase <-- json["catchPhrase"]
-        name <-- json["name"]
-    }
-}
-
-extension Address:ArrowParsable {
-    init(json: JSON) {
-        city <-- json["city"]
-        street <-- json["street"]
-        zipcode <-- json["zipcode"]
-        suite <-- json["suite"]
-        geo <== json["geo"]
-    }
-}
-
-extension Geo:ArrowParsable {
-    init(json: JSON) {
-        lat <-- json["lat"]
-        lng <-- json["lng"]
-    }
-}
-
 extension User:RestResource {
     static func restName() -> String { return "users" }
     func restId() -> String { return "\(identifier)" }
@@ -107,6 +61,7 @@ class wsTests: XCTestCase {
         // Create webservice with base URL
         ws = WS("http://jsonplaceholder.typicode.com")
         ws.logLevels = .CallsAndResponses
+        ws.postParameterEncoding = .JSON
         ws.showsNetworkActivityIndicator = false
     }
     
@@ -114,7 +69,7 @@ class wsTests: XCTestCase {
         let exp = expectationWithDescription("")
         
         // use "call" to get back a json
-        ws.get("/users").then { json in
+        ws.get("/users").then { (json:JSON) in
             exp.fulfill()
         }
         waitForExpectationsWithTimeout(10, handler: nil)
@@ -124,7 +79,12 @@ class wsTests: XCTestCase {
         let exp = expectationWithDescription("")
         latestUsers().then { users in
             XCTAssertEqual(users.count, 10)
+            
+            let u = users[0]
+            XCTAssertEqual(u.identifier, 1)
             exp.fulfill()
+            
+            print(users)
         }
         waitForExpectationsWithTimeout(10, handler: nil)
     }
