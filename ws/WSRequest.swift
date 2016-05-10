@@ -25,6 +25,7 @@ public class WSRequest {
     public var params = [String:AnyObject]()
     public var returnsJSON = true
     public var OAuthToken: String?
+    public var headers = [String: String]()
     public var fullURL:String { return baseURL + URL}
     public var timeout:NSTimeInterval?
     public var logLevels = WSLogLevel.None
@@ -46,6 +47,9 @@ public class WSRequest {
             if logLevels != .None {
                 print("TOKEN :\(token)")
             }
+        }
+        for (key, value) in headers {
+            r.setValue(value, forHTTPHeaderField: key)
         }
         if let t = self.timeout {
             r.timeoutInterval = t

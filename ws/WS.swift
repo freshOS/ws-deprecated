@@ -41,6 +41,7 @@ public class WS {
     
     public var baseURL = ""
     public var OAuthToken: String?
+    public var headers = [String: String]()
     
     /**
      Create a webservice instance.
@@ -69,6 +70,7 @@ public class WS {
         if let token = OAuthToken {
             r.OAuthToken = token
         }
+        r.headers = headers
         return r
     }
     
