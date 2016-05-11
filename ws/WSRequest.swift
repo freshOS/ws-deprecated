@@ -63,7 +63,7 @@ public class WSRequest {
     }
     
     public func fetch() -> Promise<JSON> {
-        return Promise<JSON> { resolve, reject in
+        return Promise<JSON> { resolve, reject, progress in
             if self.showsNetworkActivityIndicator {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             }
@@ -75,7 +75,7 @@ public class WSRequest {
                 }
             }
             if self.isMultipart {
-                self.sendMultipartRequest(resolve, reject: reject)
+                self.sendMultipartRequest(resolve, reject: reject, progress:progress)
             } else if !self.returnsJSON {
                 self.sendRequest(resolve, reject: reject)
             } else {
@@ -84,7 +84,7 @@ public class WSRequest {
         }
     }
     
-    func sendMultipartRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
+    func sendMultipartRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void, progress:(Float) -> Void) {
             upload(self.buildRequest(), multipartFormData: { (formData:MultipartFormData) -> Void in
                 
                 for (key,value) in self.params {
@@ -110,8 +110,7 @@ public class WSRequest {
                         }).progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
                             dispatch_async(dispatch_get_main_queue()) {
                                 let percentage:Float = Float(totalBytesWritten)/Float(totalBytesExpectedToWrite)
-                                print(percentage)
-//                                progress(percentage: percentage)
+                                progress(percentage)
                             }
                         }
                     case .Failure(_):()
