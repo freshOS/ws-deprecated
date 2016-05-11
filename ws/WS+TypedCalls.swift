@@ -34,7 +34,6 @@ extension WS {
         c.httpVerb = verb
         c.URL = url
         c.params = params
-        c.returnsJSON = verb != .DELETE
         
         // Apply corresponding JSON mapper
         return c.fetch().registerThen { json -> T in

@@ -57,7 +57,6 @@ public class WS {
         c.httpVerb = verb
         c.URL = url
         c.params = params
-        c.returnsJSON = verb != .DELETE
         return c
     }
     
