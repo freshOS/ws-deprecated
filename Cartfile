@@ -1,3 +1,3 @@
 github "Alamofire/Alamofire" "3.2.1"
 github "s4cha/Arrow" "2.0.1"
-github "s4cha/then" "progress"
+github "s4cha/then" "685bb06571a1f390e8d48064303961cd64df9a19"
