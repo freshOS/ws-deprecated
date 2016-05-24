@@ -167,12 +167,13 @@ public class WSRequest {
     func rejectCallWithMatchingError(response:NSHTTPURLResponse?, reject:(error: ErrorType) -> Void) {
         if let sc = response?.statusCode {
             switch sc {
-            case 401:   reject(error:WSError.UnauthorizedError)
-            case 404:   reject(error:WSError.NotFoundError)
-            default:    reject(error:WSError.NetworkError)
+            case 401:   reject(error:WSError.Unauthorized)
+            case 403:   reject(error:WSError.Forbidden)
+            case 404:   reject(error:WSError.NotFound)
+            default:    reject(error:WSError.NetworkUnreachable)
             }
         } else {
-            reject(error:WSError.NetworkError)
+            reject(error:WSError.NetworkUnreachable)
         }
     }
     

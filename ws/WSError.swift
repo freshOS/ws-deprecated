@@ -9,8 +9,8 @@
 import Foundation
 
 public enum WSError:ErrorType {
-    case DefaultError
-    case NetworkError
-    case UnauthorizedError
-    case NotFoundError
+    case NetworkUnreachable
+    case Forbidden
+    case Unauthorized
+    case NotFound
 }
