@@ -126,7 +126,7 @@ public class WSRequest {
             if error == nil {
                 resolve(result:JSON(["":""])!)
             } else {
-                self.rejectCallWithMatchingError(response, reject: reject)
+                self.rejectCallWithMatchingError(response, data: data, reject: reject)
             }
         })
     }
@@ -164,17 +164,18 @@ public class WSRequest {
         }
     }
     
-    func rejectCallWithMatchingError(response:NSHTTPURLResponse?, reject:(error: ErrorType) -> Void) {
-        if let sc = response?.statusCode {
-            switch sc {
-            case 401:   reject(error:WSError.Unauthorized)
-            case 403:   reject(error:WSError.Forbidden)
-            case 404:   reject(error:WSError.NotFound)
-            default:    reject(error:WSError.NetworkUnreachable)
-            }
-        } else {
-            reject(error:WSError.NetworkUnreachable)
+    func rejectCallWithMatchingError(response:NSHTTPURLResponse?, data:NSData? = nil, reject:(error: ErrorType) -> Void) {
+        var error = WSError()
+        error.httpStatusCode = response?.statusCode ?? 0
+        if let d = data,
+            json = try? NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.AllowFragments),
+            j = JSON(json) {
+            error.jsonPayload = j
         }
+        if let erroType = WSErrorType(rawValue: error.httpStatusCode) {
+            error.type = erroType
+        }
+        reject(error:error)
     }
     
     func methodForHTTPVerb(verb:WSHTTPVerb) -> Alamofire.Method {
