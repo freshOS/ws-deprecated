@@ -120,7 +120,8 @@ public class WSRequest {
     
     func sendRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
         self.req = request(self.buildRequest())
-        req?.validate().response(completionHandler: { req, response, data, error in
+        let bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        req?.validate().response(queue:bgQueue) { req, response, data, error in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             self.printResponseStatusCodeIfNeeded(response)
             if error == nil {
@@ -128,12 +129,13 @@ public class WSRequest {
             } else {
                 self.rejectCallWithMatchingError(response, data: data, reject: reject)
             }
-        })
+        }
     }
     
     func sendJSONRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
         self.req = request(self.buildRequest())
-        req?.validate().responseJSON { r in
+        let bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        req?.validate().responseJSON(queue: bgQueue) { r in
             self.handleJSONResponse(r, resolve: resolve, reject: reject)
         }
     }
