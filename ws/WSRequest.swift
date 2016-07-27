@@ -51,7 +51,7 @@ public class WSRequest {
         for (key, value) in headers {
             r.setValue(value, forHTTPHeaderField: key)
         }
-        if let t = self.timeout {
+        if let t = timeout {
             r.timeoutInterval = t
         }
         
@@ -64,22 +64,25 @@ public class WSRequest {
     
     public func fetch() -> Promise<JSON> {
         return Promise<JSON> { resolve, reject, progress in
-            if self.showsNetworkActivityIndicator {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-            }
-            if self.logLevels != .None {
-                print("\(self.httpVerb) \(self.URL)")
-                print("params : \(self.params)")
-                if self.isMultipart {
-                    print("\(self.multipartName): \(self.multipartMimeType) \(self.multipartFileName)")
+            let bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+            dispatch_async(bgQueue) {
+                if self.showsNetworkActivityIndicator {
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
                 }
-            }
-            if self.isMultipart {
-                self.sendMultipartRequest(resolve, reject: reject, progress:progress)
-            } else if !self.returnsJSON {
-                self.sendRequest(resolve, reject: reject)
-            } else {
-                self.sendJSONRequest(resolve, reject: reject)
+                if self.logLevels != .None {
+                    print("\(self.httpVerb) \(self.URL)")
+                    print("params : \(self.params)")
+                    if self.isMultipart {
+                        print("\(self.multipartName): \(self.multipartMimeType) \(self.multipartFileName)")
+                    }
+                }
+                if self.isMultipart {
+                    self.sendMultipartRequest(resolve, reject: reject, progress:progress)
+                } else if !self.returnsJSON {
+                    self.sendRequest(resolve, reject: reject)
+                } else {
+                    self.sendJSONRequest(resolve, reject: reject)
+                }
             }
         }
     }
@@ -119,7 +122,7 @@ public class WSRequest {
     }
     
     func sendRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
-        self.req = request(self.buildRequest())
+        req = request(self.buildRequest())
         let bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         req?.validate().response(queue:bgQueue) { req, response, data, error in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -133,7 +136,7 @@ public class WSRequest {
     }
     
     func sendJSONRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
-        self.req = request(self.buildRequest())
+        req = request(self.buildRequest())
         let bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
         req?.validate().responseJSON(queue: bgQueue) { r in
             self.handleJSONResponse(r, resolve: resolve, reject: reject)
@@ -142,24 +145,24 @@ public class WSRequest {
     
     func handleJSONResponse(response:Response<AnyObject, NSError>, resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        self.printResponseStatusCodeIfNeeded(response.response)
+        printResponseStatusCodeIfNeeded(response.response)
         switch response.result {
         case .Success(let value):
-            if self.logLevels == .CallsAndResponses {
+            if logLevels == .CallsAndResponses {
                 print(value)
             }
             if let json:JSON = JSON(value) {
                 resolve(result: json)
             } else {
-                self.rejectCallWithMatchingError(response.response, reject: reject)
+                rejectCallWithMatchingError(response.response, reject: reject)
             }
         case .Failure(_):
-            self.rejectCallWithMatchingError(response.response, reject: reject)
+            rejectCallWithMatchingError(response.response, reject: reject)
         }
     }
     
     func printResponseStatusCodeIfNeeded(response:NSHTTPURLResponse?) {
-        if self.logLevels == .CallsAndResponses {
+        if logLevels == .CallsAndResponses {
             if let sc = response?.statusCode {
                 print("CODE: \(sc)")
             }

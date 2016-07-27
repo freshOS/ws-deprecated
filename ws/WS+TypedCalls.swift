@@ -40,6 +40,6 @@ extension WS {
             let mapper = WSModelJSONParser<T>()
             let model = mapper.toModel(json)
             return model
-        }
+        }.resolveOnMainThread()
     }
 }

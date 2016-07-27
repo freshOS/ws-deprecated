@@ -80,25 +80,26 @@ public class WS {
             let mapper = WSModelJSONParser<T>()
             let models = mapper.toModels(json)
             return models
-        }
+        }.resolveOnMainThread()
     }
+    
     
     //MARK JSON versions
     
     public func get(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
-        return getRequest(url, params: params).fetch()
+        return getRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
     public func post(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
-        return postRequest(url, params: params).fetch()
+        return postRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
     public func put(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
-        return putRequest(url, params: params).fetch()
+        return putRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
     public func delete(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
-        return deleteRequest(url, params: params).fetch()
+        return deleteRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
     //MARK Void versions
@@ -106,37 +107,37 @@ public class WS {
     public func get(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         let r = getRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { json -> Void in }
+        return r.fetch().registerThen { json -> Void in }.resolveOnMainThread()
     }
     
     public func post(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         let r = postRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { json -> Void in }
+        return r.fetch().registerThen { json -> Void in }.resolveOnMainThread()
     }
     
     public func put(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         let r = putRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { _ -> Void in }
+        return r.fetch().registerThen { _ -> Void in }.resolveOnMainThread()
     }
     
     public func delete(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         let r = deleteRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { _ -> Void in }
+        return r.fetch().registerThen { _ -> Void in }.resolveOnMainThread()
     }
     
     //MARK: - Multipart
     
     public func postMultipart(url:String, params:[String:AnyObject] = [String:AnyObject](), name:String, data:NSData, fileName:String, mimeType:String) -> Promise<JSON> {
         let r = postMultipartRequest(url, params:params, name:name, data: data, fileName: fileName, mimeType: mimeType)
-        return r.fetch()
+        return r.fetch().resolveOnMainThread()
     }
     
     public func putMultipart(url:String, params:[String:AnyObject] = [String:AnyObject](), name:String, data:NSData, fileName:String, mimeType:String) -> Promise<JSON> {
         let r = putMultipartRequest(url, params:params, name:name, data: data, fileName: fileName, mimeType: mimeType)
-        return r.fetch()
+        return r.fetch().resolveOnMainThread()
     }
     
     // Keep here for now for backwards compatibility
@@ -150,6 +151,27 @@ public class WS {
             let mapper = WSModelJSONParser<T>()
             let models = mapper.toModels(json)
             return models
+        }.resolveOnMainThread()
+    }
+}
+
+
+
+
+public extension Promise {
+    
+    public func resolveOnMainThread() -> Promise<T> {
+        return Promise<T> { resolve, reject, progress in
+            self.registerThen { t in
+                dispatch_async(dispatch_get_main_queue()) {
+                    resolve(t)
+                }
+            }
+            self.onError { e in
+                dispatch_async(dispatch_get_main_queue()) {
+                    reject(e)
+                }
+            }
         }
     }
 }
