@@ -162,6 +162,9 @@ public extension Promise {
     
     public func resolveOnMainThread() -> Promise<T> {
         return Promise<T> { resolve, reject, progress in
+            self.progress{ p in
+                progress(p)
+            }
             self.registerThen { t in
                 dispatch_async(dispatch_get_main_queue()) {
                     resolve(t)
