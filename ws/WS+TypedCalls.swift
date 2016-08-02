@@ -36,7 +36,7 @@ extension WS {
         c.params = params
         
         // Apply corresponding JSON mapper
-        return c.fetch().registerThen { json -> T in
+        return c.fetch().registerThen { (json: JSON) -> T in
             let mapper = WSModelJSONParser<T>()
             let model = mapper.toModel(json)
             return model
