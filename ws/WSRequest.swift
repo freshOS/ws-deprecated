@@ -62,8 +62,14 @@ public class WSRequest {
         }
     }
     
+    /// Returns Promise containing JSON
     public func fetch() -> Promise<JSON> {
-        return Promise<JSON> { resolve, reject, progress in
+        return fetch().registerThen { (_, _, json) in json }
+    }
+    
+    /// Returns Promise containing response status code, headers and parsed JSON
+    public func fetch() -> Promise<(Int, [NSObject : AnyObject], JSON)> {
+        return Promise<(Int, [NSObject : AnyObject], JSON)> { resolve, reject, progress in
             if self.showsNetworkActivityIndicator {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = true
             }
@@ -84,7 +90,7 @@ public class WSRequest {
         }
     }
     
-    func sendMultipartRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void, progress:(Float) -> Void) {
+    func sendMultipartRequest(resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: ErrorType) -> Void, progress:(Float) -> Void) {
             upload(self.buildRequest(), multipartFormData: { (formData:MultipartFormData) -> Void in
                 
                 for (key,value) in self.params {
@@ -118,27 +124,27 @@ public class WSRequest {
             })
     }
     
-    func sendRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
+    func sendRequest(resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: ErrorType) -> Void) {
         self.req = request(self.buildRequest())
         req?.validate().response(completionHandler: { req, response, data, error in
             UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             self.printResponseStatusCodeIfNeeded(response)
             if error == nil {
-                resolve(result:JSON(["":""])!)
+                resolve(result:(response?.statusCode ?? 0, response?.allHeaderFields ?? [:], JSON(["":""])!))
             } else {
                 self.rejectCallWithMatchingError(response, reject: reject)
             }
         })
     }
     
-    func sendJSONRequest(resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
+    func sendJSONRequest(resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: ErrorType) -> Void) {
         self.req = request(self.buildRequest())
         req?.validate().responseJSON { r in
             self.handleJSONResponse(r, resolve: resolve, reject: reject)
         }
     }
     
-    func handleJSONResponse(response:Response<AnyObject, NSError>, resolve:(result:JSON)-> Void, reject:(error: ErrorType) -> Void) {
+    func handleJSONResponse(response:Response<AnyObject, NSError>, resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: ErrorType) -> Void) {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         self.printResponseStatusCodeIfNeeded(response.response)
         switch response.result {
@@ -147,7 +153,7 @@ public class WSRequest {
                 print(value)
             }
             if let json:JSON = JSON(value) {
-                resolve(result: json)
+                resolve(result: (response.response?.statusCode ?? 0, response.response?.allHeaderFields ?? [:], json))
             } else {
                 self.rejectCallWithMatchingError(response.response, reject: reject)
             }

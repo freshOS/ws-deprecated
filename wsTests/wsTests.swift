@@ -89,6 +89,15 @@ class wsTests: XCTestCase {
         waitForExpectationsWithTimeout(10, handler: nil)
     }
     
+    func testResponse() {
+        let exp = expectationWithDescription("")
+        ws.getRequest("/users").fetch().then { (statusCode, responseHeaders, json) in
+            XCTAssertEqual(statusCode, 200)
+            exp.fulfill()
+        }
+        waitForExpectationsWithTimeout(10, handler: nil)
+    }
+    
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects
     func latestUsers() -> Promise<[User]> {

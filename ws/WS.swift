@@ -76,7 +76,7 @@ public class WS {
     //MARK: - Calls
     
     public func get<T:ArrowParsable>(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
-        return getRequest(url, params: params).fetch().registerThen { json -> [T] in
+        return getRequest(url, params: params).fetch().registerThen { (json: JSON) -> [T] in
             let mapper = WSModelJSONParser<T>()
             let models = mapper.toModels(json)
             return models
@@ -106,25 +106,25 @@ public class WS {
     public func get(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         let r = getRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { json -> Void in }
+        return r.fetch().registerThen { (json: JSON) -> Void in }
     }
     
     public func post(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         let r = postRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { json -> Void in }
+        return r.fetch().registerThen { (json: JSON) -> Void in }
     }
     
     public func put(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         let r = putRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { _ -> Void in }
+        return r.fetch().registerThen { (_: JSON) -> Void in }
     }
     
     public func delete(url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         let r = deleteRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { _ -> Void in }
+        return r.fetch().registerThen { (_: JSON) -> Void in }
     }
     
     //MARK: - Multipart
@@ -146,7 +146,7 @@ public class WS {
         c.URL = url
         c.params = params
         // Apply corresponding JSON mapper
-        return c.fetch().registerThen { json -> [T] in
+        return c.fetch().registerThen { (json: JSON) -> [T] in
             let mapper = WSModelJSONParser<T>()
             let models = mapper.toModels(json)
             return models
