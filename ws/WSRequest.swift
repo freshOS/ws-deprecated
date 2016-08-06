@@ -176,15 +176,11 @@ public class WSRequest {
     }
     
     func rejectCallWithMatchingError(response:NSHTTPURLResponse?, data:NSData? = nil, reject:(error: ErrorType) -> Void) {
-        var error = WSError()
-        error.httpStatusCode = response?.statusCode ?? 0
+        var error = WSError(httpStatusCode: response?.statusCode ?? 0)
         if let d = data,
             json = try? NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.AllowFragments),
             j = JSON(json) {
             error.jsonPayload = j
-        }
-        if let erroType = WSErrorType(rawValue: error.httpStatusCode) {
-            error.type = erroType
         }
         reject(error:error)
     }
