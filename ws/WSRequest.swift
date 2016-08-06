@@ -14,7 +14,7 @@ import Arrow
 public class WSRequest {
    
     var isMultipart = false
-    var multipartData = NSData()
+    var multipartData = Data()
     var multipartName = ""
     var multipartFileName = "photo.jpg"
     var multipartMimeType = "image/jpeg"
@@ -27,9 +27,9 @@ public class WSRequest {
     public var OAuthToken: String?
     public var headers = [String: String]()
     public var fullURL:String { return baseURL + URL}
-    public var timeout:NSTimeInterval?
-    public var logLevels = WSLogLevel.None
-    public var postParameterEncoding = ParameterEncoding.URL
+    public var timeout:TimeInterval?
+    public var logLevels = WSLogLevel.none
+    public var postParameterEncoding = ParameterEncoding.url
     public var showsNetworkActivityIndicator = true
     private var req:Alamofire.Request?
     public init() {}
@@ -38,13 +38,14 @@ public class WSRequest {
         req?.cancel()
     }
     
-    func buildRequest() -> NSMutableURLRequest {
-        let url = NSURL(string: fullURL)!
-        let r = NSMutableURLRequest(URL: url)
-        r.HTTPMethod = httpVerb.rawValue
+    func buildRequest() -> URLRequest {
+        let url = Foundation.URL(string: fullURL)!
+        var r = URLRequest(url: url)
+        
+        r.httpMethod = httpVerb.rawValue
         if let token = OAuthToken {
             r.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization") // Test without bearer
-            if logLevels != .None {
+            if logLevels != .none {
                 print("TOKEN :\(token)")
             }
         }
@@ -58,7 +59,7 @@ public class WSRequest {
         if httpVerb == .POST || httpVerb == .PUT {
             return postParameterEncoding.encode(r, parameters: params).0
         } else {
-            return ParameterEncoding.URL.encode(r, parameters: params).0
+            return ParameterEncoding.url.encode(r, parameters: params).0
         }
     }
     
@@ -70,12 +71,12 @@ public class WSRequest {
     /// Returns Promise containing response status code, headers and parsed JSON
     public func fetch() -> Promise<(Int, [NSObject : AnyObject], JSON)> {
         return Promise<(Int, [NSObject : AnyObject], JSON)> { resolve, reject, progress in
-            let bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-            dispatch_async(bgQueue) {
+            let bgQueue = DispatchQueue.global(qos: .default)
+            bgQueue.async {
                 if self.showsNetworkActivityIndicator {
-                    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
                 }
-                if self.logLevels != .None {
+                if self.logLevels != .none {
                     print("\(self.httpVerb) \(self.URL)")
                     print("params : \(self.params)")
                     if self.isMultipart {
@@ -93,17 +94,18 @@ public class WSRequest {
         }
     }
     
-    func sendMultipartRequest(resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: ErrorType) -> Void, progress:(Float) -> Void) {
+    func sendMultipartRequest(_ resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: Error) -> Void, progress:(Float) -> Void) {
             upload(self.buildRequest(), multipartFormData: { (formData:MultipartFormData) -> Void in
                 
                 for (key,value) in self.params {
                     if let int = value as? Int {
                         let str = "\(int)"
-                        if let d = str.dataUsingEncoding(NSUTF8StringEncoding) {
+                        if let d = str.data(using: String.Encoding.utf8) {
                             formData.appendBodyPart(data: d, name: key)
                         }
                     } else {
-                        if let d = value.dataUsingEncoding(NSUTF8StringEncoding) {
+                        //  if let d = value.data(using: String.Encoding.utf8) {
+                        if let str = value as? String, let d = str.data(using: .utf8) {
                             formData.appendBodyPart(data: d, name: key)
                         }
                     }
@@ -112,26 +114,27 @@ public class WSRequest {
                 formData.appendBodyPart(data: self.multipartData, name: self.multipartName, fileName: self.multipartFileName, mimeType: self.multipartMimeType)
                 }, encodingCompletion: { encodingResult in
                     switch encodingResult {
-                    case .Success(let upload, _, _):
+                    case .success(let upload, _, _):
                         upload.validate().responseJSON(completionHandler: { r in
                             print("Upload done")
                             self.handleJSONResponse(r, resolve: resolve, reject: reject)
                         }).progress { (bytesWritten, totalBytesWritten, totalBytesExpectedToWrite) in
-                            dispatch_async(dispatch_get_main_queue()) {
+                            DispatchQueue.main.async {
                                 let percentage:Float = Float(totalBytesWritten)/Float(totalBytesExpectedToWrite)
                                 progress(percentage)
                             }
                         }
-                    case .Failure(_):()
+                    case .failure(_):()
                     }
             })
     }
     
-    func sendRequest(resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: ErrorType) -> Void) {
+    func sendRequest(_ resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: Error) -> Void) {
         self.req = request(self.buildRequest())
-        let bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+    
+        let bgQueue = DispatchQueue.global(qos:.default)
         req?.validate().response(queue:bgQueue) { req, response, data, error in
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
             self.printResponseStatusCodeIfNeeded(response)
             if error == nil {
                 resolve(result:(response?.statusCode ?? 0, response?.allHeaderFields ?? [:], JSON(["":""])!))
@@ -141,20 +144,20 @@ public class WSRequest {
         }
     }
     
-    func sendJSONRequest(resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: ErrorType) -> Void) {
+    func sendJSONRequest(_ resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: Error) -> Void) {
         self.req = request(self.buildRequest())
-        let bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        let bgQueue = DispatchQueue.global(qos: .default)
         req?.validate().responseJSON(queue: bgQueue) { r in
             self.handleJSONResponse(r, resolve: resolve, reject: reject)
         }
     }
     
-    func handleJSONResponse(response:Response<AnyObject, NSError>, resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: ErrorType) -> Void) {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+    func handleJSONResponse(_ response:Response<AnyObject, NSError>, resolve:(result:(Int, [NSObject : AnyObject], JSON))-> Void, reject:(error: Error) -> Void) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
         printResponseStatusCodeIfNeeded(response.response)
         switch response.result {
-        case .Success(let value):
-            if logLevels == .CallsAndResponses {
+        case .success(let value):
+            if logLevels == .callsAndResponses {
                 print(value)
             }
             if let json:JSON = JSON(value) {
@@ -162,13 +165,13 @@ public class WSRequest {
             } else {
                 rejectCallWithMatchingError(response.response, reject: reject)
             }
-        case .Failure(_):
+        case .failure(_):
             rejectCallWithMatchingError(response.response, reject: reject)
         }
     }
     
-    func printResponseStatusCodeIfNeeded(response:NSHTTPURLResponse?) {
-        if logLevels == .CallsAndResponses {
+    func printResponseStatusCodeIfNeeded(_ response:HTTPURLResponse?) {
+        if logLevels == .callsAndResponses {
             if let sc = response?.statusCode {
                 print("CODE: \(sc)")
             }
@@ -178,14 +181,14 @@ public class WSRequest {
     func rejectCallWithMatchingError(response:NSHTTPURLResponse?, data:NSData? = nil, reject:(error: ErrorType) -> Void) {
         var error = WSError(httpStatusCode: response?.statusCode ?? 0)
         if let d = data,
-            json = try? NSJSONSerialization.JSONObjectWithData(d, options: NSJSONReadingOptions.AllowFragments),
-            j = JSON(json) {
+            let json = try? JSONSerialization.jsonObject(with: d, options: JSONSerialization.ReadingOptions.allowFragments),
+            let j = JSON(json) {
             error.jsonPayload = j
         }
         reject(error:error)
     }
     
-    func methodForHTTPVerb(verb:WSHTTPVerb) -> Alamofire.Method {
+    func methodForHTTPVerb(_ verb:WSHTTPVerb) -> Alamofire.Method {
         switch verb {
         case .GET : return Method.GET
         case .POST : return Method.POST

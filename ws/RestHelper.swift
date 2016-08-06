@@ -10,7 +10,7 @@ import Foundation
 
 // Abstract Model -> Rest URL
 
-public func restURL<T:RestResource>(r:T) -> String {
+public func restURL<T:RestResource>(_ r:T) -> String {
     return "/\(T.restName())/\(r.restId())"
 }
 

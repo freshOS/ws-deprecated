@@ -10,7 +10,6 @@ import XCTest
 @testable import ws
 import then
 import Arrow
-
 // MARK: - Models
 
 struct User {
@@ -60,23 +59,23 @@ class wsTests: XCTestCase {
         super.setUp()
         // Create webservice with base URL
         ws = WS("http://jsonplaceholder.typicode.com")
-        ws.logLevels = .CallsAndResponses
-        ws.postParameterEncoding = .JSON
+        ws.logLevels = .callsAndResponses
+        ws.postParameterEncoding = .json
         ws.showsNetworkActivityIndicator = false
     }
     
     func testJSON() {
-        let exp = expectationWithDescription("")
+        let exp = expectation(description: "")
         
         // use "call" to get back a json
         ws.get("/users").then { (json:JSON) in
             exp.fulfill()
         }
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     func testModels() {
-        let exp = expectationWithDescription("")
+        let exp = expectation(description: "")
         latestUsers().then { users in
             XCTAssertEqual(users.count, 10)
             
@@ -86,16 +85,16 @@ class wsTests: XCTestCase {
             
             print(users)
         }
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     func testResponse() {
-        let exp = expectationWithDescription("")
+        let exp = expectation(description: "")
         ws.getRequest("/users").fetch().then { (statusCode, responseHeaders, json) in
             XCTAssertEqual(statusCode, 200)
             exp.fulfill()
         }
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     // Here is typically how you would define an api endpoint.

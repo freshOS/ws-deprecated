@@ -14,44 +14,44 @@ extension WS {
 
     //MARK: - GET
     
-    public func get<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func get<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return get(restURL(restResource), params: params)
     }
 
     /// <Void> version
-    public func get<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    public func get<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         return get(restURL(restResource), params: params)
     }
     
     //MARK: - POST
     
-    public func post<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func post<T: ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return post(restURL(restResource), params: params)
     }
     
     /// <Void> version
-    public func post<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    public func post<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         return post(restURL(restResource), params: params)
     }
     
     //MARK: - PUT
     
-    public func put<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func put<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
         return put(restURL(restResource), params: params)
     }
 
-    public func put<T:protocol<ArrowParsable,RestResource>>(restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    public func put<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
         return put(restURL(restResource), params: params)
     }
     
     //MARK: - DELETE
     
-    public func delete<T:protocol<ArrowParsable,RestResource>>(restResource:T) -> Promise<T> {
+    public func delete<T:ArrowParsable & RestResource>(_ restResource:T) -> Promise<T> {
         return delete(restURL(restResource))
     }
     
     /// <Void> version
-    public func delete<T:protocol<ArrowParsable,RestResource>>(restResource:T) -> Promise<Void> {
+    public func delete<T:ArrowParsable & RestResource>(_ restResource:T) -> Promise<Void> {
         return delete(restURL(restResource))
     }
 

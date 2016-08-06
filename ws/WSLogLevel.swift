@@ -9,7 +9,7 @@
 import Foundation
 
 public enum WSLogLevel {
-    case None
-    case Calls
-    case CallsAndResponses
+    case none
+    case calls
+    case callsAndResponses
 }

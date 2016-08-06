@@ -85,5 +85,4 @@ extension WSError: CustomStringConvertible {
             .stringByReplacingOccurrencesOfString("(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])",
                                                   withString: " ", options: [.RegularExpressionSearch])
     }
-    
 }
