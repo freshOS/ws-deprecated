@@ -4,7 +4,7 @@
 [![Language: Swift 2](https://img.shields.io/badge/language-swift2-f48041.svg?style=flat)](https://developer.apple.com/swift)
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/s4cha/ws/blob/master/LICENSE)
+[![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/ws/blob/master/LICENSE)
 [![Build Status](https://www.bitrise.io/app/a6d157138f9ee86d.svg?token=W7-x9K5U976xiFrI8XqcJw)](https://www.bitrise.io/app/a6d157138f9ee86d)
 [![Release version](https://img.shields.io/badge/release-1.2-blue.svg)]()
 
@@ -164,7 +164,7 @@ existingArticle.delete().then {
 ### Carthage
 In your Cartfile
 ```
-github "s4cha/ws"
+github "freshOS/ws"
 ```
 - Run `carthage update`
 - Drag and drop `ws.framework` from `Carthage/Build/iOS` to `Linked Frameworks and Libraries` (“General” settings tab)
@@ -198,6 +198,6 @@ And voila !
 
 ## Other repos ❤️
 ws is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze* :
-- Async code : [then](https://github.com/s4cha/then)
+- Async code : [then](https://github.com/freshOS/then)
 - Layout : [Stevia](https://github.com/s4cha/Stevia)
-- JSON Parsing : [Arrow](https://github.com/s4cha/Arrow)
+- JSON Parsing : [Arrow](https://github.com/freshOS/Arrow)
