@@ -14,33 +14,33 @@ extension WS {
 
     //MARK: - GET
     
-    public func get<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func get<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:Any] = [String:Any]()) -> Promise<T> {
         return get(restURL(restResource), params: params)
     }
 
     /// <Void> version
-    public func get<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    public func get<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:Any] = [String:Any]()) -> Promise<Void> {
         return get(restURL(restResource), params: params)
     }
     
     //MARK: - POST
     
-    public func post<T: ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func post<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:Any] = [String:Any]()) -> Promise<T> {
         return post(restURL(restResource), params: params)
     }
     
     /// <Void> version
-    public func post<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    public func post<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:Any] = [String:Any]()) -> Promise<Void> {
         return post(restURL(restResource), params: params)
     }
     
     //MARK: - PUT
     
-    public func put<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func put<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:Any] = [String:Any]()) -> Promise<T> {
         return put(restURL(restResource), params: params)
     }
 
-    public func put<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    public func put<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:Any] = [String:Any]()) -> Promise<Void> {
         return put(restURL(restResource), params: params)
     }
     

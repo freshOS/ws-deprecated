@@ -15,34 +15,33 @@ import then
 var kWSJsonParsingSingleResourceKey:String? = nil
 var kWSJsonParsingColletionKey:String? = nil
 
-public class WS {
+open class WS {
     
     /**
         Prints network calls to the console. 
         Values Available are .None, Calls and CallsAndResponses.
         Default is None
     */
-    
-    public var logLevels = WSLogLevel.none
-    public var postParameterEncoding = ParameterEncoding.url
+    open var logLevels = WSLogLevel.none
+    open var postParameterEncoding: ParameterEncoding = URLEncoding()
     
     /**
         Displays network activity indicator at the top left hand corner of the iPhone's screen in the status bar.
         Is shown by dafeult, set it to false to hide it.
      */
-    public var showsNetworkActivityIndicator = true
+    open var showsNetworkActivityIndicator = true
     
-    public var jsonParsingSingleResourceKey:String? = nil {
+    open var jsonParsingSingleResourceKey:String? = nil {
         didSet { kWSJsonParsingSingleResourceKey = jsonParsingSingleResourceKey }
     }
     
-    public var jsonParsingColletionKey:String? = nil {
+    open var jsonParsingColletionKey:String? = nil {
         didSet { kWSJsonParsingColletionKey = jsonParsingColletionKey }
     }
     
-    public var baseURL = ""
-    public var OAuthToken: String?
-    public var headers = [String: String]()
+    open var baseURL = ""
+    open var OAuthToken: String?
+    open var headers = [String: String]()
     
     /**
      Create a webservice instance.
@@ -53,7 +52,7 @@ public class WS {
         baseURL = aBaseURL
     }
     
-    internal func call(_ url:String, verb:WSHTTPVerb = .GET, params:[String:AnyObject] = [String:AnyObject]()) -> WSRequest {
+    internal func call(_ url:String, verb:WSHTTPVerb = .GET, params:[String:Any] = [String:Any]()) -> WSRequest {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
@@ -61,7 +60,7 @@ public class WS {
         return c
     }
     
-    public func defaultCall() -> WSRequest {
+    open func defaultCall() -> WSRequest {
         let r = WSRequest()
         r.baseURL = baseURL
         r.logLevels = logLevels
@@ -76,7 +75,7 @@ public class WS {
     
     //MARK: - Calls
     
-    public func get<T:ArrowParsable>(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
+    open func get<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<[T]> {
         return getRequest(url, params: params).fetch().registerThen { (json: JSON) -> [T] in
             let mapper = WSModelJSONParser<T>()
             let models = mapper.toModels(json)
@@ -87,43 +86,43 @@ public class WS {
     
     //MARK JSON versions
     
-    public func get(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
+    open func get(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<JSON> {
         return getRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
-    public func post(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
+    open func post(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<JSON> {
         return postRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
-    public func put(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
+    open func put(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<JSON> {
         return putRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
-    public func delete(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<JSON> {
+    open func delete(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<JSON> {
         return deleteRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
     //MARK Void versions
     
-    public func get(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    open func get(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<Void> {
         let r = getRequest(url, params: params)
         r.returnsJSON = false
         return r.fetch().registerThen { (json: JSON) -> Void in }.resolveOnMainThread()
     }
     
-    public func post(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    open func post(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<Void> {
         let r = postRequest(url, params: params)
         r.returnsJSON = false
         return r.fetch().registerThen { (json:JSON) -> Void in }.resolveOnMainThread()
     }
     
-    public func put(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    open func put(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<Void> {
         let r = putRequest(url, params: params)
         r.returnsJSON = false
         return r.fetch().registerThen { (_:JSON) -> Void in }.resolveOnMainThread()
     }
     
-    public func delete(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<Void> {
+    open func delete(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<Void> {
         let r = deleteRequest(url, params: params)
         r.returnsJSON = false
         return r.fetch().registerThen { (_: JSON) -> Void in }.resolveOnMainThread()
@@ -131,18 +130,18 @@ public class WS {
     
     //MARK: - Multipart
     
-    public func postMultipart(_ url:String, params:[String:AnyObject] = [String:AnyObject](), name:String, data:Data, fileName:String, mimeType:String) -> Promise<JSON> {
+    open func postMultipart(_ url:String, params:[String:Any] = [String:Any](), name:String, data:Data, fileName:String, mimeType:String) -> Promise<JSON> {
         let r = postMultipartRequest(url, params:params, name:name, data: data, fileName: fileName, mimeType: mimeType)
         return r.fetch().resolveOnMainThread()
     }
     
-    public func putMultipart(_ url:String, params:[String:AnyObject] = [String:AnyObject](), name:String, data:Data, fileName:String, mimeType:String) -> Promise<JSON> {
+    open func putMultipart(_ url:String, params:[String:Any] = [String:Any](), name:String, data:Data, fileName:String, mimeType:String) -> Promise<JSON> {
         let r = putMultipartRequest(url, params:params, name:name, data: data, fileName: fileName, mimeType: mimeType)
         return r.fetch().resolveOnMainThread()
     }
     
     // Keep here for now for backwards compatibility
-    @available(*, deprecated: 1.2.1, message: "Use 'get' instead") public func list<T:ArrowParsable>(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<[T]> {
+    @available(*, deprecated: 1.2.1, message: "Use 'get' instead") open func list<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<[T]> {
         let c = defaultCall()
         c.httpVerb = .GET
         c.URL = url

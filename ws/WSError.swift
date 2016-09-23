@@ -10,61 +10,61 @@ import Foundation
 import Arrow
 
 
-public struct WSError: ErrorType {
+public struct WSError: Error {
 
-    public enum Type: Int {
-        case Unknown                        = -1
-        case NetworkUnreachable             = 0
+    public enum `Type`: Int {
+        case unknown                        = -1
+        case networkUnreachable             = 0
         
         // 4xx Client Error
-        case BadRequest                     = 400
-        case Unauthorized                   = 401
-        case PaymentRequired                = 402
-        case Forbidden                      = 403
-        case NotFound                       = 404
-        case MethodNotAllowed               = 405
-        case NotAcceptable                  = 406
-        case ProxyAuthenticationRequired    = 407
-        case RequestTimeout                 = 408
-        case Conflict                       = 409
-        case Gone                           = 410
-        case LengthRequired                 = 411
-        case PreconditionFailed             = 412
-        case PayloadTooLarge                = 413
-        case URITooLong                     = 414
-        case UnsupportedMediaType           = 415
-        case RangeNotSatisfiable            = 416
-        case ExpectationFailed              = 417
-        case Teapot                         = 418
-        case MisdirectedRequest             = 421
-        case UnprocessableEntity            = 422
-        case Locked                         = 423
-        case FailedDependency               = 424
-        case UpgradeRequired                = 426
-        case PreconditionRequired           = 428
-        case TooManyRequests                = 429
-        case RequestHeaderFieldsTooLarge    = 431
-        case UnavailableForLegalReasons     = 451
+        case badRequest                     = 400
+        case unauthorized                   = 401
+        case paymentRequired                = 402
+        case forbidden                      = 403
+        case notFound                       = 404
+        case methodNotAllowed               = 405
+        case notAcceptable                  = 406
+        case proxyAuthenticationRequired    = 407
+        case requestTimeout                 = 408
+        case conflict                       = 409
+        case gone                           = 410
+        case lengthRequired                 = 411
+        case preconditionFailed             = 412
+        case payloadTooLarge                = 413
+        case uriTooLong                     = 414
+        case unsupportedMediaType           = 415
+        case rangeNotSatisfiable            = 416
+        case expectationFailed              = 417
+        case teapot                         = 418
+        case misdirectedRequest             = 421
+        case unprocessableEntity            = 422
+        case locked                         = 423
+        case failedDependency               = 424
+        case upgradeRequired                = 426
+        case preconditionRequired           = 428
+        case tooManyRequests                = 429
+        case requestHeaderFieldsTooLarge    = 431
+        case unavailableForLegalReasons     = 451
         
         // 4xx nginx
-        case NoResponse                     = 444
-        case SSLCertificateError            = 495
-        case SSLCertificateRequired         = 496
-        case HTTPRequestSentToHTTPSPort     = 497
-        case ClientClosedRequest            = 499
+        case noResponse                     = 444
+        case sslCertificateError            = 495
+        case sslCertificateRequired         = 496
+        case httpRequestSentToHTTPSPort     = 497
+        case clientClosedRequest            = 499
         
         // 5xx Server Error
-        case InternalServerError            = 500
-        case NotImplemented                 = 501
-        case BadGateway                     = 502
-        case ServiceUnavailable             = 503
-        case GatewayTimeout                 = 504
-        case HTTPVersionNotSupported        = 505
-        case VariantAlsoNegotiates          = 506
-        case InsufficientStorage            = 507
-        case LoopDetected                   = 508
-        case NotExtended                    = 510
-        case NetworkAuthenticationRequired  = 511
+        case internalServerError            = 500
+        case notImplemented                 = 501
+        case badGateway                     = 502
+        case serviceUnavailable             = 503
+        case gatewayTimeout                 = 504
+        case httpVersionNotSupported        = 505
+        case variantAlsoNegotiates          = 506
+        case insufficientStorage            = 507
+        case loopDetected                   = 508
+        case notExtended                    = 510
+        case networkAuthenticationRequired  = 511
     }
     
     public var type: Type
@@ -73,7 +73,7 @@ public struct WSError: ErrorType {
     public var jsonPayload:JSON? = nil
     
     public init(httpStatusCode: Int) {
-        self.type = Type(rawValue: httpStatusCode) ?? .Unknown
+        self.type = Type(rawValue: httpStatusCode) ?? .unknown
     }
     
 }
@@ -81,8 +81,9 @@ public struct WSError: ErrorType {
 extension WSError: CustomStringConvertible {
     
     public var description: String {
-        return String(self.type)
-            .stringByReplacingOccurrencesOfString("(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])",
-                                                  withString: " ", options: [.RegularExpressionSearch])
+        return String(describing: self.type)
+            .replacingOccurrences(of: "(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])",
+                                                  with: " ", options: [.regularExpression])
     }
+    
 }

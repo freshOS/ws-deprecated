@@ -9,15 +9,15 @@
 import Foundation
 import Arrow
 
-public class WSModelJSONParser<T:ArrowParsable> {
+open class WSModelJSONParser<T:ArrowParsable> {
     
     public init() { }
     
-    public func toModel(_ json:JSON) -> T {
+    open func toModel(_ json:JSON) -> T {
         return resourceParsingBlock(json)!
     }
     
-    public func toModels(_ json:JSON) -> [T] {
+    open func toModels(_ json:JSON) -> [T] {
         if let resources = resourcesParsingBlock(json) {
             return resources
         } else {
@@ -25,7 +25,7 @@ public class WSModelJSONParser<T:ArrowParsable> {
         }
     }
     
-    private func resourcesParsingBlock(_ json: JSON) -> [T]? {
+    fileprivate func resourcesParsingBlock(_ json: JSON) -> [T]? {
         var array = [T]()
         let collection = collectionFrom(json)
     
@@ -42,21 +42,21 @@ public class WSModelJSONParser<T:ArrowParsable> {
         return nil
     }
     
-    private func resourceParsingBlock(_ json: JSON) -> T? {
+    fileprivate func resourceParsingBlock(_ json: JSON) -> T? {
         let resourceKey = resourceKeyFromData(json)
         var t = T()
         t.deserialize(resourceKey)
         return t
     }
     
-    private let resourceKeyFromData = { (json: JSON) -> JSON in
+    fileprivate let resourceKeyFromData = { (json: JSON) -> JSON in
         if let k = kWSJsonParsingSingleResourceKey, let j = json[k] {
             return j
         }
         return json
     }
     
-    private func collectionFrom(_ json: JSON) -> JSON {
+    fileprivate func collectionFrom(_ json: JSON) -> JSON {
         if let k = kWSJsonParsingColletionKey, let j = json[k] {
             return j
         }

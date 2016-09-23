@@ -10,6 +10,8 @@ import XCTest
 @testable import ws
 import then
 import Arrow
+import Alamofire
+
 // MARK: - Models
 
 struct User {
@@ -60,7 +62,7 @@ class wsTests: XCTestCase {
         // Create webservice with base URL
         ws = WS("http://jsonplaceholder.typicode.com")
         ws.logLevels = .callsAndResponses
-        ws.postParameterEncoding = .json
+        ws.postParameterEncoding = JSONEncoding.default
         ws.showsNetworkActivityIndicator = false
     }
     

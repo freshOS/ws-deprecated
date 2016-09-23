@@ -13,23 +13,23 @@ import then
 
 extension WS {
 
-    public func get<T:ArrowParsable>(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func get<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
         return resourceCall(.GET, url: url, params: params)
     }
     
-    public func post<T:ArrowParsable>(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func post<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
         return resourceCall(.POST, url: url, params: params)
     }
     
-    public func put<T:ArrowParsable>(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func put<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
         return resourceCall(.PUT, url: url, params: params)
     }
     
-    public func delete<T:ArrowParsable>(_ url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    public func delete<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
         return resourceCall(.DELETE, url: url, params: params)
     }
     
-    private func resourceCall<T:ArrowParsable>(_ verb:WSHTTPVerb = .GET, url:String, params:[String:AnyObject] = [String:AnyObject]()) -> Promise<T> {
+    fileprivate func resourceCall<T:ArrowParsable>(_ verb:WSHTTPVerb = .GET, url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
