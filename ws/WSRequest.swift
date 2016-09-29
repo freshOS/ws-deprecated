@@ -21,7 +21,7 @@ open class WSRequest {
     
     open var baseURL = ""
     open var URL = ""
-    open var httpVerb = WSHTTPVerb.GET
+    open var httpVerb = WSHTTPVerb.get
     open var params = [String:Any]()
     open var returnsJSON = true
     open var OAuthToken: String?
@@ -55,7 +55,7 @@ open class WSRequest {
             r.timeoutInterval = t
         }
         
-        if httpVerb == .POST || httpVerb == .PUT {
+        if httpVerb == .post || httpVerb == .put {
             return try! postParameterEncoding.encode(r, with: params)
         } else {
             return try! URLEncoding.default.encode(r, with: params)
@@ -94,37 +94,35 @@ open class WSRequest {
     
     func sendMultipartRequest(_ resolve:@escaping (_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:@escaping (_ error: Error) -> Void, progress:@escaping (Float) -> Void) {
         upload(multipartFormData: { formData in
-//            for (key,value) in self.params {
-//                if let int = value as? Int {
-//                    let str = "\(int)"
-//                    if let d = str.data(using: String.Encoding.utf8) {
-//                        formData.append(d, withName: key)
-//                    }
-//                } else {
-//                    
-//                    if let d = NSNumber(value:value).data(using:String.Encoding.utf8) {
-//                        formData.append(d, withName: key)
-//                    }
-//                }
-//            }
+            for (key,value) in self.params {
+                if let int = value as? Int {
+                    let str = "\(int)"
+                    if let d = str.data(using: String.Encoding.utf8) {
+                        formData.append(d, withName: key)
+                    }
+                } else {
+                    if let str = value as? String, let data = str.data(using: String.Encoding.utf8) {
+                        formData.append(data, withName: key)
+                    }
+                }
+            }
             formData.append(self.multipartData,
                             withName: self.multipartName,
                             fileName: self.multipartFileName,
                             mimeType: self.multipartMimeType)
-        }, to: self.buildRequest() as! URLConvertible,
-           encodingCompletion: { encodingResult in
+        }, with: self.buildRequest()) { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):
-                
                 upload.uploadProgress { p in
                     progress(Float(p.fractionCompleted))
                 }.validate().responseJSON { r in
                     print("Upload done")
                     self.handleJSONResponse(r, resolve: resolve, reject: reject)
                 }
-            case .failure(_):()
+            case .failure(_):
+                print("error")
             }
-        })
+        }
     }
     
     func sendRequest(_ resolve:@escaping (_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:@escaping (_ error: Error) -> Void) {
@@ -161,10 +159,11 @@ open class WSRequest {
             if let json:JSON = JSON(value as AnyObject?) {
                 resolve((response.response?.statusCode ?? 0, response.response?.allHeaderFields ?? [:], json))
             } else {
-                rejectCallWithMatchingError(response.response, reject: reject)
+                rejectCallWithMatchingError(response.response, data:response.data, reject: reject)
             }
-        case .failure(_):
-            rejectCallWithMatchingError(response.response, reject: reject)
+        case .failure(let error):
+            print(error)
+            rejectCallWithMatchingError(response.response, data:response.data, reject: reject)
         }
     }
     
@@ -188,10 +187,10 @@ open class WSRequest {
     
     func methodForHTTPVerb(_ verb:WSHTTPVerb) -> HTTPMethod {
         switch verb {
-        case .GET : return .get
-        case .POST : return .post
-        case .PUT : return  .put
-        case .DELETE : return .delete
+        case .get : return .get
+        case .post : return .post
+        case .put : return  .put
+        case .delete : return .delete
         }
     }
 }

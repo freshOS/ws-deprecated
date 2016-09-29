@@ -99,6 +99,25 @@ class wsTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
+    func testMultipart() {
+        let exp = expectation(description: "")
+        let wsFileIO = WS("https://file.io")
+        wsFileIO.logLevels = .callsAndResponses
+        wsFileIO.postParameterEncoding = JSONEncoding.default
+        wsFileIO.showsNetworkActivityIndicator = false
+        
+        let imgPath = Bundle(for: type(of: self)).path(forResource: "1px", ofType: "jpg")
+        let img = UIImage(contentsOfFile: imgPath!)
+        let data = UIImageJPEGRepresentation(img!, 1.0)!
+        
+        wsFileIO.postMultipart("", name: "file", data: data, fileName: "file", mimeType: "image/jpeg").then { json in
+            exp.fulfill()
+        }.onError { error in
+            XCTFail()
+        }
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+    
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects
     func latestUsers() -> Promise<[User]> {

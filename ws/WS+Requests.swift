@@ -11,23 +11,23 @@ import Foundation
 extension WS {
     
     public func getRequest(_ url:String, params:[String:Any] = [String:Any]()) -> WSRequest {
-        return call(url, verb: .GET, params: params)
+        return call(url, verb: .get, params: params)
     }
     
     public func putRequest(_ url:String, params:[String:Any] = [String:Any]()) -> WSRequest {
-        return call(url, verb: .PUT, params: params)
+        return call(url, verb: .put, params: params)
     }
     
     public func postRequest(_ url:String, params:[String:Any] = [String:Any]()) -> WSRequest {
-        return call(url, verb: .POST, params: params)
+        return call(url, verb: .post, params: params)
     }
     
     public func deleteRequest(_ url:String, params:[String:Any] = [String:Any]()) -> WSRequest {
-        return call(url, verb: .DELETE, params: params)
+        return call(url, verb: .delete, params: params)
     }
     
     public func postMultipartRequest(_ url:String, params:[String:Any] = [String:Any](), name:String, data:Data, fileName:String, mimeType:String) -> WSRequest {
-        let c = call(url, verb: .POST, params: params)
+        let c = call(url, verb: .post, params: params)
         c.isMultipart = true
         c.multipartData = data
         c.multipartName = name
@@ -37,7 +37,7 @@ extension WS {
     }
     
     public func putMultipartRequest(_ url:String, params:[String:Any] = [String:Any](), name:String, data:Data, fileName:String, mimeType:String) -> WSRequest {
-        let c = call(url, verb: .PUT, params: params)
+        let c = call(url, verb: .put, params: params)
         c.isMultipart = true
         c.multipartData = data
         c.multipartName = name

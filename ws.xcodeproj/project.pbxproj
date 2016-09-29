@@ -21,6 +21,7 @@
 		99E3EDE11CB5A9DD0042C854 /* WS+Rest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDE01CB5A9DD0042C854 /* WS+Rest.swift */; };
 		99E3EDE31CB5ABAB0042C854 /* WS+TypedCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDE21CB5ABAB0042C854 /* WS+TypedCalls.swift */; };
 		99E3EDE51CB5ACD50042C854 /* WS+Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDE41CB5ACD50042C854 /* WS+Requests.swift */; };
+		99EEF3911D9C0CE400A04C42 /* 1px.jpg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 99EEF38F1D9C0CA700A04C42 /* 1px.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				99EEF3911D9C0CE400A04C42 /* 1px.jpg in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +65,7 @@
 		99E3EDE01CB5A9DD0042C854 /* WS+Rest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WS+Rest.swift"; sourceTree = "<group>"; };
 		99E3EDE21CB5ABAB0042C854 /* WS+TypedCalls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WS+TypedCalls.swift"; sourceTree = "<group>"; };
 		99E3EDE41CB5ACD50042C854 /* WS+Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WS+Requests.swift"; sourceTree = "<group>"; };
+		99EEF38F1D9C0CA700A04C42 /* 1px.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1px.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +127,7 @@
 		996CAB9E1BF67A7C00931EAD /* wsTests */ = {
 			isa = PBXGroup;
 			children = (
+				99EEF38F1D9C0CA700A04C42 /* 1px.jpg */,
 				996CAB9F1BF67A7C00931EAD /* wsTests.swift */,
 				99BD0D931CBE587000995392 /* Mapping */,
 				996CABA11BF67A7C00931EAD /* Info.plist */,

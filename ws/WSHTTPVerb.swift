@@ -9,8 +9,8 @@
 import Foundation
 
 public enum WSHTTPVerb:String {
-    case GET = "GET"
-    case PUT = "PUT"
-    case POST = "POST"
-    case DELETE = "DELETE"
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case delete = "DELETE"
 }

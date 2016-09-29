@@ -52,7 +52,7 @@ open class WS {
         baseURL = aBaseURL
     }
     
-    internal func call(_ url:String, verb:WSHTTPVerb = .GET, params:[String:Any] = [String:Any]()) -> WSRequest {
+    internal func call(_ url:String, verb:WSHTTPVerb = .get, params:[String:Any] = [String:Any]()) -> WSRequest {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
@@ -143,7 +143,7 @@ open class WS {
     // Keep here for now for backwards compatibility
     @available(*, deprecated: 1.2.1, message: "Use 'get' instead") open func list<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<[T]> {
         let c = defaultCall()
-        c.httpVerb = .GET
+        c.httpVerb = .get
         c.URL = url
         c.params = params
         // Apply corresponding JSON mapper
