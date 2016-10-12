@@ -46,37 +46,36 @@ Getting swift models from a JSON api is now *a problem of the past*
 
 ## Usage
 
-### Import ws at the top of your file
+### Bare JSON
 
 ```swift
-import ws
-```
+import ws // Import ws at the top of your file
+import Arrow // Import Arrow to get access to the JSON type
 
-### Set webservice base URL
+class ViewController: UIViewController {
 
-```swift
-let ws = WS("http://jsonplaceholder.typicode.com")
-```
+    // Set webservice base URL
+    let ws = WS("http://jsonplaceholder.typicode.com")
 
-### Get back some json instantly \o/
-```swift
-ws.get("/users").then { json in
-    print(json)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+       // Get back some json instantly \o/
+       ws.get("/users").then { (json:JSON) in
+           print(json)
+       }
+    }
 }
 ```
 
-### Design your Api
-
+### Set up Model parsing
+Create a `User+JSON.swift` file and map the JSON keys to your model properties
 ```swift
-func latestUsers() -> Promise<[User]> {
-    return ws.get("/users")
-}
-```
+import Arrow
 
-### Tell ws how to map your user models
-```swift
-extension User:ArrowParsable {
-    init(json: JSON) {
+extension User: ArrowParsable {
+
+    mutating func deserialize(_ json: JSON) {
         identifier <-- json["id"]
         username <-- json["username"]
         email <-- json["email"]
@@ -84,12 +83,51 @@ extension User:ArrowParsable {
 }
 ```
 
-### Get back some sweet swift models ❤️
+### Choose what you want back
+
+Here you are going to create a function that wraps your request.
+There are different ways of writing that function depending on what you want back. An empty block, the JSON, the model or the array of models.
+
 ```swift
-latestUsers().then { users in
-    print(users) // STRONGLY typed [Users] ❤️
+func voidCall() -> Promise<Void> {
+    return ws.get("/users")
 }
 
+func jsonCall() -> Promise<JSON> {
+    return ws.get("/users")
+}
+
+func singleModelCall() -> Promise<User> {
+    return ws.get("/users/3")
+}
+
+func modelArrayCall() -> Promise<[User]> {
+    return ws.get("/users")
+}
+```
+As you can notice, only by changing the return type,
+ws *automatically* knows what to do, for instance, try to parse the response into `User` models.
+
+This enables us to stay concise without having to write extra code. \o/
+
+### Get it!
+
+```swift
+voidCall().then {
+    print("done")
+}
+
+jsonCall().then { json in
+    print(json)
+}
+
+singleModelCall().then { user in
+    print(user) // Strongly typed User \o/
+}
+
+modelArrayCall().then { users in
+    print(users) // Strongly typed [User] \o/
+}
 ```
 
 ## Settings
