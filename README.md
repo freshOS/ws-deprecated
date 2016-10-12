@@ -82,6 +82,8 @@ extension User: ArrowParsable {
     }
 }
 ```
+*Note: `ws` uses `Arrow` for JSON Parsing
+https://github.com/freshOS/Arrow*
 
 ### Choose what you want back
 
@@ -109,6 +111,9 @@ As you can notice, only by changing the return type,
 ws *automatically* knows what to do, for instance, try to parse the response into `User` models.
 
 This enables us to stay concise without having to write extra code. \o/
+
+*Note: `ws` uses `then` for Promises
+https://github.com/freshOS/then*
 
 ### Get it!
 
