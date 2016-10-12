@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-import then
+import thenPromise
 import Arrow
 
 open class WSRequest {

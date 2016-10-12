@@ -8,7 +8,7 @@
 
 import Foundation
 import Arrow
-import then
+import thenPromise
 
 extension WS {
 

@@ -10,7 +10,7 @@
 import Foundation
 import Alamofire
 import Arrow
-import then
+import thenPromise
 
 var kWSJsonParsingSingleResourceKey:String? = nil
 var kWSJsonParsingColletionKey:String? = nil
