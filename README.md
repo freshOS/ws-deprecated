@@ -5,6 +5,7 @@
 [![Language: Swift 2 and 3](https://img.shields.io/badge/language-swift2|3-f48041.svg?style=flat)](https://developer.apple.com/swift)
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Cocoapods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/ws/blob/master/LICENSE)
 [![Build Status](https://www.bitrise.io/app/a6d157138f9ee86d.svg?token=W7-x9K5U976xiFrI8XqcJw)](https://www.bitrise.io/app/a6d157138f9ee86d)
 [![Release version](https://img.shields.io/badge/release-2.0-blue.svg)]()
@@ -197,7 +198,12 @@ Without Carthage, I'd see 2 solutions :
 2 - Manually link the frameworks (ws + dependencies) by A grabbing .frameworks them on each repo, or B use Carthage to build them
 
 ### Cocoapods
-Cocoapods is not supported at the moment.
+
+```
+target 'MyApp'
+pod 'ws'
+use_frameworks!
+```
 
 And voila !
 
