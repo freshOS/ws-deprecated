@@ -208,6 +208,118 @@ existingArticle.delete().then {
 }
 ```
 
+## Bonus - Load More pattern
+
+Very often we deal we lists and the ability to `load more` items.
+Here we are going to see an example implementation of this pattern using `ws`.
+This is not included because the logic itself depends on your backend implementation.
+This will give you an example for you to roll out your own version.
+
+### Implementation
+
+
+```swift
+import ws
+import then
+import Arrow
+
+
+class LoadMoreRequest<T:ArrowParsable> {
+
+    var limit = 12
+
+    private var params = [String:Any]()
+    private var offset = 0
+    private var call: WSRequest!
+    private var canLoadMore = true
+    private var aCallback:((_ ts: [T]) -> [T])? = nil
+
+    init(_ aCall: WSRequest) {
+        call = aCall
+    }
+
+    func resetOffset() {
+        offset = 0
+        canLoadMore = true
+    }
+
+    func hasMoreItemsToload() -> Bool {
+        return canLoadMore
+    }
+
+    func fetchNext() -> Promise<[T]> {
+        params = call.params
+        params["limit"] = limit
+        params["offset"] = offset
+        call.params = params
+        offset += limit
+        return call.fetch()
+                .registerThen(parseModels)
+                .resolveOnMainThread()
+    }
+
+    private func parseModels(_ json: JSON) -> [T] {
+        let mapper = WSModelJSONParser<T>()
+        let models = mapper.toModels(json)
+        if models.count < limit {
+            canLoadMore = false
+        }
+        return models
+    }
+}
+```
+As you can see, we have a strongly typed request.  
+The limit is adjustable.  
+It encapsulates a WSRequest.  
+It handles the offset logic and also wether or not there are more items to load.
+
+And that's all we need!
+
+Now, this is how  we build a `LoadMoreRequest`
+
+```swift
+func loadMoreUsersRequest() -> LoadMoreRequest<User> {
+    return LoadMoreRequest(ws.getRequest("/users"))
+}
+```
+
+### Usage
+And here is how we use it in our controllers :
+
+```swift
+class ViewController: UIViewController {
+
+    // Get a request
+    let request = api.loadMoreUsersRequest()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        request.limit = 5 // Set a limit if needed
+    }
+
+    func refresh() {
+      // Resets the request, usually plugged with
+      // the pull to refresh feature of a tableview
+      request.resetOffset()
+    }
+
+    func loadMore() {
+      // Get the next round of users
+      request.fetchNext().then { users in
+          print(users)
+      }
+    }
+
+    func shouldDisplayLoadMoreSpinner() -> Bool {
+      // This asks the requests if there are more items to come
+      // This is useful to know if we show the "load more" spinner
+      return request.hasMoreItemsToload()
+    }
+}
+```
+
+Here you go you now have a simple way to deal with load more requests in your App 🎉
+
 ## Installation
 
 ### Carthage
