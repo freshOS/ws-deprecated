@@ -29,7 +29,7 @@ extension WS {
         return resourceCall(.delete, url: url, params: params)
     }
     
-    fileprivate func resourceCall<T:ArrowParsable>(_ verb:WSHTTPVerb = .get, url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
+    fileprivate func resourceCall<T:ArrowParsable>(_ verb: WSHTTPVerb, url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
@@ -37,9 +37,7 @@ extension WS {
         
         // Apply corresponding JSON mapper
         return c.fetch().registerThen { (json: JSON) -> T in
-            let mapper = WSModelJSONParser<T>()
-            let model = mapper.toModel(json)
-            return model
+            return WSModelJSONParser<T>().toModel(json, keypath: keypath)
         }.resolveOnMainThread()
     }
 }

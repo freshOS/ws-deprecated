@@ -12,9 +12,6 @@ import Alamofire
 import Arrow
 import then
 
-var kWSJsonParsingSingleResourceKey:String? = nil
-var kWSJsonParsingColletionKey:String? = nil
-
 open class WS {
     
     /**
@@ -31,13 +28,11 @@ open class WS {
      */
     open var showsNetworkActivityIndicator = true
     
-    open var jsonParsingSingleResourceKey:String? = nil {
-        didSet { kWSJsonParsingSingleResourceKey = jsonParsingSingleResourceKey }
-    }
-    
-    open var jsonParsingColletionKey:String? = nil {
-        didSet { kWSJsonParsingColletionKey = jsonParsingColletionKey }
-    }
+    /**
+     Custom error handler block, to parse error returned in response body.
+     For example: `{ error: { code: 1, message: "Server error" } }`
+     */
+    open var errorHandler: ((JSON) -> Error?)? = nil
     
     open var baseURL = ""
     open var OAuthToken: String?
@@ -70,23 +65,22 @@ open class WS {
             r.OAuthToken = token
         }
         r.headers = headers
+        r.errorHandler = errorHandler
         return r
     }
     
     //MARK: - Calls
     
-    open func get<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<[T]> {
+    open func get<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<[T]> {
         return getRequest(url, params: params).fetch().registerThen { (json: JSON) -> [T] in
-            let mapper = WSModelJSONParser<T>()
-            let models = mapper.toModels(json)
-            return models
+            WSModelJSONParser<T>().toModels(json, keypath: keypath)
         }.resolveOnMainThread()
     }
     
     
     //MARK JSON versions
     
-    open func get(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<JSON> {
+    open func get(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<JSON> {
         return getRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
@@ -149,7 +143,7 @@ open class WS {
         // Apply corresponding JSON mapper
         return c.fetch().registerThen { (json: JSON) -> [T] in
             let mapper = WSModelJSONParser<T>()
-            let models = mapper.toModels(json)
+            let models = mapper.toModels(json, keypath: nil)
             return models
         }.resolveOnMainThread()
     }

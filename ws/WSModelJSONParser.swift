@@ -13,53 +13,29 @@ open class WSModelJSONParser<T:ArrowParsable> {
     
     public init() { }
     
-    open func toModel(_ json:JSON) -> T {
-        return resourceParsingBlock(json)!
+    open func toModel(_ json: JSON, keypath: String?) -> T {
+        let data = resourceData(from: json, keypath: keypath)
+        return resource(from: data)
     }
     
-    open func toModels(_ json:JSON) -> [T] {
-        if let resources = resourcesParsingBlock(json) {
-            return resources
-        } else {
+    open func toModels(_ json: JSON, keypath: String?) -> [T] {
+        guard let array = resourceData(from: json, keypath: keypath).collection else {
             return [T]()
         }
+        return array.map { resource(from: $0) }
     }
     
-    fileprivate func resourcesParsingBlock(_ json: JSON) -> [T]? {
-        var array = [T]()
-        let collection = collectionFrom(json)
-    
-        if let a = collection.data as? [AnyObject] {
-            for jsonEntry in a {
-                if let jsonPart = JSON(jsonEntry), let o:T = resourceParsingBlock(jsonPart) {
-                    array.append(o)
-                } else {
-                    return nil
-                }
-            }
-            return array
-        }
-        return nil
-    }
-    
-    fileprivate func resourceParsingBlock(_ json: JSON) -> T? {
-        let resourceKey = resourceKeyFromData(json)
+    private func resource(from json: JSON) -> T {
         var t = T()
-        t.deserialize(resourceKey)
+        t.deserialize(json)
         return t
     }
     
-    fileprivate let resourceKeyFromData = { (json: JSON) -> JSON in
-        if let k = kWSJsonParsingSingleResourceKey, let j = json[k] {
+    private func resourceData(from json: JSON, keypath: String?) -> JSON {
+        if let k = keypath, !k.isEmpty, let j = json[k] {
             return j
         }
         return json
     }
     
-    fileprivate func collectionFrom(_ json: JSON) -> JSON {
-        if let k = kWSJsonParsingColletionKey, let j = json[k] {
-            return j
-        }
-        return json
-    }
 }
