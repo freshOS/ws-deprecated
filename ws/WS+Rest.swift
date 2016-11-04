@@ -40,6 +40,7 @@ extension WS {
         return put(restURL(restResource), params: params)
     }
 
+    /// <Void> version
     public func put<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:Any] = [String:Any]()) -> Promise<Void> {
         return put(restURL(restResource), params: params)
     }
