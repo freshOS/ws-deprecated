@@ -11,9 +11,6 @@ import Alamofire
 import Arrow
 import then
 
-var kWSJsonParsingSingleResourceKey:String? = nil
-var kWSJsonParsingColletionKey:String? = nil
-
 open class WS {
     
     /**
@@ -30,13 +27,11 @@ open class WS {
      */
     open var showsNetworkActivityIndicator = true
     
-    open var jsonParsingSingleResourceKey:String? = nil {
-        didSet { kWSJsonParsingSingleResourceKey = jsonParsingSingleResourceKey }
-    }
-    
-    open var jsonParsingColletionKey:String? = nil {
-        didSet { kWSJsonParsingColletionKey = jsonParsingColletionKey }
-    }
+    /**
+     Custom error handler block, to parse error returned in response body.
+     For example: `{ error: { code: 1, message: "Server error" } }`
+     */
+    open var errorHandler: ((JSON) -> Error?)? = nil
     
     open var baseURL = ""
     open var OAuthToken: String?
@@ -71,12 +66,13 @@ open class WS {
             r.OAuthToken = token
         }
         r.headers = headers
+        r.errorHandler = errorHandler
         return r
     }
     
     // MARK: JSON calls
     
-    open func get(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<JSON> {
+    open func get(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<JSON> {
         return getRequest(url, params: params).fetch().resolveOnMainThread()
     }
     

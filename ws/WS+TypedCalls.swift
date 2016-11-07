@@ -13,31 +13,29 @@ import then
 
 extension WS {
 
-    public func get<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<[T]> {
+    public func get<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<[T]> {
         return getRequest(url, params: params).fetch().registerThen { (json: JSON) -> [T] in
-            let mapper = WSModelJSONParser<T>()
-            let models = mapper.toModels(json)
-            return models
+            WSModelJSONParser<T>().toModels(json, keypath: keypath)
             }.resolveOnMainThread()
     }
     
-    public func get<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
+    public func get<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<T> {
         return resourceCall(.get, url: url, params: params)
     }
     
-    public func post<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
+    public func post<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<T> {
         return resourceCall(.post, url: url, params: params)
     }
     
-    public func put<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
+    public func put<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<T> {
         return resourceCall(.put, url: url, params: params)
     }
     
-    public func delete<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
+    public func delete<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<T> {
         return resourceCall(.delete, url: url, params: params)
     }
     
-    fileprivate func resourceCall<T:ArrowParsable>(_ verb:WSHTTPVerb = .get, url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
+    private func resourceCall<T:ArrowParsable>(_ verb: WSHTTPVerb, url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
@@ -45,9 +43,7 @@ extension WS {
         
         // Apply corresponding JSON mapper
         return c.fetch().registerThen { (json: JSON) -> T in
-            let mapper = WSModelJSONParser<T>()
-            let model = mapper.toModel(json)
-            return model
+            return WSModelJSONParser<T>().toModel(json, keypath: keypath)
         }.resolveOnMainThread()
     }
 }

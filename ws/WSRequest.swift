@@ -31,7 +31,10 @@ open class WSRequest {
     open var logLevels = WSLogLevel.none
     open var postParameterEncoding: ParameterEncoding = URLEncoding()
     open var showsNetworkActivityIndicator = true
+    open var errorHandler: ((JSON) -> Error?)? = nil
+    
     fileprivate var req:DataRequest?//Alamofire.Request?
+    
     public init() {}
     
     open func cancel() {
@@ -156,7 +159,11 @@ open class WSRequest {
             if logLevels == .callsAndResponses {
                 print(value)
             }
-            if let json:JSON = JSON(value as AnyObject?) {
+            if let json: JSON = JSON(value as AnyObject?) {
+                if let error = errorHandler?(json) {
+                    reject(error)
+                    return
+                }
                 resolve((response.response?.statusCode ?? 0, response.response?.allHeaderFields ?? [:], json))
             } else {
                 rejectCallWithMatchingError(response.response, data:response.data, reject: reject)
