@@ -6,7 +6,6 @@
 //  Copyright © 2015 s4cha. All rights reserved.
 //
 
-
 import Foundation
 import Alamofire
 import Arrow
@@ -47,6 +46,8 @@ open class WS {
         baseURL = aBaseURL
     }
     
+    // MARK: - Calls
+    
     internal func call(_ url:String, verb:WSHTTPVerb = .get, params:[String:Any] = [String:Any]()) -> WSRequest {
         let c = defaultCall()
         c.httpVerb = verb
@@ -69,16 +70,7 @@ open class WS {
         return r
     }
     
-    //MARK: - Calls
-    
-    open func get<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<[T]> {
-        return getRequest(url, params: params).fetch().registerThen { (json: JSON) -> [T] in
-            WSModelJSONParser<T>().toModels(json, keypath: keypath)
-        }.resolveOnMainThread()
-    }
-    
-    
-    //MARK JSON versions
+    // MARK: JSON calls
     
     open func get(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<JSON> {
         return getRequest(url, params: params).fetch().resolveOnMainThread()
@@ -96,7 +88,7 @@ open class WS {
         return deleteRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
-    //MARK Void versions
+    // MARK: Void calls
     
     open func get(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<Void> {
         let r = getRequest(url, params: params)
@@ -122,7 +114,7 @@ open class WS {
         return r.fetch().registerThen { (_: JSON) -> Void in }.resolveOnMainThread()
     }
     
-    //MARK: - Multipart
+    // MARK: - Multipart
     
     open func postMultipart(_ url:String, params:[String:Any] = [String:Any](), name:String, data:Data, fileName:String, mimeType:String) -> Promise<JSON> {
         let r = postMultipartRequest(url, params:params, name:name, data: data, fileName: fileName, mimeType: mimeType)
@@ -134,22 +126,7 @@ open class WS {
         return r.fetch().resolveOnMainThread()
     }
     
-    // Keep here for now for backwards compatibility
-    @available(*, deprecated: 1.2.1, message: "Use 'get' instead") open func list<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<[T]> {
-        let c = defaultCall()
-        c.httpVerb = .get
-        c.URL = url
-        c.params = params
-        // Apply corresponding JSON mapper
-        return c.fetch().registerThen { (json: JSON) -> [T] in
-            let mapper = WSModelJSONParser<T>()
-            let models = mapper.toModels(json, keypath: nil)
-            return models
-        }.resolveOnMainThread()
-    }
 }
-
-
 
 
 public extension Promise {
