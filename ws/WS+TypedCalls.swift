@@ -13,6 +13,14 @@ import then
 
 extension WS {
 
+    public func get<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<[T]> {
+        return getRequest(url, params: params).fetch().registerThen { (json: JSON) -> [T] in
+            let mapper = WSModelJSONParser<T>()
+            let models = mapper.toModels(json)
+            return models
+            }.resolveOnMainThread()
+    }
+    
     public func get<T:ArrowParsable>(_ url:String, params:[String:Any] = [String:Any]()) -> Promise<T> {
         return resourceCall(.get, url: url, params: params)
     }
