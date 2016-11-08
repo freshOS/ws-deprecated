@@ -19,20 +19,20 @@ extension WS {
             }.resolveOnMainThread()
     }
     
-    public func get<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<T> {
-        return resourceCall(.get, url: url, params: params)
+    public func get<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+        return resourceCall(.get, url: url, params: params, keypath: keypath)
     }
     
-    public func post<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<T> {
-        return resourceCall(.post, url: url, params: params)
+    public func post<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+        return resourceCall(.post, url: url, params: params, keypath: keypath)
     }
     
-    public func put<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<T> {
-        return resourceCall(.put, url: url, params: params)
+    public func put<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+        return resourceCall(.put, url: url, params: params, keypath: keypath)
     }
     
-    public func delete<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<T> {
-        return resourceCall(.delete, url: url, params: params)
+    public func delete<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+        return resourceCall(.delete, url: url, params: params, keypath: keypath)
     }
     
     private func resourceCall<T:ArrowParsable>(_ verb: WSHTTPVerb, url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
