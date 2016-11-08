@@ -13,12 +13,12 @@ open class WSModelJSONParser<T:ArrowParsable> {
     
     public init() { }
     
-    open func toModel(_ json: JSON, keypath: String?) -> T {
+    open func toModel(_ json: JSON, keypath: String? = nil) -> T {
         let data = resourceData(from: json, keypath: keypath)
         return resource(from: data)
     }
     
-    open func toModels(_ json: JSON, keypath: String?) -> [T] {
+    open func toModels(_ json: JSON, keypath: String? = nil) -> [T] {
         guard let array = resourceData(from: json, keypath: keypath).collection else {
             return [T]()
         }
