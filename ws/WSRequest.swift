@@ -24,7 +24,6 @@ open class WSRequest {
     open var httpVerb = WSHTTPVerb.get
     open var params = [String:Any]()
     open var returnsJSON = true
-    open var OAuthToken: String?
     open var headers = [String: String]()
     open var fullURL:String { return baseURL + URL}
     open var timeout:TimeInterval?
@@ -45,14 +44,11 @@ open class WSRequest {
         let url = Foundation.URL(string: fullURL)!
         var r = URLRequest(url: url)
         r.httpMethod = httpVerb.rawValue
-        if let token = OAuthToken {
-            r.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization") // Test without bearer
-            if logLevels != .none {
-                print("TOKEN :\(token)")
-            }
-        }
         for (key, value) in headers {
             r.setValue(value, forHTTPHeaderField: key)
+            if logLevels != .none {
+                print("Headers : \(key) :\(value)")
+            }
         }
         if let t = timeout {
             r.timeoutInterval = t
