@@ -12,13 +12,13 @@
 		503461C11DCE0F1E002144C3 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503461B91DCE0EE2002144C3 /* then.framework */; };
 		50E9DBA21DCCB2F800E8A896 /* mappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DBA11DCCB2F800E8A896 /* mappingTests.swift */; };
 		9924FCE51DD76B4100FFBB26 /* WSNetworkIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9924FCE41DD76B4100FFBB26 /* WSNetworkIndicator.swift */; };
+		9940F4221DD8A3CB00A02425 /* WSLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9940F4211DD8A3CB00A02425 /* WSLogger.swift */; };
 		996CAB941BF67A7C00931EAD /* ws.h in Headers */ = {isa = PBXBuildFile; fileRef = 996CAB931BF67A7C00931EAD /* ws.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 996CAB901BF67A7C00931EAD /* ws.framework */; };
 		996CABA01BF67A7C00931EAD /* wsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996CAB9F1BF67A7C00931EAD /* wsTests.swift */; };
 		99BD0D951CBE587900995392 /* Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99BD0D941CBE587900995392 /* Mapping.swift */; };
 		99CCC3111BF67C1500497064 /* WS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99CCC3101BF67C1500497064 /* WS.swift */; };
 		99E3EDD51CB5A1490042C854 /* WSRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDD41CB5A1490042C854 /* WSRequest.swift */; };
-		99E3EDD71CB5A1B80042C854 /* WSLogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDD61CB5A1B80042C854 /* WSLogLevel.swift */; };
 		99E3EDD91CB5A1DE0042C854 /* WSModelJSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDD81CB5A1DE0042C854 /* WSModelJSONParser.swift */; };
 		99E3EDDB1CB5A8A70042C854 /* WSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDDA1CB5A8A70042C854 /* WSError.swift */; };
 		99E3EDDD1CB5A8E50042C854 /* WSHTTPVerb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99E3EDDC1CB5A8E50042C854 /* WSHTTPVerb.swift */; };
@@ -140,6 +140,7 @@
 		503461B21DCE0EE2002144C3 /* then.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = then.xcodeproj; path = Carthage/Checkouts/then/then.xcodeproj; sourceTree = "<group>"; };
 		50E9DBA11DCCB2F800E8A896 /* mappingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mappingTests.swift; sourceTree = "<group>"; };
 		9924FCE41DD76B4100FFBB26 /* WSNetworkIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSNetworkIndicator.swift; sourceTree = "<group>"; };
+		9940F4211DD8A3CB00A02425 /* WSLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSLogger.swift; sourceTree = "<group>"; };
 		996CAB901BF67A7C00931EAD /* ws.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ws.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		996CAB931BF67A7C00931EAD /* ws.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ws.h; sourceTree = "<group>"; };
 		996CAB951BF67A7C00931EAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -149,7 +150,6 @@
 		99BD0D941CBE587900995392 /* Mapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mapping.swift; sourceTree = "<group>"; };
 		99CCC3101BF67C1500497064 /* WS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WS.swift; sourceTree = "<group>"; };
 		99E3EDD41CB5A1490042C854 /* WSRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSRequest.swift; sourceTree = "<group>"; };
-		99E3EDD61CB5A1B80042C854 /* WSLogLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSLogLevel.swift; sourceTree = "<group>"; };
 		99E3EDD81CB5A1DE0042C854 /* WSModelJSONParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSModelJSONParser.swift; sourceTree = "<group>"; };
 		99E3EDDA1CB5A8A70042C854 /* WSError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSError.swift; sourceTree = "<group>"; };
 		99E3EDDC1CB5A8E50042C854 /* WSHTTPVerb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSHTTPVerb.swift; sourceTree = "<group>"; };
@@ -253,8 +253,8 @@
 				99E3EDD81CB5A1DE0042C854 /* WSModelJSONParser.swift */,
 				99E3EDDA1CB5A8A70042C854 /* WSError.swift */,
 				99E3EDDC1CB5A8E50042C854 /* WSHTTPVerb.swift */,
-				99E3EDD61CB5A1B80042C854 /* WSLogLevel.swift */,
 				9924FCE41DD76B4100FFBB26 /* WSNetworkIndicator.swift */,
+				9940F4211DD8A3CB00A02425 /* WSLogger.swift */,
 				996CAB951BF67A7C00931EAD /* Info.plist */,
 			);
 			path = ws;
@@ -486,7 +486,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				99E3EDD91CB5A1DE0042C854 /* WSModelJSONParser.swift in Sources */,
-				99E3EDD71CB5A1B80042C854 /* WSLogLevel.swift in Sources */,
 				99E3EDDB1CB5A8A70042C854 /* WSError.swift in Sources */,
 				9924FCE51DD76B4100FFBB26 /* WSNetworkIndicator.swift in Sources */,
 				99E3EDE51CB5ACD50042C854 /* WS+Requests.swift in Sources */,
@@ -494,6 +493,7 @@
 				99E3EDDD1CB5A8E50042C854 /* WSHTTPVerb.swift in Sources */,
 				99E3EDE31CB5ABAB0042C854 /* WS+TypedCalls.swift in Sources */,
 				99E3EDD51CB5A1490042C854 /* WSRequest.swift in Sources */,
+				9940F4221DD8A3CB00A02425 /* WSLogger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

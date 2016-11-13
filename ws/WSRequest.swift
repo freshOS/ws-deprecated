@@ -27,10 +27,15 @@ open class WSRequest {
     open var headers = [String: String]()
     open var fullURL:String { return baseURL + URL}
     open var timeout:TimeInterval?
-    open var logLevels = WSLogLevel.none
+    open var logLevels:WSLogLevel {
+        get { return logger.logLevels }
+        set { logger.logLevels = newValue }
+    }
     open var postParameterEncoding: ParameterEncoding = URLEncoding()
     open var showsNetworkActivityIndicator = true
     open var errorHandler: ((JSON) -> Error?)? = nil
+    
+    private let logger = WSLogger()
     
     fileprivate var req:DataRequest?//Alamofire.Request?
     
@@ -73,13 +78,6 @@ open class WSRequest {
                 if self.showsNetworkActivityIndicator {
                     WSNetworkIndicator.shared.startRequest()
                 }
-                if self.logLevels != .none {
-                    print("\(self.httpVerb) \(self.URL)")
-                    print("params : \(self.params)")
-                    if self.isMultipart {
-                        print("\(self.multipartName): \(self.multipartMimeType) \(self.multipartFileName)")
-                    }
-                }
                 if self.isMultipart {
                     self.sendMultipartRequest(resolve, reject: reject, progress:progress)
                 } else if !self.returnsJSON {
@@ -115,21 +113,21 @@ open class WSRequest {
                 upload.uploadProgress { p in
                     progress(Float(p.fractionCompleted))
                 }.validate().responseJSON { r in
-                    print("Upload done")
                     self.handleJSONResponse(r, resolve: resolve, reject: reject)
                 }
-            case .failure(_):
-                print("error")
+            case .failure(_): ()
             }
         }
+        logger.logMultipartRequest(self)
     }
     
     func sendRequest(_ resolve:@escaping (_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:@escaping (_ error: Error) -> Void) {
         self.req = request(self.buildRequest())
+        logger.logRequest(self.req!)
         let bgQueue = DispatchQueue.global(qos:DispatchQoS.QoSClass.default)
         req?.validate().response(queue: bgQueue) { response in
             WSNetworkIndicator.shared.stopRequest()
-            self.printResponseStatusCodeIfNeeded(response.response)
+            self.logger.logResponse(response)
             if response.error == nil {
                 resolve((response.response?.statusCode ?? 0, response.response?.allHeaderFields ?? [:], JSON(1 as AnyObject)!))
             } else {
@@ -140,6 +138,7 @@ open class WSRequest {
     
     func sendJSONRequest(_ resolve:@escaping (_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:@escaping (_ error: Error) -> Void) {
         self.req = request(self.buildRequest())
+        logger.logRequest(self.req!)
         let bgQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.default)
         req?.validate().responseJSON(queue: bgQueue) { r in
             self.handleJSONResponse(r, resolve: resolve, reject: reject)
@@ -148,12 +147,9 @@ open class WSRequest {
     
     func handleJSONResponse(_ response:DataResponse<Any>, resolve:(_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:(_ error: Error) -> Void) {
         WSNetworkIndicator.shared.stopRequest()
-        printResponseStatusCodeIfNeeded(response.response)
+        logger.logResponse(response)
         switch response.result {
         case .success(let value):
-            if logLevels == .callsAndResponses {
-                print(value)
-            }
             if let json: JSON = JSON(value as AnyObject?) {
                 if let error = errorHandler?(json) {
                     reject(error)
@@ -163,17 +159,8 @@ open class WSRequest {
             } else {
                 rejectCallWithMatchingError(response.response, data:response.data, reject: reject)
             }
-        case .failure(let error):
-            print(error)
+        case .failure(_):
             rejectCallWithMatchingError(response.response, data:response.data, reject: reject)
-        }
-    }
-    
-    func printResponseStatusCodeIfNeeded(_ response:HTTPURLResponse?) {
-        if logLevels == .callsAndResponses {
-            if let sc = response?.statusCode {
-                print("CODE: \(sc)")
-            }
         }
     }
     
