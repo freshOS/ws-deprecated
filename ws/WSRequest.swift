@@ -71,7 +71,7 @@ open class WSRequest {
         return Promise<(Int, [AnyHashable: Any], JSON)> { resolve, reject, progress in
             DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
                 if self.showsNetworkActivityIndicator {
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = true
+                    WSNetworkIndicator.shared.startRequest()
                 }
                 if self.logLevels != .none {
                     print("\(self.httpVerb) \(self.URL)")
@@ -128,7 +128,7 @@ open class WSRequest {
         self.req = request(self.buildRequest())
         let bgQueue = DispatchQueue.global(qos:DispatchQoS.QoSClass.default)
         req?.validate().response(queue: bgQueue) { response in
-            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            WSNetworkIndicator.shared.stopRequest()
             self.printResponseStatusCodeIfNeeded(response.response)
             if response.error == nil {
                 resolve((response.response?.statusCode ?? 0, response.response?.allHeaderFields ?? [:], JSON(1 as AnyObject)!))
@@ -147,9 +147,8 @@ open class WSRequest {
     }
     
     func handleJSONResponse(_ response:DataResponse<Any>, resolve:(_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:(_ error: Error) -> Void) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        WSNetworkIndicator.shared.stopRequest()
         printResponseStatusCodeIfNeeded(response.response)
-        
         switch response.result {
         case .success(let value):
             if logLevels == .callsAndResponses {

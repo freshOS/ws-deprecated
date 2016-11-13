@@ -11,6 +11,7 @@
 		503461C01DCE0F16002144C3 /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503461AF1DCE0EDC002144C3 /* Arrow.framework */; };
 		503461C11DCE0F1E002144C3 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503461B91DCE0EE2002144C3 /* then.framework */; };
 		50E9DBA21DCCB2F800E8A896 /* mappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DBA11DCCB2F800E8A896 /* mappingTests.swift */; };
+		9924FCE51DD76B4100FFBB26 /* WSNetworkIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9924FCE41DD76B4100FFBB26 /* WSNetworkIndicator.swift */; };
 		996CAB941BF67A7C00931EAD /* ws.h in Headers */ = {isa = PBXBuildFile; fileRef = 996CAB931BF67A7C00931EAD /* ws.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 996CAB901BF67A7C00931EAD /* ws.framework */; };
 		996CABA01BF67A7C00931EAD /* wsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 996CAB9F1BF67A7C00931EAD /* wsTests.swift */; };
@@ -138,6 +139,7 @@
 		503461A91DCE0EDC002144C3 /* Arrow.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Arrow.xcodeproj; path = Carthage/Checkouts/Arrow/Arrow.xcodeproj; sourceTree = "<group>"; };
 		503461B21DCE0EE2002144C3 /* then.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = then.xcodeproj; path = Carthage/Checkouts/then/then.xcodeproj; sourceTree = "<group>"; };
 		50E9DBA11DCCB2F800E8A896 /* mappingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mappingTests.swift; sourceTree = "<group>"; };
+		9924FCE41DD76B4100FFBB26 /* WSNetworkIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSNetworkIndicator.swift; sourceTree = "<group>"; };
 		996CAB901BF67A7C00931EAD /* ws.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ws.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		996CAB931BF67A7C00931EAD /* ws.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ws.h; sourceTree = "<group>"; };
 		996CAB951BF67A7C00931EAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				99E3EDDA1CB5A8A70042C854 /* WSError.swift */,
 				99E3EDDC1CB5A8E50042C854 /* WSHTTPVerb.swift */,
 				99E3EDD61CB5A1B80042C854 /* WSLogLevel.swift */,
+				9924FCE41DD76B4100FFBB26 /* WSNetworkIndicator.swift */,
 				996CAB951BF67A7C00931EAD /* Info.plist */,
 			);
 			path = ws;
@@ -485,6 +488,7 @@
 				99E3EDD91CB5A1DE0042C854 /* WSModelJSONParser.swift in Sources */,
 				99E3EDD71CB5A1B80042C854 /* WSLogLevel.swift in Sources */,
 				99E3EDDB1CB5A8A70042C854 /* WSError.swift in Sources */,
+				9924FCE51DD76B4100FFBB26 /* WSNetworkIndicator.swift in Sources */,
 				99E3EDE51CB5ACD50042C854 /* WS+Requests.swift in Sources */,
 				99CCC3111BF67C1500497064 /* WS.swift in Sources */,
 				99E3EDDD1CB5A8E50042C854 /* WSHTTPVerb.swift in Sources */,
