@@ -19,9 +19,7 @@ open class WS {
         This is overidden by the per-request keypath if present.
      
      */
-    open var defaultCollectionParsingKeyPath:String? = nil {
-        didSet{ kWSDefaultCollectionParsingKeyPath = defaultCollectionParsingKeyPath }
-    }
+    open var defaultCollectionParsingKeyPath:String? = nil
     
     @available(*, unavailable, renamed:"defaultCollectionParsingKeyPath")
     open var jsonParsingColletionKey:String? = nil

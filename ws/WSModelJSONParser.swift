@@ -9,22 +9,17 @@
 import Foundation
 import Arrow
 
-
-var kWSDefaultCollectionParsingKeyPath:String? = nil
-
 open class WSModelJSONParser<T:ArrowParsable> {
     
     public init() { }
     
-    open func toModel(_ json: JSON) -> T {
-        return resource(from: json)
+    open func toModel(_ json: JSON, keypath: String? = nil) -> T {
+        let data = resourceData(from: json, keypath: keypath)
+        return resource(from: data)
     }
     
-    open func toModels(_ json: JSON) -> [T] {
-        if let k = kWSDefaultCollectionParsingKeyPath, let j = json[k], let array = j.collection {
-            return array.map { resource(from: $0) }
-        }
-        guard let array = json.collection else {
+    open func toModels(_ json: JSON, keypath: String? = nil) -> [T] {
+        guard let array = resourceData(from: json, keypath: keypath).collection else {
             return [T]()
         }
         return array.map { resource(from: $0) }
@@ -35,4 +30,12 @@ open class WSModelJSONParser<T:ArrowParsable> {
         t.deserialize(json)
         return t
     }
+    
+    private func resourceData(from json: JSON, keypath: String?) -> JSON {
+        if let k = keypath, !k.isEmpty, let j = json[k] {
+            return j
+        }
+        return json
+    }
+    
 }

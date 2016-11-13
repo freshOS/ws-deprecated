@@ -12,17 +12,12 @@ import then
 
 
 extension WS {
-
+    
     public func get<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<[T]> {
+        let keypath = keypath ?? defaultCollectionParsingKeyPath
         return getRequest(url, params: params).fetch().registerThen { (json: JSON) -> [T] in
-            var subJSON = json
-            if let k = keypath, !k.isEmpty, let j = json[k] {
-                subJSON = j
-            } else if let k = self.defaultCollectionParsingKeyPath, !k.isEmpty, let j = json[k] {
-                subJSON = j
-            }
-            return WSModelJSONParser<T>().toModels(subJSON)
-        }.resolveOnMainThread()
+            WSModelJSONParser<T>().toModels(json, keypath: keypath)
+            }.resolveOnMainThread()
     }
     
     public func get<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
@@ -49,10 +44,7 @@ extension WS {
         
         // Apply corresponding JSON mapper
         return c.fetch().registerThen { (json: JSON) -> T in
-            if let k = keypath, !k.isEmpty, let j = json[k] {
-                return WSModelJSONParser<T>().toModel(j)
-            }
-            return WSModelJSONParser<T>().toModel(json)
+            return WSModelJSONParser<T>().toModel(json, keypath: keypath)
         }.resolveOnMainThread()
     }
 }
