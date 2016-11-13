@@ -46,11 +46,6 @@ struct Geo {
     var lng = ""
 }
 
-extension User:RestResource {
-    static func restName() -> String { return "users" }
-    func restId() -> String { return "\(identifier)" }
-}
-
 // MARK: - Usage
 
 class wsTests: XCTestCase {
