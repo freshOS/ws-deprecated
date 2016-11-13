@@ -14,6 +14,18 @@ import then
 open class WS {
     
     /**
+        Instead of using the same keypath for every call eg: "collection",
+        this enables to use a default keypath for parsing collections.
+        This is overidden by the per-request keypath if present.
+     
+     */
+    open var defaultCollectionParsingKeyPath:String? = nil
+    
+    @available(*, unavailable, renamed:"defaultCollectionParsingKeyPath")
+    open var jsonParsingColletionKey:String? = nil
+    
+    
+    /**
         Prints network calls to the console. 
         Values Available are .None, Calls and CallsAndResponses.
         Default is None

@@ -12,8 +12,9 @@ import then
 
 
 extension WS {
-
+    
     public func get<T:ArrowParsable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<[T]> {
+        let keypath = keypath ?? defaultCollectionParsingKeyPath
         return getRequest(url, params: params).fetch().registerThen { (json: JSON) -> [T] in
             WSModelJSONParser<T>().toModels(json, keypath: keypath)
             }.resolveOnMainThread()
