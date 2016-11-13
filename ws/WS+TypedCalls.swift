@@ -46,4 +46,27 @@ extension WS {
             return WSModelJSONParser<T>().toModel(json, keypath: keypath)
         }.resolveOnMainThread()
     }
+    
+}
+
+extension WS {
+    
+    func get<T>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+        return get(url, params: params).registerThen { (json: JSON) in
+            return Promise<T> { (resolve, reject) in
+                var data = json
+                if let k = keypath, !k.isEmpty, let j = json[k] {
+                    data = j
+                }
+                var t: T?
+                t <-- data
+                if let t = t {
+                    resolve(t)
+                } else {
+                    reject(NSError(domain: "WSError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to parse response"]))
+                }
+            }
+        }
+    }
+
 }

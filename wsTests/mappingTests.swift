@@ -16,6 +16,11 @@ struct Article {
     var name: String = ""
 }
 
+enum Count: Int {
+    case one = 1
+    case two = 2
+}
+
 extension Article: ArrowParsable {
     mutating func deserialize(_ json: JSON) {
         id <-- json["id"]
@@ -49,6 +54,8 @@ extension Article: ArrowParsable {
 class mappingTests: XCTestCase {
     
     var ws: WS!
+    
+    private let path = "581c82711000003c24ea7806"
     
     override func setUp() {
         super.setUp()
@@ -87,8 +94,29 @@ class mappingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
+    func testTypeMapping() {
+        let e = expectation(description: "")
+        
+        getArticlesCount()
+            .then({ count in
+                XCTAssertEqual(count, Count.two)
+                e.fulfill()
+            })
+            .onError({ error in
+                print("ERROR: \(error)")
+                XCTFail()
+                e.fulfill()
+            })
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+    
     func getArticles() -> Promise<[Article]> {
-        return ws.get("581c82711000003c24ea7806", keypath: "articles")
+        return ws.get(path, keypath: "articles")
+    }
+    
+    func getArticlesCount() -> Promise<Count> {
+        return ws.get(path, keypath: "count")
     }
     
 }
