@@ -46,7 +46,6 @@ open class WS {
     open var errorHandler: ((JSON) -> Error?)? = nil
     
     open var baseURL = ""
-    open var OAuthToken: String?
     open var headers = [String: String]()
     
     /**
@@ -74,9 +73,6 @@ open class WS {
         r.logLevels = logLevels
         r.postParameterEncoding = postParameterEncoding
         r.showsNetworkActivityIndicator = showsNetworkActivityIndicator
-        if let token = OAuthToken {
-            r.OAuthToken = token
-        }
         r.headers = headers
         r.errorHandler = errorHandler
         return r
