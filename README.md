@@ -320,6 +320,51 @@ class ViewController: UIViewController {
 
 Here you go you now have a simple way to deal with load more requests in your App 🎉
 
+
+## Bonus - Simplifying restful routes usage
+
+When working with a `RESTFUL` api, we can have fun and go a little further.
+
+By introducing a `RestResource` protocol
+```swift
+public protocol RestResource {
+    static func restName() -> String
+    func restId() -> String
+}
+```
+We can have a function that builds our `REST` URL
+```swift
+public func restURL<T:RestResource>(_ r:T) -> String {
+    return "/\(T.restName())/\(r.restId())"
+}
+```
+
+We conform our `User` Model to the protocol
+```swift
+extension User:RestResource {
+    static func restName() -> String { return "users" }
+    func restId() -> String { return "\(identifier)" }
+}
+```
+
+
+And we can implement a version of `get` that takes our a `RestResource`
+
+```swift
+public func get<T:ArrowParsable & RestResource>(_ restResource:T, params:[String:Any] = [String:Any]()) -> Promise<T> {               
+    return get(restURL(restResource), params: params)
+}
+```
+then
+
+```swift
+ws.get("/users/\(user.identifier)")
+```
+Can be written like :
+```swift
+ws.get(user)
+```
+Of course, the same logic can be applied to the all the other ws functions (`post`, `put` `delete` etc) ! 🎉
 ## Installation
 
 ### Carthage
