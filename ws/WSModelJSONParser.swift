@@ -9,10 +9,33 @@
 import Foundation
 import Arrow
 
-open class WSModelJSONParser<T:ArrowParsable> {
+open class WSModelJSONParser<T> {
     
     public init() { }
     
+    fileprivate func resourceData(from json: JSON, keypath: String?) -> JSON {
+        if let k = keypath, !k.isEmpty, let j = json[k] {
+            return j
+        }
+        return json
+    }
+    
+}
+
+extension WSModelJSONParser where T: ArrowInitializable {
+    
+    open func toModel(_ json: JSON, keypath: String? = nil) -> T? {
+        return T.init(resourceData(from: json, keypath: keypath))
+    }
+ 
+    open func toModels(_ json: JSON, keypath: String? = nil) -> [T]? {
+        return Array<T>.init(resourceData(from: json, keypath: keypath))
+    }
+    
+}
+
+extension WSModelJSONParser where T: ArrowParsable {
+
     open func toModel(_ json: JSON, keypath: String? = nil) -> T {
         let data = resourceData(from: json, keypath: keypath)
         return resource(from: data)
@@ -29,13 +52,6 @@ open class WSModelJSONParser<T:ArrowParsable> {
         var t = T()
         t.deserialize(json)
         return t
-    }
-    
-    private func resourceData(from json: JSON, keypath: String?) -> JSON {
-        if let k = keypath, !k.isEmpty, let j = json[k] {
-            return j
-        }
-        return json
     }
     
 }

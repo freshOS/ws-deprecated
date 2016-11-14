@@ -23,6 +23,13 @@ extension Article: ArrowParsable {
     }
 }
 
+enum FooBar: String {
+    case foo = "Foo"
+    case bar = "Bar"
+}
+
+extension FooBar: ArrowInitializable {}
+
 /**
  TEST JSON:
  {
@@ -49,6 +56,8 @@ extension Article: ArrowParsable {
 class mappingTests: XCTestCase {
     
     var ws: WS!
+    
+    private let path = "581c82711000003c24ea7806"
     
     override func setUp() {
         super.setUp()
@@ -87,8 +96,50 @@ class mappingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
+    func testTypeMapping() {
+        let e = expectation(description: "")
+        
+        getArticlesCount()
+            .then({ count in
+                XCTAssertEqual(count, 2)
+                e.fulfill()
+            })
+            .onError({ error in
+                print("ERROR: \(error)")
+                XCTFail()
+                e.fulfill()
+            })
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testRawTypeMapping() {
+        let e = expectation(description: "")
+        
+        getFooBar()
+            .then({ foobar in
+                XCTAssertEqual(foobar, FooBar.foo)
+                e.fulfill()
+            })
+            .onError({ error in
+                print("ERROR: \(error)")
+                XCTFail()
+                e.fulfill()
+            })
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+    
     func getArticles() -> Promise<[Article]> {
-        return ws.get("581c82711000003c24ea7806", keypath: "articles")
+        return ws.get(path, keypath: "articles")
+    }
+    
+    func getArticlesCount() -> Promise<Int> {
+        return ws.get(path, keypath: "count")
+    }
+    
+    func getFooBar() -> Promise<FooBar> {
+        return ws.get(path, keypath: "articles.0.name")
     }
     
 }
