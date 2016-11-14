@@ -52,23 +52,36 @@ extension WS {
 
 extension WS {
     
-    public func get<T>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+    public func get<T: ArrowInitializable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<[T]> {
+        let keypath = keypath ?? defaultCollectionParsingKeyPath
+        return getRequest(url, params: params).fetch().registerThen { (json: JSON) in
+            Promise<[T]> { (resolve, reject) in
+                if let t: [T] = WSModelJSONParser<T>().toModels(json, keypath: keypath) {
+                    resolve(t)
+                } else {
+                    reject(WSError.unableToParseResponse)
+                }
+            }
+            }.resolveOnMainThread()
+    }
+    
+    public func get<T: ArrowInitializable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
         return typeCall(.get, url: url, params: params, keypath: keypath)
     }
     
-    public func post<T>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+    public func post<T: ArrowInitializable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
         return typeCall(.post, url: url, params: params, keypath: keypath)
     }
     
-    public func put<T>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+    public func put<T: ArrowInitializable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
         return typeCall(.put, url: url, params: params, keypath: keypath)
     }
     
-    public func delete<T>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+    public func delete<T: ArrowInitializable>(_ url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
         return typeCall(.delete, url: url, params: params, keypath: keypath)
     }
     
-    private func typeCall<T>(_ verb: WSHTTPVerb, url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
+    private func typeCall<T: ArrowInitializable>(_ verb: WSHTTPVerb, url: String, params: [String: Any] = [String: Any](), keypath: String? = nil) -> Promise<T> {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
@@ -80,7 +93,7 @@ extension WS {
                 if let t: T = WSModelJSONParser<T>().toModel(json, keypath: keypath) {
                     resolve(t)
                 } else {
-                    reject(NSError(domain: "WSError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Unable to parse response"]))
+                    reject(WSError.unableToParseResponse)
                 }
             }
             }.resolveOnMainThread()

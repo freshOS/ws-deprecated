@@ -9,12 +9,13 @@
 import Foundation
 import Arrow
 
-
 public struct WSError: Error {
 
-    public enum `Type`: Int {
+    public enum Status: Int {
         case unknown                        = -1
         case networkUnreachable             = 0
+        
+        case unableToParseResponse          = 1
         
         // 4xx Client Error
         case badRequest                     = 400
@@ -67,13 +68,13 @@ public struct WSError: Error {
         case networkAuthenticationRequired  = 511
     }
     
-    public var type: Type
-    public var code: Int { return type.rawValue }
+    public var status: Status
+    public var code: Int { return status.rawValue }
     
     public var jsonPayload:JSON? = nil
     
     public init(httpStatusCode: Int) {
-        self.type = Type(rawValue: httpStatusCode) ?? .unknown
+        self.status = Status(rawValue: httpStatusCode) ?? .unknown
     }
     
 }
@@ -81,9 +82,19 @@ public struct WSError: Error {
 extension WSError: CustomStringConvertible {
     
     public var description: String {
-        return String(describing: self.type)
+        return String(describing: self.status)
             .replacingOccurrences(of: "(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])",
-                                                  with: " ", options: [.regularExpression])
+                                  with: " ",
+                                  options: [.regularExpression])
+            .capitalized
+    }
+    
+}
+
+extension WSError {
+    
+    public static var unableToParseResponse: WSError {
+        return WSError(httpStatusCode: Status.unableToParseResponse.rawValue)
     }
     
 }

@@ -16,17 +16,19 @@ struct Article {
     var name: String = ""
 }
 
-enum FooBar: String {
-    case foo = "Foo"
-    case bar = "Bar"
-}
-
 extension Article: ArrowParsable {
     mutating func deserialize(_ json: JSON) {
         id <-- json["id"]
         name <-- json["name"]
     }
 }
+
+enum FooBar: String {
+    case foo = "Foo"
+    case bar = "Bar"
+}
+
+extension FooBar: ArrowInitializable {}
 
 /**
  TEST JSON:

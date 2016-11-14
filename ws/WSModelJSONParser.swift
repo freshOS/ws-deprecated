@@ -13,12 +13,6 @@ open class WSModelJSONParser<T> {
     
     public init() { }
     
-    open func toModel(_ json: JSON, keypath: String? = nil) -> T? {
-        var t: T?
-        t <-- resourceData(from: json, keypath: keypath)
-        return t
-    }
-    
     fileprivate func resourceData(from json: JSON, keypath: String?) -> JSON {
         if let k = keypath, !k.isEmpty, let j = json[k] {
             return j
@@ -28,27 +22,17 @@ open class WSModelJSONParser<T> {
     
 }
 
-//extension WSModelJSONParser where T: RawRepresentable {
-//    
-//    open func toModel<T: RawRepresentable>(_ json: JSON, keypath: String? = nil) -> T? {
-//        var t: T?
-//        t <-- resourceData(from: json, keypath: keypath)
-//        return t
-//    }
-//    
-//}
-
-//extension WSModelJSONParser where T: ArrowInitializable {
-//    
-//    open func toModel(_ json: JSON, keypath: String? = nil) -> T? {
-//        return T.init(resourceData(from: json, keypath: keypath))
-//    }
-// 
-//    open func toModels(_ json: JSON, keypath: String? = nil) -> [T]? {
-//        return Array<T>.init(resourceData(from: json, keypath: keypath))
-//    }
-//    
-//}
+extension WSModelJSONParser where T: ArrowInitializable {
+    
+    open func toModel(_ json: JSON, keypath: String? = nil) -> T? {
+        return T.init(resourceData(from: json, keypath: keypath))
+    }
+ 
+    open func toModels(_ json: JSON, keypath: String? = nil) -> [T]? {
+        return Array<T>.init(resourceData(from: json, keypath: keypath))
+    }
+    
+}
 
 extension WSModelJSONParser where T: ArrowParsable {
 
