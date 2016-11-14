@@ -16,9 +16,9 @@ struct Article {
     var name: String = ""
 }
 
-enum Count: Int {
-    case one = 1
-    case two = 2
+enum FooBar: String {
+    case foo = "Foo"
+    case bar = "Bar"
 }
 
 extension Article: ArrowParsable {
@@ -99,7 +99,24 @@ class mappingTests: XCTestCase {
         
         getArticlesCount()
             .then({ count in
-                XCTAssertEqual(count, Count.two)
+                XCTAssertEqual(count, 2)
+                e.fulfill()
+            })
+            .onError({ error in
+                print("ERROR: \(error)")
+                XCTFail()
+                e.fulfill()
+            })
+        
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testRawTypeMapping() {
+        let e = expectation(description: "")
+        
+        getFooBar()
+            .then({ foobar in
+                XCTAssertEqual(foobar, FooBar.foo)
                 e.fulfill()
             })
             .onError({ error in
@@ -115,8 +132,12 @@ class mappingTests: XCTestCase {
         return ws.get(path, keypath: "articles")
     }
     
-    func getArticlesCount() -> Promise<Count> {
+    func getArticlesCount() -> Promise<Int> {
         return ws.get(path, keypath: "count")
+    }
+    
+    func getFooBar() -> Promise<FooBar> {
+        return ws.get(path, keypath: "articles.0.name")
     }
     
 }
