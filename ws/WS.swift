@@ -30,7 +30,7 @@ open class WS {
         Values Available are .None, Calls and CallsAndResponses.
         Default is None
     */
-    open var logLevels = WSLogLevel.none
+    open var logLevels = WSLogLevel.off
     open var postParameterEncoding: ParameterEncoding = URLEncoding()
     
     /**

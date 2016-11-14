@@ -11,19 +11,27 @@ import Alamofire
 
 
 public enum WSLogLevel {
+    
+    @available(*, unavailable, renamed: "off")
     case none
+    @available(*, unavailable, renamed: "info")
     case calls
+    @available(*, unavailable, renamed: "debug")
     case callsAndResponses
+    
+    case off
+    case info
+    case debug
 }
 
 
 class WSLogger {
     
-    var logLevels = WSLogLevel.none
+    var logLevels = WSLogLevel.off
     
     func logMultipartRequest(_ request:WSRequest) {
-        if logLevels != .none {
-            print("\(request.httpVerb.rawValue.uppercased()) \(request.URL)")
+        if logLevels != .off {
+            print("\(request.httpVerb.rawValue.uppercased()) '\(request.URL)'")
             print("  params : \(request.params)")
             
             for (k,v) in request.headers {
@@ -35,15 +43,12 @@ class WSLogger {
     }
     
     func logRequest(_ request:DataRequest) {
-        if logLevels != .none {
+        if logLevels != .off {
             if let urlRequest = request.request,
                 let verb = urlRequest.httpMethod,
                 let url = urlRequest.url {
-                if let query = url.query {
-                    print("\(verb) \(url.path)?\(query)")
-                } else {
-                    print("\(verb) \(url.path)")
-                }
+                let query:String = (url.query != nil) ? "?\(url.query!)" : ""
+                print("\(verb) '\(url.absoluteString)\(query)'")
                 logHeaders(urlRequest)
                 logBody(urlRequest)
                 print("\n")
@@ -52,17 +57,17 @@ class WSLogger {
     }
     
     func logResponse(_ response:DefaultDataResponse) {
-        if logLevels != .none {
+        if logLevels != .off {
             logStatusCodeAndURL(response.response)
         }
         print("\n")
     }
     
     func logResponse(_ response:DataResponse<Any>) {
-        if logLevels != .none {
+        if logLevels != .off {
             logStatusCodeAndURL(response.response)
         }
-        if logLevels == .callsAndResponses {
+        if logLevels == .debug {
             switch response.result {
             case .success(let value): print(value)
             case .failure(let error): print(error)
@@ -82,17 +87,14 @@ class WSLogger {
     private func logBody(_ urlRequest:URLRequest) {
         if let body = urlRequest.httpBody,
             let str = String(data:body, encoding: .utf8) {
-            print(  "HttpBody : \(str)")
+            print("  HttpBody : \(str)")
         }
     }
     
     private func logStatusCodeAndURL(_ urlResponse:HTTPURLResponse?) {
         if let urlResponse = urlResponse, let url = urlResponse.url {
-            if let query = url.query {
-                print("\(urlResponse.statusCode) \(url.path)?\(query)")
-            } else {
-                print("\(urlResponse.statusCode) \(url.path)")
-            }
+            let query:String = (url.query != nil) ? "?\(url.query!)" : ""
+            print("\(urlResponse.statusCode) '\(url.absoluteString)\(query)'")
         }
     }
 }
