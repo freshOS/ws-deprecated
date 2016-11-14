@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = "9.0"
     s.source_files = "ws/*.{h,m,swift}"
     s.frameworks = "Foundation"
-    s.dependency "Arrow" '3.0.2'
+    s.dependency "Arrow" '3.0.3'
     s.dependency "thenPromise" '2.0.2'
     s.dependency "Alamofire" '4.0.1'
     s.description  = "Elegant JSON WebService for Swift - Stop writing boilerplate JSON webservice code and focus on your awesome App instead"

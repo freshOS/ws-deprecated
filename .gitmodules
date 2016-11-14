@@ -1,9 +1,9 @@
 [submodule "Carthage/Checkouts/Alamofire"]
 	path = Carthage/Checkouts/Alamofire
-	url = git@github.com:Alamofire/Alamofire.git
+	url = https://github.com/Alamofire/Alamofire.git
 [submodule "Carthage/Checkouts/Arrow"]
 	path = Carthage/Checkouts/Arrow
-	url = git@github.com:freshOS/Arrow.git
+	url = https://github.com/s4cha/Arrow.git
 [submodule "Carthage/Checkouts/then"]
 	path = Carthage/Checkouts/then
-	url = git@github.com:freshOS/then.git
+	url = https://github.com/s4cha/then.git
