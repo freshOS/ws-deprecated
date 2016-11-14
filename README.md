@@ -139,7 +139,7 @@ modelArrayCall().then { users in
 
 Want to log all network calls and responses ?
 ```swift
-ws.logLevels = .CallsAndResponses
+ws.logLevels = .debug
 ```
 
 Want to hide network activity indicator ?
