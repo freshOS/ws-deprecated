@@ -51,9 +51,6 @@ open class WSRequest {
         r.httpMethod = httpVerb.rawValue
         for (key, value) in headers {
             r.setValue(value, forHTTPHeaderField: key)
-            if logLevels != .none {
-                print("Headers : \(key) :\(value)")
-            }
         }
         if let t = timeout {
             r.timeoutInterval = t
