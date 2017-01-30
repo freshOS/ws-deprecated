@@ -56,7 +56,7 @@ class wsTests: XCTestCase {
         super.setUp()
         // Create webservice with base URL
         ws = WS("http://jsonplaceholder.typicode.com")
-        ws.logLevels = .callsAndResponses
+        ws.logLevels = .debug
         ws.postParameterEncoding = JSONEncoding.default
         ws.showsNetworkActivityIndicator = false
     }
@@ -97,7 +97,7 @@ class wsTests: XCTestCase {
     func testMultipart() {
         let exp = expectation(description: "")
         let wsFileIO = WS("https://file.io")
-        wsFileIO.logLevels = .callsAndResponses
+        wsFileIO.logLevels = .debug
         wsFileIO.postParameterEncoding = JSONEncoding.default
         wsFileIO.showsNetworkActivityIndicator = false
         
