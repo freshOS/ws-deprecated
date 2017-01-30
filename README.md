@@ -22,7 +22,7 @@ ws.get("/users").then { json in
 
 ## Swift Version
 Swift 2 -> version **1.3.0** ios8+  
-Swift 3 -> version **2.0.0** ios9+
+Swift 3 -> version **2.0.1** ios8+
 
 
 ## Why
@@ -207,6 +207,24 @@ existingArticle.delete().then {
 
 }
 ```
+
+
+### HTTP Status code
+
+When a request fails, we often want to know the reason thanks to the HTTP status code.
+Here is how to get it :
+
+```swift
+ws.get("/users").then {
+    // Do something
+}.onError { e in
+    if let wsError = e as? WSError {
+        print(wsError.status)
+        print(wsError.status.rawValue) // RawValue for Int status
+    }
+}
+```
+You can find the full `WSError` enum here -> https://github.com/freshOS/ws/blob/master/ws/WSError.swift
 
 ## Bonus - Load More pattern
 
