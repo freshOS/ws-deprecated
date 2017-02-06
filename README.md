@@ -19,16 +19,13 @@ ws.get("/users").then { json in
     // Get back some json \o/
 }
 ```
-
-## Swift Version
-Swift 2 -> version **1.3.0** ios8+  
-Swift 3 -> version **2.0.1** ios8+
-
-
-## Why
-Because JSON apis are used in **99% of iOS Apps**, this should be  **simple**.  
+*Because JSON apis are used in **99% of iOS Apps**, this should be  **simple**.  
 We developers should **focus on our app logic** rather than *boilerplate code* .  
-*Less* code is *better* code
+*Less* code is *better* code*
+## Try it!
+
+ws is part of [freshOS](http://freshos.org) iOS toolset. Try it in an example App ! <a class="github-button" href="https://github.com/freshOS/StarterProject/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download freshOS/StarterProject on GitHub">Download Starter Project</a>
+
 
 ## How
 By providing a lightweight client that **automates boilerplate code everyone has to write**.  
@@ -36,13 +33,11 @@ By exposing a **delightfully simple** api to get the job done simply, clearly, q
 Getting swift models from a JSON api is now *a problem of the past*
 
 ## What
-- [x] Simple
-- [x] Lightweight (1 file)
-- [x] Pure Swift
-- [x] No magic involved
-- [x] Strongly Typed
-- [x] Chainable
-- [x] Uses popular Promise/Future concept
+- [x] Build concise Apis
+- [x] Automatically maps your models
+- [x] Built-in network logger
+- [x] Stands on the shoulder of giants (Alamofire & Promises)
+- [x] Pure Swift, Simple & Lightweight
 
 ## Usage
 
@@ -423,10 +418,6 @@ pod 'ws'
 use_frameworks!
 ```
 
-And voila !
-
-## Other repos ❤️
-ws is part of a series of lightweight libraries aiming to make developing iOS Apps a *breeze* :
-- Async code : [then](https://github.com/freshOS/then)
-- Layout : [Stevia](https://github.com/s4cha/Stevia)
-- JSON Parsing : [Arrow](https://github.com/freshOS/Arrow)
+## Swift Version
+Swift 2 -> version **1.3.0** ios8+  
+Swift 3 -> version **2.0.1** ios8+
