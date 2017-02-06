@@ -19,9 +19,9 @@ ws.get("/users").then { json in
     // Get back some json \o/
 }
 ```
-*Because JSON apis are used in **99% of iOS Apps**, this should be  **simple**.  
+Because JSON apis are used in **99% of iOS Apps**, this should be  **simple**.  
 We developers should **focus on our app logic** rather than *boilerplate code* .  
-*Less* code is *better* code*
+*Less* code is *better* code
 ## Try it!
 
 ws is part of [freshOS](http://freshos.org) iOS toolset. Try it in an example App ! <a class="github-button" href="https://github.com/freshOS/StarterProject/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download freshOS/StarterProject on GitHub">Download Starter Project</a>
