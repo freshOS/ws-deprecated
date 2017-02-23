@@ -30,50 +30,61 @@ class WSLogger {
     var logLevels = WSLogLevel.off
     
     func logMultipartRequest(_ request:WSRequest) {
-        if logLevels != .off {
-            print("\(request.httpVerb.rawValue.uppercased()) '\(request.URL)'")
-            print("  params : \(request.params)")
-            
-            for (k,v) in request.headers {
-                print("  \(k) : \(v)")
-            }
-            print("  name : \(request.multipartName), mimeType: \(request.multipartMimeType), filename: \(request.multipartFileName)")
-            print("\n")
+        guard logLevels != .off else {
+            return
+        }
+        print("\(request.httpVerb.rawValue.uppercased()) '\(request.URL)'")
+        print("  params : \(request.params)")
+        
+        for (k,v) in request.headers {
+            print("  \(k) : \(v)")
+        }
+        print("  name : \(request.multipartName), mimeType: \(request.multipartMimeType), filename: \(request.multipartFileName)")
+        if logLevels == .debug {
+            print()
         }
     }
     
     func logRequest(_ request:DataRequest) {
-        if logLevels != .off {
-            if let urlRequest = request.request,
-                let verb = urlRequest.httpMethod,
-                let url = urlRequest.url {
-                let query:String = (url.query != nil) ? "?\(url.query!)" : ""
-                print("\(verb) '\(url.absoluteString)\(query)'")
-                logHeaders(urlRequest)
-                logBody(urlRequest)
-                print("\n")
+        guard logLevels != .off else {
+            return
+        }
+        if let urlRequest = request.request,
+            let verb = urlRequest.httpMethod,
+            let url = urlRequest.url {
+            print("\(verb) '\(url.absoluteString)'")
+            logHeaders(urlRequest)
+            logBody(urlRequest)
+            if logLevels == .debug {
+                print()
             }
         }
     }
     
     func logResponse(_ response:DefaultDataResponse) {
-        if logLevels != .off {
-            logStatusCodeAndURL(response.response)
+        guard logLevels != .off else {
+            return
         }
-        print("\n")
+        logStatusCodeAndURL(response.response)
+        if logLevels == .debug {
+            print()
+        }
     }
     
     func logResponse(_ response:DataResponse<Any>) {
-        if logLevels != .off {
-            logStatusCodeAndURL(response.response)
+        guard logLevels != .off else {
+            return
         }
+        logStatusCodeAndURL(response.response)
         if logLevels == .debug {
             switch response.result {
             case .success(let value): print(value)
             case .failure(let error): print(error)
             }
         }
-        print("\n")
+        if logLevels == .debug {
+            print()
+        }
     }
     
     private func logHeaders(_ urlRequest:URLRequest) {
@@ -93,8 +104,7 @@ class WSLogger {
     
     private func logStatusCodeAndURL(_ urlResponse:HTTPURLResponse?) {
         if let urlResponse = urlResponse, let url = urlResponse.url {
-            let query:String = (url.query != nil) ? "?\(url.query!)" : ""
-            print("\(urlResponse.statusCode) '\(url.absoluteString)\(query)'")
+            print("\(urlResponse.statusCode) '\(url.absoluteString)'")
         }
     }
 }
