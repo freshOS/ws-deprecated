@@ -6,10 +6,10 @@
 //  Copyright © 2016 s4cha. All rights reserved.
 //
 
-import Foundation
 import Alamofire
-import then
 import Arrow
+import Foundation
+import then
 
 open class WSRequest {
    
@@ -22,22 +22,22 @@ open class WSRequest {
     open var baseURL = ""
     open var URL = ""
     open var httpVerb = WSHTTPVerb.get
-    open var params = [String:Any]()
+    open var params = [String: Any]()
     open var returnsJSON = true
     open var headers = [String: String]()
-    open var fullURL:String { return baseURL + URL}
-    open var timeout:TimeInterval?
-    open var logLevels:WSLogLevel {
+    open var fullURL: String { return baseURL + URL }
+    open var timeout: TimeInterval?
+    open var logLevels: WSLogLevel {
         get { return logger.logLevels }
         set { logger.logLevels = newValue }
     }
     open var postParameterEncoding: ParameterEncoding = URLEncoding()
     open var showsNetworkActivityIndicator = true
-    open var errorHandler: ((JSON) -> Error?)? = nil
+    open var errorHandler: ((JSON) -> Error?)?
     
     private let logger = WSLogger()
     
-    fileprivate var req:DataRequest?//Alamofire.Request?
+    fileprivate var req: DataRequest?//Alamofire.Request?
     
     public init() {}
     
@@ -56,11 +56,13 @@ open class WSRequest {
             r.timeoutInterval = t
         }
         
+        var request: URLRequest?
         if httpVerb == .post || httpVerb == .put {
-            return try! postParameterEncoding.encode(r, with: params)
+            request = try? postParameterEncoding.encode(r, with: params)
         } else {
-            return try! URLEncoding.default.encode(r, with: params)
+            request = try? URLEncoding.default.encode(r, with: params)
         }
+        return request ?? r
     }
     
     /// Returns Promise containing JSON
@@ -86,9 +88,11 @@ open class WSRequest {
         }
     }
     
-    func sendMultipartRequest(_ resolve:@escaping (_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:@escaping (_ error: Error) -> Void, progress:@escaping (Float) -> Void) {
+    func sendMultipartRequest(_ resolve: @escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
+                              reject: @escaping (_ error: Error) -> Void,
+                              progress:@escaping (Float) -> Void) {
         upload(multipartFormData: { formData in
-            for (key,value) in self.params {
+            for (key, value) in self.params {
                 if let int = value as? Int {
                     let str = "\(int)"
                     if let d = str.data(using: String.Encoding.utf8) {
@@ -118,7 +122,8 @@ open class WSRequest {
         logger.logMultipartRequest(self)
     }
     
-    func sendRequest(_ resolve:@escaping (_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:@escaping (_ error: Error) -> Void) {
+    func sendRequest(_ resolve:@escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
+                     reject: @escaping (_ error: Error) -> Void) {
         self.req = request(self.buildRequest())
         logger.logRequest(self.req!)
         let bgQueue = DispatchQueue.global(qos:DispatchQoS.QoSClass.default)
@@ -126,14 +131,16 @@ open class WSRequest {
             WSNetworkIndicator.shared.stopRequest()
             self.logger.logResponse(response)
             if response.error == nil {
-                resolve((response.response?.statusCode ?? 0, response.response?.allHeaderFields ?? [:], JSON(1 as AnyObject)!))
+                resolve((response.response?.statusCode ?? 0,
+                         response.response?.allHeaderFields ?? [:], JSON(1 as AnyObject)!))
             } else {
                 self.rejectCallWithMatchingError(response.response, data: response.data, reject: reject)
             }
         }
     }
     
-    func sendJSONRequest(_ resolve:@escaping (_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:@escaping (_ error: Error) -> Void) {
+    func sendJSONRequest(_ resolve: @escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
+                         reject: @escaping (_ error: Error) -> Void) {
         self.req = request(self.buildRequest())
         logger.logRequest(self.req!)
         let bgQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.default)
@@ -142,7 +149,9 @@ open class WSRequest {
         }
     }
     
-    func handleJSONResponse(_ response:DataResponse<Any>, resolve:(_ result:(Int, [AnyHashable: Any], JSON))-> Void, reject:(_ error: Error) -> Void) {
+    func handleJSONResponse(_ response: DataResponse<Any>,
+                            resolve: (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
+                            reject: (_ error: Error) -> Void) {
         WSNetworkIndicator.shared.stopRequest()
         logger.logResponse(response)
         switch response.result {
@@ -161,22 +170,29 @@ open class WSRequest {
         }
     }
     
-    func rejectCallWithMatchingError(_ response:HTTPURLResponse?, data:Data? = nil, reject:(_ error: Error) -> Void) {
+    func rejectCallWithMatchingError(_ response: HTTPURLResponse?,
+                                     data: Data? = nil,
+                                     reject: (_ error: Error) -> Void) {
         var error = WSError(httpStatusCode: response?.statusCode ?? 0)
         if let d = data,
-            let json = try? JSONSerialization.jsonObject(with: d, options: JSONSerialization.ReadingOptions.allowFragments),
+            let json = try? JSONSerialization.jsonObject(with: d,
+                                                         options: JSONSerialization.ReadingOptions.allowFragments),
             let j = JSON(json as AnyObject?) {
             error.jsonPayload = j
         }
         reject(error as Error)
     }
     
-    func methodForHTTPVerb(_ verb:WSHTTPVerb) -> HTTPMethod {
+    func methodForHTTPVerb(_ verb: WSHTTPVerb) -> HTTPMethod {
         switch verb {
-        case .get : return .get
-        case .post : return .post
-        case .put : return  .put
-        case .delete : return .delete
+        case .get:
+            return .get
+        case .post:
+            return .post
+        case .put:
+            return  .put
+        case .delete:
+            return .delete
         }
     }
 }

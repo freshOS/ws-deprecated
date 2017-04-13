@@ -6,8 +6,8 @@
 //  Copyright © 2016 s4cha. All rights reserved.
 //
 
-import Foundation
 import Arrow
+import Foundation
 
 public struct WSError: Error {
 
@@ -71,7 +71,7 @@ public struct WSError: Error {
     public var status: Status
     public var code: Int { return status.rawValue }
     
-    public var jsonPayload:JSON? = nil
+    public var jsonPayload: JSON?
     
     public init(httpStatusCode: Int) {
         self.status = Status(rawValue: httpStatusCode) ?? .unknown

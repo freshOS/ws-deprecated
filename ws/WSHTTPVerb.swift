@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum WSHTTPVerb:String {
+public enum WSHTTPVerb: String {
     case get = "GET"
     case put = "PUT"
     case post = "POST"

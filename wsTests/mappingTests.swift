@@ -6,10 +6,10 @@
 //  Copyright © 2016 s4cha. All rights reserved.
 //
 
-import XCTest
-@testable import ws
-import then
 import Arrow
+import then
+@testable import ws
+import XCTest
 
 struct Article {
     var id: Int = 0
@@ -52,8 +52,7 @@ extension FooBar: ArrowInitializable {}
  }
  */
 
-
-class mappingTests: XCTestCase {
+class MappingTests: XCTestCase {
     
     var ws: WS!
     

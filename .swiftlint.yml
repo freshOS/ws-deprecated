@@ -1,0 +1,25 @@
+disabled_rules:
+- trailing_whitespace # this would rewrite every single file :/
+- large_tuple
+- type_name
+
+opt_in_rules:
+- empty_count
+- attributes
+- closure_spacing
+- conditional_returns_on_newline
+- overridden_super_call
+- private_outlet
+- private_unit_test
+- prohibited_super_call
+- redundant_nil_coalescing
+- switch_case_on_newline
+- sorted_imports
+- first_where
+- closure_end_indentation
+
+variable_name:
+  min_length: 1
+
+excluded:
+  - Carthage

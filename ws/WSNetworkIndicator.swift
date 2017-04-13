@@ -10,7 +10,7 @@ import Foundation
 
 /**
     Abstracts network activity indicator management.
-    - This only shows activity indicator for requests longer than 1 second, so that loader is not shown for quick requests.
+    - This only shows activity indicator for requests longer than 1 second, the loader is not shown for quick requests.
     - This also waits for 0.2 seconds before hiding the indicator in case other simultaneous requests
     occur in order to avoid flickering.
  

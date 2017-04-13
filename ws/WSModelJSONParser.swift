@@ -6,8 +6,8 @@
 //  Copyright © 2016 s4cha. All rights reserved.
 //
 
-import Foundation
 import Arrow
+import Foundation
 
 open class WSModelJSONParser<T> {
     
@@ -29,7 +29,7 @@ extension WSModelJSONParser where T: ArrowInitializable {
     }
  
     open func toModels(_ json: JSON, keypath: String? = nil) -> [T]? {
-        return Array<T>.init(resourceData(from: json, keypath: keypath))
+        return [T].init(resourceData(from: json, keypath: keypath))
     }
     
 }

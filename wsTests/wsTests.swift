@@ -6,11 +6,11 @@
 //  Copyright © 2015 s4cha. All rights reserved.
 //
 
-import XCTest
-@testable import ws
-import then
-import Arrow
 import Alamofire
+import Arrow
+import then
+@testable import ws
+import XCTest
 
 // MARK: - Models
 
@@ -20,8 +20,8 @@ struct User {
     var email = ""
     var name = ""
     var phone = ""
-    var website:NSURL?
-    var company = Company() // TODO test optinals and forced
+    var website: NSURL?
+    var company = Company()
     var address = Address()
 }
 
@@ -48,9 +48,9 @@ struct Geo {
 
 // MARK: - Usage
 
-class wsTests: XCTestCase {
+class WSTests: XCTestCase {
     
-    var ws:WS!
+    var ws: WS!
     
     override func setUp() {
         super.setUp()
@@ -65,7 +65,7 @@ class wsTests: XCTestCase {
         let exp = expectation(description: "")
         
         // use "call" to get back a json
-        ws.get("/users").then { (json:JSON) in
+        ws.get("/users").then { (_: JSON) in
             exp.fulfill()
         }
         waitForExpectations(timeout: 10, handler: nil)
@@ -87,7 +87,7 @@ class wsTests: XCTestCase {
     
     func testResponse() {
         let exp = expectation(description: "")
-        ws.getRequest("/users").fetch().then { (statusCode, responseHeaders, json) in
+        ws.getRequest("/users").fetch().then { (statusCode, _, _) in
             XCTAssertEqual(statusCode, 200)
             exp.fulfill()
         }
@@ -105,9 +105,9 @@ class wsTests: XCTestCase {
         let img = UIImage(contentsOfFile: imgPath!)
         let data = UIImageJPEGRepresentation(img!, 1.0)!
         
-        wsFileIO.postMultipart("", name: "file", data: data, fileName: "file", mimeType: "image/jpeg").then { json in
+        wsFileIO.postMultipart("", name: "file", data: data, fileName: "file", mimeType: "image/jpeg").then { _ in
             exp.fulfill()
-        }.onError { error in
+        }.onError { _ in
             XCTFail()
         }
         waitForExpectations(timeout: 10, handler: nil)

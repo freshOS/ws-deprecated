@@ -15,9 +15,7 @@ extension User:ArrowParsable {
         email <-- json["email"]
         name <-- json["name"]
         phone <-- json["phone"]
-        var urlString = ""
-        urlString <-- json["website"]
-        website = NSURL(string: urlString) // TODO simplify?
+        website <-- json["website"]
         company <-- json["company"]
         address <-- json["address"]
         
