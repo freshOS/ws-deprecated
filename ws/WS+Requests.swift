@@ -8,26 +8,28 @@
 
 import Foundation
 
+public typealias Params = [String :Any]
+
 extension WS {
     
-    public func getRequest(_ url: String, params: [String:Any] = [String: Any]()) -> WSRequest {
+    public func getRequest(_ url: String, params: Params = Params()) -> WSRequest {
         return call(url, verb: .get, params: params)
     }
     
-    public func putRequest(_ url: String, params: [String:Any] = [String: Any]()) -> WSRequest {
+    public func putRequest(_ url: String, params: Params = Params()) -> WSRequest {
         return call(url, verb: .put, params: params)
     }
     
-    public func postRequest(_ url: String, params: [String: Any] = [String: Any]()) -> WSRequest {
+    public func postRequest(_ url: String, params: Params = Params()) -> WSRequest {
         return call(url, verb: .post, params: params)
     }
     
-    public func deleteRequest(_ url: String, params: [String: Any] = [String: Any]()) -> WSRequest {
+    public func deleteRequest(_ url: String, params: Params = Params()) -> WSRequest {
         return call(url, verb: .delete, params: params)
     }
     
     public func postMultipartRequest(_ url: String,
-                                     params: [String: Any] = [String: Any](),
+                                     params: Params = Params(),
                                      name: String,
                                      data: Data,
                                      fileName: String,
@@ -42,7 +44,7 @@ extension WS {
     }
     
     public func putMultipartRequest(_ url: String,
-                                    params: [String: Any] = [String: Any](),
+                                    params: Params = Params(),
                                     name: String,
                                     data: Data,
                                     fileName: String,
@@ -55,5 +57,4 @@ extension WS {
         c.multipartMimeType = mimeType
         return c
     }
-    
 }

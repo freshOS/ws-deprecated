@@ -58,7 +58,7 @@ open class WS {
     
     // MARK: - Calls
     
-    internal func call(_ url: String, verb: WSHTTPVerb = .get, params: [String: Any] = [String: Any]()) -> WSRequest {
+    internal func call(_ url: String, verb: WSHTTPVerb = .get, params: Params = Params()) -> WSRequest {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
@@ -79,43 +79,43 @@ open class WS {
     
     // MARK: JSON calls
     
-    open func get(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<JSON> {
+    open func get(_ url: String, params: Params = Params()) -> Promise<JSON> {
         return getRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
-    open func post(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<JSON> {
+    open func post(_ url: String, params: Params = Params()) -> Promise<JSON> {
         return postRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
-    open func put(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<JSON> {
+    open func put(_ url: String, params: Params = Params()) -> Promise<JSON> {
         return putRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
-    open func delete(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<JSON> {
+    open func delete(_ url: String, params: Params = Params()) -> Promise<JSON> {
         return deleteRequest(url, params: params).fetch().resolveOnMainThread()
     }
     
     // MARK: Void calls
     
-    open func get(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<Void> {
+    open func get(_ url: String, params: Params = Params()) -> Promise<Void> {
         let r = getRequest(url, params: params)
         r.returnsJSON = false
         return r.fetch().registerThen { (_: JSON) -> Void in }.resolveOnMainThread()
     }
     
-    open func post(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<Void> {
+    open func post(_ url: String, params: Params = Params()) -> Promise<Void> {
         let r = postRequest(url, params: params)
         r.returnsJSON = false
         return r.fetch().registerThen { (_:JSON) -> Void in }.resolveOnMainThread()
     }
     
-    open func put(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<Void> {
+    open func put(_ url: String, params: Params = Params()) -> Promise<Void> {
         let r = putRequest(url, params: params)
         r.returnsJSON = false
         return r.fetch().registerThen { (_:JSON) -> Void in }.resolveOnMainThread()
     }
     
-    open func delete(_ url: String, params: [String: Any] = [String: Any]()) -> Promise<Void> {
+    open func delete(_ url: String, params: Params = Params()) -> Promise<Void> {
         let r = deleteRequest(url, params: params)
         r.returnsJSON = false
         return r.fetch().registerThen { (_: JSON) -> Void in }.resolveOnMainThread()
@@ -124,7 +124,7 @@ open class WS {
     // MARK: - Multipart
     
     open func postMultipart(_ url: String,
-                            params: [String: Any] = [String: Any](),
+                            params: Params = Params(),
                             name: String,
                             data: Data,
                             fileName: String,
@@ -139,7 +139,7 @@ open class WS {
     }
     
     open func putMultipart(_ url: String,
-                           params: [String: Any] = [String: Any](),
+                           params: Params = Params(),
                            name: String,
                            data: Data,
                            fileName: String,

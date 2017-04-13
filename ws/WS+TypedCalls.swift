@@ -13,7 +13,7 @@ import then
 extension WS {
     
     public func get<T: ArrowParsable>(_ url: String,
-                                      params: [String: Any] = [String: Any](),
+                                      params: Params = Params(),
                                       keypath: String? = nil) -> Promise<[T]> {
         let keypath = keypath ?? defaultCollectionParsingKeyPath
         return getRequest(url, params: params).fetch()
@@ -23,32 +23,32 @@ extension WS {
     }
     
     public func get<T: ArrowParsable>(_ url: String,
-                                      params: [String: Any] = [String: Any](),
+                                      params: Params = Params(),
                                       keypath: String? = nil) -> Promise<T> {
         return resourceCall(.get, url: url, params: params, keypath: keypath)
     }
     
     public func post<T: ArrowParsable>(_ url: String,
-                                       params: [String: Any] = [String: Any](),
+                                       params: Params = Params(),
                                        keypath: String? = nil) -> Promise<T> {
         return resourceCall(.post, url: url, params: params, keypath: keypath)
     }
     
     public func put<T: ArrowParsable>(_ url: String,
-                                      params: [String: Any] = [String: Any](),
+                                      params: Params = Params(),
                                       keypath: String? = nil) -> Promise<T> {
         return resourceCall(.put, url: url, params: params, keypath: keypath)
     }
     
     public func delete<T: ArrowParsable>(_ url: String,
-                                         params: [String: Any] = [String: Any](),
+                                         params: Params = Params(),
                                          keypath: String? = nil) -> Promise<T> {
         return resourceCall(.delete, url: url, params: params, keypath: keypath)
     }
     
     private func resourceCall<T: ArrowParsable>(_ verb: WSHTTPVerb,
                                                 url: String,
-                                                params: [String: Any] = [String: Any](),
+                                                params: Params = Params(),
                                                 keypath: String? = nil) -> Promise<T> {
         let c = defaultCall()
         c.httpVerb = verb
@@ -66,7 +66,7 @@ extension WS {
 extension WS {
     
     public func get<T: ArrowInitializable>(_ url: String,
-                                           params: [String: Any] = [String: Any](),
+                                           params: Params = Params(),
                                            keypath: String? = nil) -> Promise<[T]> {
         let keypath = keypath ?? defaultCollectionParsingKeyPath
         return getRequest(url, params: params)
@@ -84,31 +84,31 @@ extension WS {
     }
     
     public func get<T: ArrowInitializable>(_ url: String,
-                                           params: [String: Any] = [String: Any](),
+                                           params: Params = Params(),
                                            keypath: String? = nil) -> Promise<T> {
         return typeCall(.get, url: url, params: params, keypath: keypath)
     }
     
     public func post<T: ArrowInitializable>(_ url: String,
-                                            params: [String: Any] = [String: Any](),
+                                            params: Params = Params(),
                                             keypath: String? = nil) -> Promise<T> {
         return typeCall(.post, url: url, params: params, keypath: keypath)
     }
     
     public func put<T: ArrowInitializable>(_ url: String,
-                                           params: [String: Any] = [String: Any](),
+                                           params: Params = Params(),
                                            keypath: String? = nil) -> Promise<T> {
         return typeCall(.put, url: url, params: params, keypath: keypath)
     }
     
     public func delete<T: ArrowInitializable>(_ url: String,
-                                              params: [String: Any] = [String: Any](),
+                                              params: Params = Params(),
                                               keypath: String? = nil) -> Promise<T> {
         return typeCall(.delete, url: url, params: params, keypath: keypath)
     }
     
     private func typeCall<T: ArrowInitializable>(_ verb: WSHTTPVerb,
-                                                 url: String, params: [String: Any] = [String: Any](),
+                                                 url: String, params: Params = Params(),
                                                  keypath: String? = nil) -> Promise<T> {
         let c = defaultCall()
         c.httpVerb = verb
