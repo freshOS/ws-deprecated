@@ -420,4 +420,4 @@ use_frameworks!
 
 ## Swift Version
 Swift 2 -> version **1.3.0** ios8+  
-Swift 3 -> version **2.0.2** ios8+
+Swift 3 -> version **2.0.3** ios8+
