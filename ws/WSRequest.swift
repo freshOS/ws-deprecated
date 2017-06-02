@@ -93,15 +93,19 @@ open class WSRequest {
                               progress:@escaping (Float) -> Void) {
         upload(multipartFormData: { formData in
             for (key, value) in self.params {
-                if let int = value as? Int {
-                    let str = "\(int)"
-                    if let d = str.data(using: String.Encoding.utf8) {
-                        formData.append(d, withName: key)
+                let str: String
+                switch value {
+                case let opt as Any?:
+                    if let v = opt {
+                        str = "\(v)"
+                    } else {
+                        continue
                     }
-                } else {
-                    if let str = value as? String, let data = str.data(using: String.Encoding.utf8) {
-                        formData.append(data, withName: key)
-                    }
+                default:
+                    str = "\(value)"
+                }
+                if let data = str.data(using: .utf8) {
+                    formData.append(data, withName: key)
                 }
             }
             formData.append(self.multipartData,
