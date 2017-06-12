@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = "ws"
-    s.version          = "2.0.3"
+    s.version          = "2.0.4"
     s.summary          = "Elegant JSON WebService for Swift ☁️"
     s.homepage         = "https://github.com/freshOS/ws"
     s.license          = { :type => "MIT", :file => "LICENSE" }
