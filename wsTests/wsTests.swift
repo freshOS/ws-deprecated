@@ -119,4 +119,26 @@ class WSTests: XCTestCase {
         return ws.get("/users")
     }
     
+    func testResolveOnMainThreadWorks() {
+        let thenExp = expectation(description: "test")
+        let finallyExp = expectation(description: "test")
+        
+        func fetch() -> Promise<String> {
+            return Promise { resolve, _ in
+                resolve("Hello")
+            }
+        }
+        
+        fetch().resolveOnMainThread()
+            .then { data in
+                print(data)
+                thenExp.fulfill()
+            }.onError { error in
+                print(error)
+            }.finally {
+                finallyExp.fulfill()
+        }
+        
+        waitForExpectations(timeout: 1, handler: nil)
+    }
 }
