@@ -2,14 +2,14 @@
 
 # ws
 
-[![Language: Swift 2 and 3](https://img.shields.io/badge/language-swift2|3-f48041.svg?style=flat)](https://developer.apple.com/swift)
+[![Language: Swift 2 3 and 4](https://img.shields.io/badge/language-swift2|3|4-f48041.svg?style=flat)](https://developer.apple.com/swift)
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Cocoapods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org)
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/ws/blob/master/LICENSE)
 [![Build Status](https://www.bitrise.io/app/a6d157138f9ee86d.svg?token=W7-x9K5U976xiFrI8XqcJw)](https://www.bitrise.io/app/a6d157138f9ee86d)
 [![codebeat badge](https://codebeat.co/badges/78d86c16-aa61-4a5e-8342-1aea8d437453)](https://codebeat.co/projects/github-com-freshos-ws)
-[![Release version](https://img.shields.io/badge/release-2.0-blue.svg)]()
+[![Release version](https://img.shields.io/badge/release-3.0-blue.svg)]()
 
 [Reason](#why) - [Example](#usage) - [Installation](#installation)
 
@@ -420,5 +420,6 @@ use_frameworks!
 ```
 
 ## Swift Version
-Swift 2 -> version **1.3.0** ios8+  
-Swift 3 -> version **2.0.4** ios8+
+Swift 2 -> version **1.3.0**  
+Swift 3 -> version **2.0.4**  
+Swift 4 -> version **3.0.0**
