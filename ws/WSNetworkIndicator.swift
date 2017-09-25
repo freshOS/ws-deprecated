@@ -34,7 +34,8 @@ class WSNetworkIndicator: NSObject {
         RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
     }
     
-    @objc func tick() {
+    @objc
+    func tick() {
         let previousValue = UIApplication.shared.isNetworkActivityIndicatorVisible
         let newValue = (runningRequests != 0)
         if newValue != previousValue {

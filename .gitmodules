@@ -3,7 +3,7 @@
 	url = https://github.com/Alamofire/Alamofire.git
 [submodule "Carthage/Checkouts/Arrow"]
 	path = Carthage/Checkouts/Arrow
-	url = https://github.com/s4cha/Arrow.git
+	url = https://github.com/freshOS/Arrow.git
 [submodule "Carthage/Checkouts/then"]
 	path = Carthage/Checkouts/then
-	url = https://github.com/s4cha/then.git
+	url = https://github.com/freshOS/then.git

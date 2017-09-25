@@ -120,7 +120,7 @@ open class WSRequest {
                 }.validate().responseJSON { r in
                     self.handleJSONResponse(r, resolve: resolve, reject: reject)
                 }
-            case .failure(_): ()
+            case .failure: ()
             }
         }
         logger.logMultipartRequest(self)
@@ -169,7 +169,7 @@ open class WSRequest {
             } else {
                 rejectCallWithMatchingError(response.response, data:response.data, reject: reject)
             }
-        case .failure(_):
+        case .failure:
             rejectCallWithMatchingError(response.response, data:response.data, reject: reject)
         }
     }
