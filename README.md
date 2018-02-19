@@ -420,9 +420,9 @@ use_frameworks!
 ```
 
 ## Swift Version
-Swift 2 -> version **1.3.0**  
-Swift 3 -> version **2.0.4**  
-Swift 4 -> version **3.0.0**
+Swift 2 -> version [**1.3.0**](https://github.com/freshOS/ws/tree/1.3.0) 
+Swift 3 -> version [**2.0.4**](https://github.com/freshOS/ws/tree/2.0.4)
+Swift 4 -> version [**3.0.0**](https://github.com/freshOS/ws/tree/3.0.0)
 
 
 ### Backers
