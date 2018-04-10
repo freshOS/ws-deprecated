@@ -108,7 +108,7 @@ class WSTests: XCTestCase {
         wsFileIO.postMultipart("", name: "file", data: data, fileName: "file", mimeType: "image/jpeg").then { _ in
             exp.fulfill()
         }.onError { _ in
-            XCTFail()
+            XCTFail("Posting multipart Fails")
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
@@ -129,7 +129,8 @@ class WSTests: XCTestCase {
             }
         }
         
-        fetch().resolveOnMainThread()
+        fetch()
+            .resolveOnMainThread()
             .then { data in
                 print(data)
                 thenExp.fulfill()
@@ -137,7 +138,7 @@ class WSTests: XCTestCase {
                 print(error)
             }.finally {
                 finallyExp.fulfill()
-        }
+            }
         
         waitForExpectations(timeout: 1, handler: nil)
     }

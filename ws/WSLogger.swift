@@ -98,7 +98,7 @@ class WSLogger {
     
     private func logBody(_ urlRequest: URLRequest) {
         if let body = urlRequest.httpBody,
-            let str = String(data:body, encoding: .utf8) {
+            let str = String(data: body, encoding: .utf8) {
             print("  HttpBody : \(str)")
         }
     }
