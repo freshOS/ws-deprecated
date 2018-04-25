@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias Params = [String :Any]
+public typealias Params = [String: Any]
 
 extension WS {
     

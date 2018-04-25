@@ -88,7 +88,7 @@ class MappingTests: XCTestCase {
             })
             .onError({ error in
                 print("ERROR: \(error)")
-                XCTFail()
+                XCTFail("Mapping fails")
                 e.fulfill()
             })
         
@@ -105,7 +105,7 @@ class MappingTests: XCTestCase {
             })
             .onError({ error in
                 print("ERROR: \(error)")
-                XCTFail()
+                XCTFail("Type Mapping Fails")
                 e.fulfill()
             })
         
@@ -122,7 +122,7 @@ class MappingTests: XCTestCase {
             })
             .onError({ error in
                 print("ERROR: \(error)")
-                XCTFail()
+                XCTFail("Raw type mapping fails")
                 e.fulfill()
             })
         

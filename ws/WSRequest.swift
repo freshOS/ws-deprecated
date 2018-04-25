@@ -78,7 +78,7 @@ open class WSRequest {
                     WSNetworkIndicator.shared.startRequest()
                 }
                 if self.isMultipart {
-                    self.sendMultipartRequest(resolve, reject: reject, progress:progress)
+                    self.sendMultipartRequest(resolve, reject: reject, progress: progress)
                 } else if !self.returnsJSON {
                     self.sendRequest(resolve, reject: reject)
                 } else {
@@ -112,7 +112,8 @@ open class WSRequest {
                             withName: self.multipartName,
                             fileName: self.multipartFileName,
                             mimeType: self.multipartMimeType)
-        }, with: self.buildRequest()) { encodingResult in
+        }, with: self.buildRequest(),
+           encodingCompletion: { encodingResult in
             switch encodingResult {
             case .success(let upload, _, _):
                 upload.uploadProgress { p in
@@ -122,7 +123,7 @@ open class WSRequest {
                 }
             case .failure: ()
             }
-        }
+        })
         logger.logMultipartRequest(self)
     }
     
@@ -130,7 +131,7 @@ open class WSRequest {
                      reject: @escaping (_ error: Error) -> Void) {
         self.req = request(self.buildRequest())
         logger.logRequest(self.req!)
-        let bgQueue = DispatchQueue.global(qos:DispatchQoS.QoSClass.default)
+        let bgQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.default)
         req?.validate().response(queue: bgQueue) { response in
             WSNetworkIndicator.shared.stopRequest()
             self.logger.logResponse(response)
@@ -167,10 +168,10 @@ open class WSRequest {
                 }
                 resolve((response.response?.statusCode ?? 0, response.response?.allHeaderFields ?? [:], json))
             } else {
-                rejectCallWithMatchingError(response.response, data:response.data, reject: reject)
+                rejectCallWithMatchingError(response.response, data: response.data, reject: reject)
             }
         case .failure:
-            rejectCallWithMatchingError(response.response, data:response.data, reject: reject)
+            rejectCallWithMatchingError(response.response, data: response.data, reject: reject)
         }
     }
     

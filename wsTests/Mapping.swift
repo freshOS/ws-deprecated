@@ -8,7 +8,7 @@
 
 import Arrow
 
-extension User:ArrowParsable {
+extension User: ArrowParsable {
     mutating func deserialize(_ json: JSON) {        
         identifier <-- json["id"]
         username <-- json["username"]
@@ -22,7 +22,7 @@ extension User:ArrowParsable {
     }
 }
 
-extension Company:ArrowParsable {
+extension Company: ArrowParsable {
     mutating func deserialize(_ json: JSON) {
         bs <-- json["bs"]
         catchPhrase <-- json["catchPhrase"]
@@ -30,7 +30,7 @@ extension Company:ArrowParsable {
     }
 }
 
-extension Address:ArrowParsable {
+extension Address: ArrowParsable {
     mutating func deserialize(_ json: JSON) {
         city <-- json["city"]
         street <-- json["street"]
@@ -40,7 +40,7 @@ extension Address:ArrowParsable {
     }
 }
 
-extension Geo:ArrowParsable {
+extension Geo: ArrowParsable {
     mutating func deserialize(_ json: JSON) {
         lat <-- json["lat"]
         lng <-- json["lng"]

@@ -9,7 +9,7 @@
 [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/freshOS/ws/blob/master/LICENSE)
 [![Build Status](https://www.bitrise.io/app/a6d157138f9ee86d.svg?token=W7-x9K5U976xiFrI8XqcJw)](https://www.bitrise.io/app/a6d157138f9ee86d)
 [![codebeat badge](https://codebeat.co/badges/78d86c16-aa61-4a5e-8342-1aea8d437453)](https://codebeat.co/projects/github-com-freshos-ws)
-[![Release version](https://img.shields.io/badge/release-3.0-blue.svg)]()
+![Release version](https://img.shields.io/github/release/freshos/ws.svg)
 
 [Reason](#why) - [Example](#usage) - [Installation](#installation)
 
@@ -423,10 +423,11 @@ use_frameworks!
 Swift 2 -> version [**1.3.0**](https://github.com/freshOS/ws/releases/tag/1.3.0) 
 Swift 3 -> version [**2.0.4**](https://github.com/freshOS/ws/releases/tag/2.0.4)
 Swift 4 -> version [**3.0.0**](https://github.com/freshOS/ws/releases/tag/3.0.0)
-
+Swift 4.1 -> version [**3.0.0**](https://github.com/freshOS/ws/releases/tag/3.0.0)
+Swift 4.1 -> version [**3.1.0**](https://github.com/freshOS/ws/releases/tag/3.1.0)
 
 ### Backers
-Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :) 
+Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :)
 
 <a href="https://opencollective.com/freshos/backer/0/website" target="_blank"><img src="https://opencollective.com/freshos/backer/0/avatar.svg"></a>
 <a href="https://opencollective.com/freshos/backer/1/website" target="_blank"><img src="https://opencollective.com/freshos/backer/1/avatar.svg"></a>
@@ -460,7 +461,7 @@ Like the project? Offer coffee or support us with a monthly donation and help us
 <a href="https://opencollective.com/freshos/backer/29/website" target="_blank"><img src="https://opencollective.com/freshos/backer/29/avatar.svg"></a>
 
 ### Sponsors
-Become a sponsor and get your logo on our README on Github with a link to your site :) 
+Become a sponsor and get your logo on our README on Github with a link to your site :)
 
 <a href="https://opencollective.com/freshos/sponsor/0/website" target="_blank"><img src="https://opencollective.com/freshos/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/freshos/sponsor/1/website" target="_blank"><img src="https://opencollective.com/freshos/sponsor/1/avatar.svg"></a>

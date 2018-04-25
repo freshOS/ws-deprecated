@@ -130,8 +130,8 @@ open class WS {
                             fileName: String,
                             mimeType: String) -> Promise<JSON> {
         let r = postMultipartRequest(url,
-                                     params:params,
-                                     name:name,
+                                     params: params,
+                                     name: name,
                                      data: data,
                                      fileName: fileName,
                                      mimeType: mimeType)
@@ -144,7 +144,7 @@ open class WS {
                            data: Data,
                            fileName: String,
                            mimeType: String) -> Promise<JSON> {
-        let r = putMultipartRequest(url, params:params, name:name, data: data, fileName: fileName, mimeType: mimeType)
+        let r = putMultipartRequest(url, params: params, name: name, data: data, fileName: fileName, mimeType: mimeType)
         return r.fetch().resolveOnMainThread()
     }
     
