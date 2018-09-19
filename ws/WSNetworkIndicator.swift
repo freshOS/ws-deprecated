@@ -24,14 +24,14 @@ class WSNetworkIndicator: NSObject {
         runningRequests += 1
         // For some unowned reason using scheduledTimer does not work in this case.
         let timer = Timer(timeInterval: 1, target: self, selector: #selector(tick), userInfo: nil, repeats: false)
-        RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
+        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
     }
     
     func stopRequest() {
         runningRequests -= 1
         // For some unowned reason using scheduledTimer does not work in this case.
         let timer = Timer(timeInterval: 0.2, target: self, selector: #selector(tick), userInfo: nil, repeats: false)
-        RunLoop.main.add(timer, forMode: RunLoopMode.commonModes)
+        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
     }
     
     @objc

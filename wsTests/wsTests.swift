@@ -103,7 +103,7 @@ class WSTests: XCTestCase {
         
         let imgPath = Bundle(for: type(of: self)).path(forResource: "1px", ofType: "jpg")
         let img = UIImage(contentsOfFile: imgPath!)
-        let data = UIImageJPEGRepresentation(img!, 1.0)!
+        let data = img!.jpegData(compressionQuality: 1.0)!
         
         wsFileIO.postMultipart("", name: "file", data: data, fileName: "file", mimeType: "image/jpeg").then { _ in
             exp.fulfill()

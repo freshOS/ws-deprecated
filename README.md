@@ -420,11 +420,11 @@ use_frameworks!
 ```
 
 ## Swift Version
-Swift 2 -> version [**1.3.0**](https://github.com/freshOS/ws/releases/tag/1.3.0) 
-Swift 3 -> version [**2.0.4**](https://github.com/freshOS/ws/releases/tag/2.0.4)
-Swift 4 -> version [**3.0.0**](https://github.com/freshOS/ws/releases/tag/3.0.0)
-Swift 4.1 -> version [**3.0.0**](https://github.com/freshOS/ws/releases/tag/3.0.0)
-Swift 4.1 -> version [**3.1.0**](https://github.com/freshOS/ws/releases/tag/3.1.0)
+Swift 2 -> version [**1.3.0**](https://github.com/freshOS/ws/releases/tag/1.3.0)  
+Swift 3 -> version [**2.0.4**](https://github.com/freshOS/ws/releases/tag/2.0.4)  
+Swift 4 -> version [**3.0.0**](https://github.com/freshOS/ws/releases/tag/3.0.0)  
+Swift 4.1 -> version  [**3.1.0**](https://github.com/freshOS/ws/releases/tag/3.1.0)  
+Swift 4.2 -> version [**3.2.0**](https://github.com/freshOS/ws/releases/tag/3.2.0)  
 
 ### Backers
 Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :)
