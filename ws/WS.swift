@@ -46,7 +46,8 @@ open class WS {
     
     open var baseURL = ""
     open var headers = [String: String]()
-    
+    open var requestAdapter: RequestAdapter?
+
     /**
      Create a webservice instance.
      @param Pass the base url of your webservice, E.g : "http://jsonplaceholder.typicode.com"
@@ -73,6 +74,7 @@ open class WS {
         r.postParameterEncoding = postParameterEncoding
         r.showsNetworkActivityIndicator = showsNetworkActivityIndicator
         r.headers = headers
+        r.requestAdapter = requestAdapter
         r.errorHandler = errorHandler
         return r
     }
