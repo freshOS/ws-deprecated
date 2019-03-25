@@ -47,6 +47,7 @@ open class WS {
     open var baseURL = ""
     open var headers = [String: String]()
     open var requestAdapter: RequestAdapter?
+    open var requestRetrier: RequestRetrier?
 
     /**
      Create a webservice instance.
@@ -75,6 +76,7 @@ open class WS {
         r.showsNetworkActivityIndicator = showsNetworkActivityIndicator
         r.headers = headers
         r.requestAdapter = requestAdapter
+        r.requestRetrier = requestRetrier
         r.errorHandler = errorHandler
         return r
     }

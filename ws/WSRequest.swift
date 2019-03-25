@@ -35,6 +35,7 @@ open class WSRequest {
     open var showsNetworkActivityIndicator = true
     open var errorHandler: ((JSON) -> Error?)?
     open var requestAdapter: RequestAdapter?
+    open var requestRetrier: RequestRetrier?
 
     private let logger = WSLogger()
     
@@ -66,12 +67,19 @@ open class WSRequest {
         return request ?? r
     }
 
-    func wsRequest(_ urlRequest: URLRequestConvertible) -> DataRequest {
+    func wsSessionManager() -> SessionManager {
         let sessionManager = Alamofire.SessionManager.default
         if let adapter = requestAdapter {
             sessionManager.adapter = adapter
         }
-        return sessionManager.request(urlRequest)
+        if let retrier = requestRetrier {
+            sessionManager.retrier = retrier
+        }
+        return sessionManager
+    }
+    
+    func wsRequest(_ urlRequest: URLRequestConvertible) -> DataRequest {
+        return wsSessionManager().request(urlRequest)
     }
 
     func wsUpload(
@@ -80,11 +88,7 @@ open class WSRequest {
         with urlRequest: URLRequestConvertible,
         encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?)
     {
-        let sessionManager = Alamofire.SessionManager.default
-        if let adapter = requestAdapter {
-            sessionManager.adapter = adapter
-        }
-        return sessionManager.upload(
+        return wsSessionManager().upload(
             multipartFormData: multipartFormData,
             usingThreshold: encodingMemoryThreshold,
             with: urlRequest,
