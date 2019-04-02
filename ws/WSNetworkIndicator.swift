@@ -15,29 +15,28 @@ import Foundation
     occur in order to avoid flickering.
  
  */
-class WSNetworkIndicator: NSObject {
-    
+class WSNetworkIndicator {
+
     static let shared = WSNetworkIndicator()
     private var runningRequests = 0
 
     func startRequest() {
         runningRequests += 1
-        // For some unowned reason using scheduledTimer does not work in this case.
-        let timer = Timer(timeInterval: 1, target: self, selector: #selector(tick), userInfo: nil, repeats: false)
-        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) { [weak self] in
+            self?.tick()
+        }
     }
-    
+
     func stopRequest() {
         runningRequests -= 1
-        // For some unowned reason using scheduledTimer does not work in this case.
-        let timer = Timer(timeInterval: 0.2, target: self, selector: #selector(tick), userInfo: nil, repeats: false)
-        RunLoop.main.add(timer, forMode: RunLoop.Mode.common)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(200)) { [weak self] in
+            self?.tick()
+        }
     }
-    
-    @objc
+
     func tick() {
         let previousValue = UIApplication.shared.isNetworkActivityIndicatorVisible
-        let newValue = (runningRequests != 0)
+        let newValue = (runningRequests > 0)
         if newValue != previousValue {
             UIApplication.shared.isNetworkActivityIndicatorVisible = newValue
         }
