@@ -34,7 +34,9 @@ open class WSRequest {
     open var postParameterEncoding: ParameterEncoding = URLEncoding()
     open var showsNetworkActivityIndicator = true
     open var errorHandler: ((JSON) -> Error?)?
-    
+    open var requestAdapter: RequestAdapter?
+    open var requestRetrier: RequestRetrier?
+
     private let logger = WSLogger()
     
     fileprivate var req: DataRequest?//Alamofire.Request?
@@ -64,7 +66,36 @@ open class WSRequest {
         }
         return request ?? r
     }
+
+    func wsSessionManager() -> SessionManager {
+        let sessionManager = Alamofire.SessionManager.default
+        if let adapter = requestAdapter {
+            sessionManager.adapter = adapter
+        }
+        if let retrier = requestRetrier {
+            sessionManager.retrier = retrier
+        }
+        return sessionManager
+    }
     
+    func wsRequest(_ urlRequest: URLRequestConvertible) -> DataRequest {
+        return wsSessionManager().request(urlRequest)
+    }
+
+    func wsUpload(
+        multipartFormData: @escaping (MultipartFormData) -> Void,
+        usingThreshold encodingMemoryThreshold: UInt64 = SessionManager.multipartFormDataEncodingMemoryThreshold,
+        with urlRequest: URLRequestConvertible,
+        encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?)
+    {
+        return wsSessionManager().upload(
+            multipartFormData: multipartFormData,
+            usingThreshold: encodingMemoryThreshold,
+            with: urlRequest,
+            encodingCompletion: encodingCompletion
+        )
+    }
+
     /// Returns Promise containing JSON
     open func fetch() -> Promise<JSON> {
         return fetch().registerThen { (_, _, json) in json }
@@ -91,7 +122,7 @@ open class WSRequest {
     func sendMultipartRequest(_ resolve: @escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
                               reject: @escaping (_ error: Error) -> Void,
                               progress:@escaping (Float) -> Void) {
-        upload(multipartFormData: { formData in
+        wsUpload(multipartFormData: { formData in
             for (key, value) in self.params {
                 let str: String
                 switch value {
@@ -129,7 +160,7 @@ open class WSRequest {
     
     func sendRequest(_ resolve:@escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
                      reject: @escaping (_ error: Error) -> Void) {
-        self.req = request(self.buildRequest())
+        self.req = wsRequest(self.buildRequest())
         logger.logRequest(self.req!)
         let bgQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.default)
         req?.validate().response(queue: bgQueue) { response in
@@ -146,7 +177,7 @@ open class WSRequest {
     
     func sendJSONRequest(_ resolve: @escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
                          reject: @escaping (_ error: Error) -> Void) {
-        self.req = request(self.buildRequest())
+        self.req = wsRequest(self.buildRequest())
         logger.logRequest(self.req!)
         let bgQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.default)
         req?.validate().responseJSON(queue: bgQueue) { r in
