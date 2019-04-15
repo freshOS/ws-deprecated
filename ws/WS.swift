@@ -48,6 +48,7 @@ open class WS {
     open var headers = [String: String]()
     open var requestAdapter: RequestAdapter?
     open var requestRetrier: RequestRetrier?
+    open var sessionManager: SessionManager?
 
     /**
      Create a webservice instance.
@@ -77,6 +78,7 @@ open class WS {
         r.headers = headers
         r.requestAdapter = requestAdapter
         r.requestRetrier = requestRetrier
+        r.sessionManager = sessionManager
         r.errorHandler = errorHandler
         return r
     }
