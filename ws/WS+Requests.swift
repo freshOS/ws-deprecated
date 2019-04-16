@@ -40,15 +40,15 @@ extension WS {
             multipartFileName: fileName, 
             multipartMimeType: mimeType
         )
-        return postMultipartRequest(url, params: params, multiPart: [multiPart])
+        return postMultipartRequest(url, params: params, multiParts: [multiPart])
     }
     
     public func postMultipartRequest(_ url: String,
                                      params: Params = Params(),
-                                     multiPart: [WSMultiPartData]) -> WSRequest {
+                                     multiParts: [WSMultiPartData]) -> WSRequest {
         let c = call(url, verb: .post, params: params)
         c.isMultipart = true
-        c.multiPartData = multiPart
+        c.multiPartData = multiParts
         return c
     }
 
@@ -64,15 +64,15 @@ extension WS {
             multipartFileName: fileName, 
             multipartMimeType: mimeType
         )
-        return putMultipartRequest(url, params: params, multiPart: [multiPart])
+        return putMultipartRequest(url, params: params, multiParts: [multiPart])
     }
 
     public func putMultipartRequest(_ url: String,
                                     params: Params = Params(),
-                                    multiPart: [WSMultiPartData]) -> WSRequest {
+                                    multiParts: [WSMultiPartData]) -> WSRequest {
         let c = call(url, verb: .put, params: params)
         c.isMultipart = true
-        c.multiPartData = multiPart
+        c.multiPartData = multiParts
         return c
     }
 }

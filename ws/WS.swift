@@ -141,6 +141,15 @@ open class WS {
                                      mimeType: mimeType)
         return r.fetch().resolveOnMainThread()
     }
+
+    open func postMultipart(_ url: String,
+                            params: Params = Params(),
+                            multiParts: [WSMultiPartData]) -> Promise<JSON> {
+        let r = postMultipartRequest(url,
+                                     params: params,
+                                     multiParts: multiParts)
+        return r.fetch().resolveOnMainThread()
+    }
     
     open func putMultipart(_ url: String,
                            params: Params = Params(),
@@ -152,6 +161,15 @@ open class WS {
         return r.fetch().resolveOnMainThread()
     }
     
+    open func putMultipart(_ url: String,
+                            params: Params = Params(),
+                            multiParts: [WSMultiPartData]) -> Promise<JSON> {
+        let r = putMultipartRequest(url,
+                                     params: params,
+                                     multiParts: multiParts)
+        return r.fetch().resolveOnMainThread()
+    }
+
 }
 
 public extension Promise {
