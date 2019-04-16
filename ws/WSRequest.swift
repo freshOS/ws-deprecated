@@ -11,13 +11,17 @@ import Arrow
 import Foundation
 import then
 
-open class WSRequest {
-   
-    var isMultipart = false
+open struct WSMultiPartData {
     var multipartData = Data()
     var multipartName = ""
     var multipartFileName = "photo.jpg"
     var multipartMimeType = "image/jpeg"
+}
+
+open class WSRequest {
+   
+    var isMultipart = false
+    var multiPartData = [WSMultiPartData]()
     
     open var baseURL = ""
     open var URL = ""
@@ -139,10 +143,12 @@ open class WSRequest {
                     formData.append(data, withName: key)
                 }
             }
-            formData.append(self.multipartData,
-                            withName: self.multipartName,
-                            fileName: self.multipartFileName,
-                            mimeType: self.multipartMimeType)
+            self.multiPartData.forEach{ data in
+                formData.append(data.multipartData,
+                                withName: data.multipartName,
+                                fileName: data.multipartFileName,
+                                mimeType: data.multipartMimeType)
+            }
         }, with: self.buildRequest(),
            encodingCompletion: { encodingResult in
             switch encodingResult {

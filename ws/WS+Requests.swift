@@ -34,27 +34,45 @@ extension WS {
                                      data: Data,
                                      fileName: String,
                                      mimeType: String) -> WSRequest {
-        let c = call(url, verb: .post, params: params)
-        c.isMultipart = true
-        c.multipartData = data
-        c.multipartName = name
-        c.multipartFileName = fileName
-        c.multipartMimeType = mimeType
-        return c
+        let multiPart = WSMultiPartData(
+            multipartData: data, 
+            multipartName: name, 
+            multipartFileName: fileName, 
+            multipartMimeType: mimeType
+        )
+        return postMultipartRequest(url, params: params, multiPart: [multiPart])
     }
     
+    public func postMultipartRequest(_ url: String,
+                                     params: Params = Params(),
+                                     multiPart: [WSMultiPartData]) -> WSRequest {
+        let c = call(url, verb: .post, params: params)
+        c.isMultipart = true
+        c.multiPartData = multiPart
+        return c
+    }
+
     public func putMultipartRequest(_ url: String,
                                     params: Params = Params(),
                                     name: String,
                                     data: Data,
                                     fileName: String,
                                     mimeType: String) -> WSRequest {
+        let multiPart = WSMultiPartData(
+            multipartData: data, 
+            multipartName: name, 
+            multipartFileName: fileName, 
+            multipartMimeType: mimeType
+        )
+        return putMultipartRequest(url, params: params, multiPart: [multiPart])
+    }
+
+    public func putMultipartRequest(_ url: String,
+                                    params: Params = Params(),
+                                    multiPart: [WSMultiPartData]) -> WSRequest {
         let c = call(url, verb: .put, params: params)
         c.isMultipart = true
-        c.multipartData = data
-        c.multipartName = name
-        c.multipartFileName = fileName
-        c.multipartMimeType = mimeType
+        c.multiPartData = multiPart
         return c
     }
 }
