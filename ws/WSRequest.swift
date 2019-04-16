@@ -11,7 +11,7 @@ import Arrow
 import Foundation
 import then
 
-open struct WSMultiPartData {
+public struct WSMultiPartData {
     var multipartData = Data()
     var multipartName = ""
     var multipartFileName = "photo.jpg"
