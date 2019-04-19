@@ -12,10 +12,19 @@ import Foundation
 import then
 
 public struct WSMultiPartData {
-    var multipartData = Data()
-    var multipartName = ""
-    var multipartFileName = "photo.jpg"
-    var multipartMimeType = "image/jpeg"
+    public var multipartData = Data()
+    public var multipartName = ""
+    public var multipartFileName: String? = "photo.jpg"
+    public var multipartMimeType = "image/*"
+    
+    public init() {
+    }
+    public init(multipartData: Data, multipartName: String, multipartFileName: String? = nil, multipartMimeType: String) {
+        self.multipartData = multipartData
+        self.multipartName = multipartName
+        self.multipartFileName = multipartFileName
+        self.multipartMimeType = multipartMimeType
+    }
 }
 
 open class WSRequest {
@@ -144,10 +153,17 @@ open class WSRequest {
                 }
             }
             self.multiPartData.forEach{ data in
-                formData.append(data.multipartData,
-                                withName: data.multipartName,
-                                fileName: data.multipartFileName,
-                                mimeType: data.multipartMimeType)
+                if let fname = data.multipartFileName {
+                    formData.append(data.multipartData,
+                                    withName: data.multipartName,
+                                    fileName: fname,
+                                    mimeType: data.multipartMimeType)                    
+                } else {
+                    formData.append(data.multipartData,
+                                    withName: data.multipartName,
+                                    mimeType: data.multipartMimeType)
+                    
+                }
             }
         }, with: self.buildRequest(),
            encodingCompletion: { encodingResult in
