@@ -1,3 +1,3 @@
-github "Alamofire/Alamofire" "4.7.3"
-github "freshOS/Arrow" "4.2.0"
-github "freshOS/then" "4.2.0"
+github "Alamofire/Alamofire" "4.8.2"
+github "freshOS/Arrow" "5.0.0"
+github "freshOS/then" "5.0.0"

@@ -156,7 +156,7 @@ open class WS {
 
 public extension Promise {
     
-    public func resolveOnMainThread() -> Promise<T> {
+    func resolveOnMainThread() -> Promise<T> {
         return Promise<T> { resolve, reject, progress in
             self.progress { p in
                 DispatchQueue.main.async {
