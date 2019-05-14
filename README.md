@@ -2,7 +2,7 @@
 
 # ws
 
-[![Language: Swift 2 3 and 4](https://img.shields.io/badge/language-swift2|3|4-f48041.svg?style=flat)](https://developer.apple.com/swift)
+[![Language: Swift 5](https://img.shields.io/badge/language-swift5-f48041.svg?style=flat)](https://developer.apple.com/swift)
 ![Platform: iOS 8+](https://img.shields.io/badge/platform-iOS%208%2B-blue.svg?style=flat)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Cocoapods compatible](https://img.shields.io/badge/Cocoapods-compatible-4BC51D.svg?style=flat)](https://cocoapods.org)
@@ -425,6 +425,7 @@ Swift 3 -> version [**2.0.4**](https://github.com/freshOS/ws/releases/tag/2.0.4)
 Swift 4 -> version [**3.0.0**](https://github.com/freshOS/ws/releases/tag/3.0.0)  
 Swift 4.1 -> version  [**3.1.0**](https://github.com/freshOS/ws/releases/tag/3.1.0)  
 Swift 4.2 -> version [**3.2.0**](https://github.com/freshOS/ws/releases/tag/3.2.0)  
+Swift 5.0 -> version [**5.0.0**](https://github.com/freshOS/ws/releases/tag/5.0.0)  
 
 ### Backers
 Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :)
