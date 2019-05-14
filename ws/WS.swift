@@ -167,7 +167,12 @@ open class WS {
         let r = postMultipartRequest(url, params: params, multiParts: multiParts, verb: .put)
         return r.fetch().resolveOnMainThread()
     }
-
+    
+    open func patchMultipart(_ url: String, params: Params = Params(), multiParts: [WSMultiPartData]) -> Promise<JSON> {
+        let r = postMultipartRequest(url, params: params, multiParts: multiParts, verb: .patch)
+        return r.fetch().resolveOnMainThread()
+    }
+    
 }
 
 public extension Promise {
