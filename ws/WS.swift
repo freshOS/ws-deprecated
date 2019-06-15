@@ -21,6 +21,9 @@ open class WS {
      */
     open var defaultCollectionParsingKeyPath: String?
     
+    // Same but for ArrowInitializable objects
+    open var defaultObjectParsingKeyPath: String?
+
     @available(*, unavailable, renamed:"defaultCollectionParsingKeyPath")
     open var jsonParsingColletionKey: String?
     
