@@ -225,6 +225,7 @@ open class WSRequest {
                                      data: Data? = nil,
                                      reject: (_ error: Error) -> Void) {
         var error = WSError(httpStatusCode: response?.statusCode ?? 0)
+        error.responseData = data
         if let d = data,
             let json = try? JSONSerialization.jsonObject(with: d,
                                                          options: JSONSerialization.ReadingOptions.allowFragments),
