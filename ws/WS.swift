@@ -48,6 +48,7 @@ open class WS {
     open var headers = [String: String]()
     open var requestAdapter: RequestAdapter?
     open var requestRetrier: RequestRetrier?
+    open var mandatoryQueryParams = Params()
 
     /**
      Create a webservice instance.
@@ -64,7 +65,10 @@ open class WS {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
-        c.params = params
+        if mandatoryQueryParams.isEmpty { c.params = params }
+        else {
+            c.params = params.merging(mandatoryQueryParams) { (current, _) in current }
+        }
         return c
     }
     
@@ -150,6 +154,16 @@ open class WS {
                            mimeType: String) -> Promise<JSON> {
         let r = putMultipartRequest(url, params: params, name: name, data: data, fileName: fileName, mimeType: mimeType)
         return r.fetch().resolveOnMainThread()
+    }
+    
+    open func addMandatoryQueryParameter(key: String, value: Any) -> WS {
+        mandatoryQueryParams[key] = value
+        return self
+    }
+    
+    open func addMandatoryQueryParameter(params: Params) -> WS{
+        mandatoryQueryParams.merge(params) { (current, _) in current }
+        return self
     }
     
 }
