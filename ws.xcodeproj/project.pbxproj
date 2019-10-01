@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		503461BF1DCE0F12002144C3 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5034619C1DCE0ED4002144C3 /* Alamofire.framework */; };
 		503461C01DCE0F16002144C3 /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503461AF1DCE0EDC002144C3 /* Arrow.framework */; };
-		503461C11DCE0F1E002144C3 /* then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503461B91DCE0EE2002144C3 /* then.framework */; };
+		503461C11DCE0F1E002144C3 /* Then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503461B91DCE0EE2002144C3 /* Then.framework */; };
 		50E9DBA21DCCB2F800E8A896 /* mappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DBA11DCCB2F800E8A896 /* mappingTests.swift */; };
 		9924FCE51DD76B4100FFBB26 /* WSNetworkIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9924FCE41DD76B4100FFBB26 /* WSNetworkIndicator.swift */; };
 		9940F4221DD8A3CB00A02425 /* WSLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9940F4211DD8A3CB00A02425 /* WSLogger.swift */; };
@@ -172,7 +172,7 @@
 			files = (
 				503461BF1DCE0F12002144C3 /* Alamofire.framework in Frameworks */,
 				503461C01DCE0F16002144C3 /* Arrow.framework in Frameworks */,
-				503461C11DCE0F1E002144C3 /* then.framework in Frameworks */,
+				503461C11DCE0F1E002144C3 /* Then.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,10 +213,10 @@
 		503461B31DCE0EE2002144C3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				503461B91DCE0EE2002144C3 /* then.framework */,
-				503461BB1DCE0EE2002144C3 /* thenTests.xctest */,
-				503461BD1DCE0EE2002144C3 /* then.framework */,
-				999728101F78F5E700CB220F /* then.framework */,
+				503461B91DCE0EE2002144C3 /* Then.framework */,
+				503461BB1DCE0EE2002144C3 /* ThenTests.xctest */,
+				503461BD1DCE0EE2002144C3 /* Then.framework */,
+				999728101F78F5E700CB220F /* Then.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -457,31 +457,31 @@
 			remoteRef = 503461B01DCE0EDC002144C3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		503461B91DCE0EE2002144C3 /* then.framework */ = {
+		503461B91DCE0EE2002144C3 /* Then.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = then.framework;
+			path = Then.framework;
 			remoteRef = 503461B81DCE0EE2002144C3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		503461BB1DCE0EE2002144C3 /* thenTests.xctest */ = {
+		503461BB1DCE0EE2002144C3 /* ThenTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = thenTests.xctest;
+			path = ThenTests.xctest;
 			remoteRef = 503461BA1DCE0EE2002144C3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		503461BD1DCE0EE2002144C3 /* then.framework */ = {
+		503461BD1DCE0EE2002144C3 /* Then.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = then.framework;
+			path = Then.framework;
 			remoteRef = 503461BC1DCE0EE2002144C3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		999728101F78F5E700CB220F /* then.framework */ = {
+		999728101F78F5E700CB220F /* Then.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = then.framework;
+			path = Then.framework;
 			remoteRef = 9997280F1F78F5E700CB220F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -677,6 +677,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 5.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.ws;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -698,6 +699,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 5.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.ws;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

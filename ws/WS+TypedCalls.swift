@@ -8,7 +8,7 @@
 
 import Arrow
 import Foundation
-import then
+import Then
 
 extension WS {
     

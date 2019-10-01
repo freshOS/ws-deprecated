@@ -8,7 +8,7 @@
 
 import Alamofire
 import Arrow
-import then
+import Then
 @testable import ws
 import XCTest
 
