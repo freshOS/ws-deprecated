@@ -427,6 +427,8 @@ Swift 4.1 -> version  [**3.1.0**](https://github.com/freshOS/ws/releases/tag/3.1
 Swift 4.2 -> version [**3.2.0**](https://github.com/freshOS/ws/releases/tag/3.2.0)  
 Swift 5.0 -> version [**5.0.0**](https://github.com/freshOS/ws/releases/tag/5.0.0)  
 Swift 5.1 -> version [**5.1.0**](https://github.com/freshOS/ws/releases/tag/5.1.0)  
+Swift 5.1.3 -> version [**5.1.1**](https://github.com/freshOS/ws/releases/tag/5.1.1)  
+
 
 ### Backers
 Like the project? Offer coffee or support us with a monthly donation and help us continue our activities :)

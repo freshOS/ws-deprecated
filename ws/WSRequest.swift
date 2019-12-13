@@ -86,8 +86,7 @@ open class WSRequest {
         multipartFormData: @escaping (MultipartFormData) -> Void,
         usingThreshold encodingMemoryThreshold: UInt64 = SessionManager.multipartFormDataEncodingMemoryThreshold,
         with urlRequest: URLRequestConvertible,
-        encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?)
-    {
+        encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?) {
         return wsSessionManager().upload(
             multipartFormData: multipartFormData,
             usingThreshold: encodingMemoryThreshold,

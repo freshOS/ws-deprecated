@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		503461BF1DCE0F12002144C3 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5034619C1DCE0ED4002144C3 /* Alamofire.framework */; };
-		503461C01DCE0F16002144C3 /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503461AF1DCE0EDC002144C3 /* Arrow.framework */; };
-		503461C11DCE0F1E002144C3 /* Then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 503461B91DCE0EE2002144C3 /* Then.framework */; };
 		50E9DBA21DCCB2F800E8A896 /* mappingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E9DBA11DCCB2F800E8A896 /* mappingTests.swift */; };
+		991774D623A39A6B00FB36FE /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991774D523A39A6B00FB36FE /* Arrow.framework */; };
+		991774D823A39A6D00FB36FE /* Then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991774D723A39A6D00FB36FE /* Then.framework */; };
+		991774DA23A39A6F00FB36FE /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991774D923A39A6F00FB36FE /* Alamofire.framework */; };
+		991774DB23A39AE200FB36FE /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991774D523A39A6B00FB36FE /* Arrow.framework */; };
 		9924FCE51DD76B4100FFBB26 /* WSNetworkIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9924FCE41DD76B4100FFBB26 /* WSNetworkIndicator.swift */; };
 		9940F4221DD8A3CB00A02425 /* WSLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9940F4211DD8A3CB00A02425 /* WSLogger.swift */; };
 		996CAB941BF67A7C00931EAD /* ws.h in Headers */ = {isa = PBXBuildFile; fileRef = 996CAB931BF67A7C00931EAD /* ws.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -146,6 +147,9 @@
 		503461A91DCE0EDC002144C3 /* Arrow.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Arrow.xcodeproj; path = Carthage/Checkouts/Arrow/Arrow.xcodeproj; sourceTree = "<group>"; };
 		503461B21DCE0EE2002144C3 /* then.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = then.xcodeproj; path = Carthage/Checkouts/then/then.xcodeproj; sourceTree = "<group>"; };
 		50E9DBA11DCCB2F800E8A896 /* mappingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = mappingTests.swift; sourceTree = "<group>"; };
+		991774D523A39A6B00FB36FE /* Arrow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Arrow.framework; path = Carthage/Build/iOS/Arrow.framework; sourceTree = "<group>"; };
+		991774D723A39A6D00FB36FE /* Then.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Then.framework; path = Carthage/Build/iOS/Then.framework; sourceTree = "<group>"; };
+		991774D923A39A6F00FB36FE /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		9924FCE41DD76B4100FFBB26 /* WSNetworkIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSNetworkIndicator.swift; sourceTree = "<group>"; };
 		9940F4211DD8A3CB00A02425 /* WSLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSLogger.swift; sourceTree = "<group>"; };
 		996CAB901BF67A7C00931EAD /* ws.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ws.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,9 +174,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				503461BF1DCE0F12002144C3 /* Alamofire.framework in Frameworks */,
-				503461C01DCE0F16002144C3 /* Arrow.framework in Frameworks */,
-				503461C11DCE0F1E002144C3 /* Then.framework in Frameworks */,
+				991774D623A39A6B00FB36FE /* Arrow.framework in Frameworks */,
+				991774D823A39A6D00FB36FE /* Then.framework in Frameworks */,
+				991774DA23A39A6F00FB36FE /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */,
+				991774DB23A39AE200FB36FE /* Arrow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +236,16 @@
 			name = Submodules;
 			sourceTree = "<group>";
 		};
+		991774D223A399FC00FB36FE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				991774D923A39A6F00FB36FE /* Alamofire.framework */,
+				991774D723A39A6D00FB36FE /* Then.framework */,
+				991774D523A39A6B00FB36FE /* Arrow.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		996CAB861BF67A7C00931EAD = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +253,7 @@
 				996CAB9E1BF67A7C00931EAD /* wsTests */,
 				503461C21DCE11AC002144C3 /* Submodules */,
 				996CAB911BF67A7C00931EAD /* Products */,
+				991774D223A399FC00FB36FE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -328,6 +344,7 @@
 				996CAB961BF67A7C00931EAD /* Sources */,
 				996CAB971BF67A7C00931EAD /* Frameworks */,
 				99CB94E31CC3E4BD00F4E1FD /* CopyFiles */,
+				991774E023A39BB000FB36FE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -498,6 +515,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		991774E023A39BB000FB36FE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Arrow.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Then.framework",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
 		9925B8D81E9FB07A002C081D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -673,11 +710,15 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ws/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.1.0;
+				MARKETING_VERSION = 5.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.ws;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -695,11 +736,15 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = ws/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 5.1.0;
+				MARKETING_VERSION = 5.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.ws;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -712,6 +757,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 4TATSTJ3J3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = wsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.s4cha.ws.wsTests;
@@ -724,6 +773,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 4TATSTJ3J3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = wsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.s4cha.ws.wsTests;

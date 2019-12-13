@@ -4,6 +4,6 @@
 [submodule "Carthage/Checkouts/Arrow"]
 	path = Carthage/Checkouts/Arrow
 	url = https://github.com/freshOS/Arrow.git
-[submodule "Carthage/Checkouts/then"]
-	path = Carthage/Checkouts/then
-	url = https://github.com/freshOS/then.git
+[submodule "Carthage/Checkouts/Then"]
+	path = Carthage/Checkouts/Then
+	url = https://github.com/freshOS/Then.git
