@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 /**
     Abstracts network activity indicator management.

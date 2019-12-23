@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Alamofire",
+        "repositoryURL": "https://github.com/Alamofire/Alamofire",
+        "state": {
+          "branch": null,
+          "revision": "747c8db8d57b68d5e35275f10c92d55f982adbd4",
+          "version": "4.9.1"
+        }
+      },
+      {
+        "package": "Arrow",
+        "repositoryURL": "https://github.com/freshOS/Arrow",
+        "state": {
+          "branch": null,
+          "revision": "ede0996c0b8f32a67bba80ae384f0898e9a8cb95",
+          "version": "5.1.2"
+        }
+      },
+      {
+        "package": "Then",
+        "repositoryURL": "https://github.com/freshOS/Then",
+        "state": {
+          "branch": null,
+          "revision": "7b20f33ca37c6ecc9420c4b699b641dbca504912",
+          "version": "5.1.3"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
