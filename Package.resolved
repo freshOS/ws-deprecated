@@ -18,15 +18,6 @@
           "revision": "ede0996c0b8f32a67bba80ae384f0898e9a8cb95",
           "version": "5.1.2"
         }
-      },
-      {
-        "package": "Then",
-        "repositoryURL": "https://github.com/freshOS/Then",
-        "state": {
-          "branch": null,
-          "revision": "7b20f33ca37c6ecc9420c4b699b641dbca504912",
-          "version": "5.1.3"
-        }
       }
     ]
   },

@@ -9,7 +9,8 @@
 import Alamofire
 import Arrow
 import Foundation
-import Then
+import Combine
+
 
 open class WSRequest {
    
@@ -97,12 +98,24 @@ open class WSRequest {
 
     /// Returns Promise containing JSON
     open func fetch() -> Promise<JSON> {
-        return fetch().registerThen { (_, _, json) in json }
+        self.fetch().map { return $0.2 }.eraseToAnyPublisher()
     }
     
     /// Returns Promise containing response status code, headers and parsed JSON
     open func fetch() -> Promise<(Int, [AnyHashable: Any], JSON)> {
-        return Promise<(Int, [AnyHashable: Any], JSON)> { resolve, reject, progress in
+        
+        let future = Future<(Int, [AnyHashable: Any], JSON), Error>  { promise in
+            
+            let resolve = { (result:(Int, [AnyHashable: Any], JSON)) in
+                promise(.success(result))
+            }
+            let reject = { (error:Error) in
+                promise(.failure(error))
+            }
+            let progress = { (p: Float) in
+                print(p)
+            }
+            
             DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async {
                 if self.showsNetworkActivityIndicator {
                     WSNetworkIndicator.shared.startRequest()
@@ -116,6 +129,8 @@ open class WSRequest {
                 }
             }
         }
+        
+        return future.eraseToAnyPublisher()
     }
     
     func sendMultipartRequest(_ resolve: @escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,

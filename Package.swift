@@ -4,15 +4,14 @@ import PackageDescription
 
 let package = Package(
     name: "ws",
-    platforms: [.iOS(.v8)],
+    platforms: [.iOS(.v13)],
     products: [.library(name: "ws", targets: ["ws"])],
     dependencies: [
         .package(url: "https://github.com/freshOS/Arrow", .exact("5.1.2")),
-        .package(url: "https://github.com/freshOS/Then", .exact("5.1.3")),
         .package(url: "https://github.com/Alamofire/Alamofire", .exact("4.9.1"))
     ],
     targets: [
-        .target(name: "ws", dependencies:["Arrow", "Then", "Alamofire"]),
+        .target(name: "ws", dependencies:["Arrow", "Alamofire"]),
         .testTarget(name: "wsTests", dependencies: ["ws"])
     ]
 )

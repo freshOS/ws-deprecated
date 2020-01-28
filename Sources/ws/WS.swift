@@ -9,7 +9,9 @@
 import Alamofire
 import Arrow
 import Foundation
-import Then
+import Combine
+
+public typealias Promise<T> = AnyPublisher<T, Error>
 
 open class WS {
     
@@ -84,7 +86,7 @@ open class WS {
     // MARK: JSON calls
     
     open func get(_ url: String, params: Params = Params()) -> Promise<JSON> {
-        return getRequest(url, params: params).fetch().resolveOnMainThread()
+        return getRequest(url, params: params).fetch()//.resolveOnMainThread()
     }
     
     open func post(_ url: String, params: Params = Params()) -> Promise<JSON> {
@@ -104,25 +106,25 @@ open class WS {
     open func get(_ url: String, params: Params = Params()) -> Promise<Void> {
         let r = getRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { (_: JSON) -> Void in }.resolveOnMainThread()
+        return r.fetch().toVoidPromise().resolveOnMainThread()
     }
     
     open func post(_ url: String, params: Params = Params()) -> Promise<Void> {
         let r = postRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { (_:JSON) -> Void in }.resolveOnMainThread()
+        return r.fetch().toVoidPromise().resolveOnMainThread()
     }
     
     open func put(_ url: String, params: Params = Params()) -> Promise<Void> {
         let r = putRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { (_:JSON) -> Void in }.resolveOnMainThread()
+        return r.fetch().toVoidPromise().resolveOnMainThread()
     }
     
     open func delete(_ url: String, params: Params = Params()) -> Promise<Void> {
         let r = deleteRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().registerThen { (_: JSON) -> Void in }.resolveOnMainThread()
+        return r.fetch().toVoidPromise().resolveOnMainThread()
     }
     
     // MARK: - Multipart
@@ -154,25 +156,83 @@ open class WS {
     
 }
 
-public extension Promise {
+//public extension Promise {
+//
+//    func resolveOnMainThread() -> Promise<T> {
+//        return Promise<T> { resolve, reject, progress in
+//            self.progress { p in
+//                DispatchQueue.main.async {
+//                    progress(p)
+//                }
+//            }
+//            self.registerThen { t in
+//                DispatchQueue.main.async {
+//                    resolve(t)
+//                }
+//            }
+//            self.onError { e in
+//                DispatchQueue.main.async {
+//                    reject(e)
+//                }
+//            }
+//        }
+//    }
+//}
+
+public extension AnyPublisher where Output == JSON, Failure == Error {
+        
+    func toVoidPromise() -> AnyPublisher<Void, Error> {
+        return self.map { _ -> Void in
+            return ()
+        }.eraseToAnyPublisher()
+    }
+}
+
+public extension AnyPublisher where Failure == Error {
+
+    func resolveOnMainThread() -> AnyPublisher<Output, Error> {
+        return self.subscribe(on: DispatchQueue.main).eraseToAnyPublisher()
+    }
+}
+
+public extension Future where Failure == Error {
+
+    func resolveOnMainThread() -> Future<Output, Error> {
+        return self//receive(on: DispatchQueue.main) as! Future<Output, Error>
+    }
+}
+
+extension Publisher {
     
-    func resolveOnMainThread() -> Promise<T> {
-        return Promise<T> { resolve, reject, progress in
-            self.progress { p in
-                DispatchQueue.main.async {
-                    progress(p)
-                }
-            }
-            self.registerThen { t in
-                DispatchQueue.main.async {
-                    resolve(t)
-                }
-            }
-            self.onError { e in
-                DispatchQueue.main.async {
-                    reject(e)
-                }
-            }
+    @discardableResult
+    func then(closure: @escaping (Output) -> Void) -> Self {
+        var cancellable: AnyCancellable?
+        cancellable = self.sink(receiveCompletion: { completion in
+            cancellable = nil
+        }) { value in
+            closure(value)
         }
+        return self
+    }
+    
+    @discardableResult
+    func onError(closure: @escaping (Failure) -> Void) -> Self {
+//        self.catch { (e:Failure) -> AnyPublisher<Output, Failure> in
+//            closure(e)
+//            return self
+//        }
+        return self
+    }
+    
+    @discardableResult
+    func finally(closure: @escaping () -> Void) -> Self {
+        var cancellable: AnyCancellable?
+        cancellable = self.sink(receiveCompletion: { completion in
+            cancellable = nil
+            closure()
+        }) { _ in
+            
+        }
+        return self
     }
 }

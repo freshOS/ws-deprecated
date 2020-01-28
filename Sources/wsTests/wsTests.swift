@@ -8,9 +8,9 @@
 
 import Alamofire
 import Arrow
-import Then
 @testable import ws
 import XCTest
+import Combine
 
 // MARK: - Models
 
@@ -51,6 +51,7 @@ struct Geo {
 class WSTests: XCTestCase {
     
     var ws: WS!
+    var cancellables = Set<AnyCancellable>()
     
     override func setUp() {
         super.setUp()
@@ -94,24 +95,25 @@ class WSTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testMultipart() {
-        let exp = expectation(description: "")
-        let wsFileIO = WS("https://file.io")
-        wsFileIO.logLevels = .debug
-        wsFileIO.postParameterEncoding = JSONEncoding.default
-        wsFileIO.showsNetworkActivityIndicator = false
-        
-        let imgPath = Bundle(for: type(of: self)).path(forResource: "1px", ofType: "jpg")
-        let img = UIImage(contentsOfFile: imgPath!)
-        let data = img!.jpegData(compressionQuality: 1.0)!
-        
-        wsFileIO.postMultipart("", name: "file", data: data, fileName: "file", mimeType: "image/jpeg").then { _ in
-            exp.fulfill()
-        }.onError { _ in
-            XCTFail("Posting multipart Fails")
-        }
-        waitForExpectations(timeout: 10, handler: nil)
-    }
+//    func testMultipart() {
+//        let exp = expectation(description: "")
+//        let wsFileIO = WS("https://file.io")
+//        wsFileIO.logLevels = .debug
+//        wsFileIO.postParameterEncoding = JSONEncoding.default
+//        wsFileIO.showsNetworkActivityIndicator = false
+//
+//        let imgPath = Bundle(for: type(of: self)).path(forResource: "1px", ofType: "jpg")
+//        let img = UIImage(contentsOfFile: imgPath!)
+//        let data = img!.jpegData(compressionQuality: 1.0)!
+//
+//        wsFileIO.postMultipart("", name: "file", data: data, fileName: "file", mimeType: "image/jpeg").then { _ in
+//            exp.fulfill()
+//
+//        }.onError { _ in
+//            XCTFail("Posting multipart Fails")
+//        }
+//        waitForExpectations(timeout: 10, handler: nil)
+//    }
     
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects
@@ -123,10 +125,10 @@ class WSTests: XCTestCase {
         let thenExp = expectation(description: "test")
         let finallyExp = expectation(description: "test")
         
-        func fetch() -> Promise<String> {
-            return Promise { resolve, _ in
-                resolve("Hello")
-            }
+        func fetch() -> AnyPublisher<String, Error> {
+            let sub = PassthroughSubject<String, Error>()
+            sub.send("Hello")
+            return sub.eraseToAnyPublisher()
         }
         
         fetch()
@@ -134,7 +136,8 @@ class WSTests: XCTestCase {
             .then { data in
                 print(data)
                 thenExp.fulfill()
-            }.onError { error in
+            }
+        .onError { error in
                 print(error)
             }.finally {
                 finallyExp.fulfill()

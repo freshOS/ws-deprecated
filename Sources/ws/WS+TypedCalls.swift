@@ -8,7 +8,7 @@
 
 import Arrow
 import Foundation
-import Then
+import Combine
 
 extension WS {
     
@@ -16,10 +16,11 @@ extension WS {
                                       params: Params = Params(),
                                       keypath: String? = nil) -> Promise<[T]> {
         let keypath = keypath ?? defaultCollectionParsingKeyPath
-        return getRequest(url, params: params).fetch()
-            .registerThen { (json: JSON) -> [T] in
-                WSModelJSONParser<T>().toModels(json, keypath: keypath)
-            }.resolveOnMainThread()
+        return getRequest(url, params: params)
+            .fetch()
+            .map { json -> [T] in
+                return WSModelJSONParser<T>().toModels(json, keypath: keypath)
+            }.eraseToAnyPublisher()
     }
     
     public func get<T: ArrowParsable>(_ url: String,
@@ -54,13 +55,10 @@ extension WS {
         c.httpVerb = verb
         c.URL = url
         c.params = params
-        
-        // Apply corresponding JSON mapper
-        return c.fetch().registerThen { (json: JSON) -> T in
+        return c.fetch().map { (json: JSON) -> T in
             return WSModelJSONParser<T>().toModel(json, keypath: keypath)
-        }.resolveOnMainThread()
+        }.eraseToAnyPublisher().resolveOnMainThread()
     }
-    
 }
 
 extension WS {
@@ -68,19 +66,15 @@ extension WS {
     public func get<T: ArrowInitializable>(_ url: String,
                                            params: Params = Params(),
                                            keypath: String? = nil) -> Promise<[T]> {
+        let req: Promise<JSON> = getRequest(url, params: params).fetch()
         let keypath = keypath ?? defaultCollectionParsingKeyPath
-        return getRequest(url, params: params)
-            .fetch()
-            .registerThen { (json: JSON) in
-                Promise<[T]> { (resolve, reject) in
-                    if let t: [T] = WSModelJSONParser<T>().toModels(json, keypath: keypath) {
-                        resolve(t)
-                    } else {
-                        reject(WSError.unableToParseResponse)
-                    }
-                }
+        return req.tryMap { (json:JSON) -> [T] in
+            if let t: [T] = WSModelJSONParser<T>().toModels(json, keypath: keypath) {
+                return t
+            } else {
+                throw WSError.unableToParseResponse
             }
-            .resolveOnMainThread()
+        }.eraseToAnyPublisher().resolveOnMainThread()
     }
     
     public func get<T: ArrowInitializable>(_ url: String,
@@ -116,17 +110,13 @@ extension WS {
         c.params = params
         
         // Apply corresponding JSON mapper
-        return c.fetch()
-            .registerThen { (json: JSON) in
-                Promise<T> { (resolve, reject) in
-                    if let t: T = WSModelJSONParser<T>().toModel(json, keypath: keypath) {
-                        resolve(t)
-                    } else {
-                        reject(WSError.unableToParseResponse)
-                    }
-                }
+        return c.fetch().tryMap { (json:JSON) -> T in
+            if let t: T = WSModelJSONParser<T>().toModel(json, keypath: keypath) {
+                return t
+            } else {
+                throw WSError.unableToParseResponse
             }
-            .resolveOnMainThread()
+        }.eraseToAnyPublisher().resolveOnMainThread()
     }
     
 }
