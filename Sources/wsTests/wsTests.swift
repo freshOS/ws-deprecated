@@ -117,32 +117,36 @@ class WSTests: XCTestCase {
     
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects
-    func latestUsers() -> Promise<[User]> {
+    func latestUsers() -> WSCall<[User]> {
         return ws.get("/users")
     }
     
-    func testResolveOnMainThreadWorks() {
-        let thenExp = expectation(description: "test")
-        let finallyExp = expectation(description: "test")
+    func testReceiveOnMainThreadWorks() {
+        let thenExp = expectation(description: "thenExp")
+        let thenExp2 = expectation(description: "thenExp2")
+        let finallyExp = expectation(description: "finallyExp")
         
-        func fetch() -> AnyPublisher<String, Error> {
-            let sub = PassthroughSubject<String, Error>()
-            sub.send("Hello")
-            return sub.eraseToAnyPublisher()
+        let subject = PassthroughSubject<String, Error>()
+        
+        subject.then { data in
+            XCTAssertFalse(Thread.isMainThread)
+            thenExp.fulfill()
         }
         
-        fetch()
-            .resolveOnMainThread()
+        subject
+            .receiveOnMainThread()
             .then { data in
                 print(data)
-                thenExp.fulfill()
+                XCTAssert(Thread.isMainThread)
+                thenExp2.fulfill()
             }
-        .onError { error in
-                print(error)
-            }.finally {
+            .finally {
                 finallyExp.fulfill()
             }
+        DispatchQueue.global(qos: .background).async {
+            subject.send("Hello")
+        }
         
-        waitForExpectations(timeout: 1, handler: nil)
+        waitForExpectations(timeout: 3, handler: nil)
     }
 }

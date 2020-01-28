@@ -14,7 +14,7 @@ extension WS {
     
     public func get<T: ArrowParsable>(_ url: String,
                                       params: Params = Params(),
-                                      keypath: String? = nil) -> Promise<[T]> {
+                                      keypath: String? = nil) -> WSCall<[T]> {
         let keypath = keypath ?? defaultCollectionParsingKeyPath
         return getRequest(url, params: params)
             .fetch()
@@ -25,39 +25,39 @@ extension WS {
     
     public func get<T: ArrowParsable>(_ url: String,
                                       params: Params = Params(),
-                                      keypath: String? = nil) -> Promise<T> {
+                                      keypath: String? = nil) -> WSCall<T> {
         return resourceCall(.get, url: url, params: params, keypath: keypath)
     }
     
     public func post<T: ArrowParsable>(_ url: String,
                                        params: Params = Params(),
-                                       keypath: String? = nil) -> Promise<T> {
+                                       keypath: String? = nil) -> WSCall<T> {
         return resourceCall(.post, url: url, params: params, keypath: keypath)
     }
     
     public func put<T: ArrowParsable>(_ url: String,
                                       params: Params = Params(),
-                                      keypath: String? = nil) -> Promise<T> {
+                                      keypath: String? = nil) -> WSCall<T> {
         return resourceCall(.put, url: url, params: params, keypath: keypath)
     }
     
     public func delete<T: ArrowParsable>(_ url: String,
                                          params: Params = Params(),
-                                         keypath: String? = nil) -> Promise<T> {
+                                         keypath: String? = nil) -> WSCall<T> {
         return resourceCall(.delete, url: url, params: params, keypath: keypath)
     }
     
     private func resourceCall<T: ArrowParsable>(_ verb: WSHTTPVerb,
                                                 url: String,
                                                 params: Params = Params(),
-                                                keypath: String? = nil) -> Promise<T> {
+                                                keypath: String? = nil) -> WSCall<T> {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
         c.params = params
         return c.fetch().map { (json: JSON) -> T in
             return WSModelJSONParser<T>().toModel(json, keypath: keypath)
-        }.eraseToAnyPublisher().resolveOnMainThread()
+        }.eraseToAnyPublisher().receiveOnMainThread()
     }
 }
 
@@ -65,8 +65,8 @@ extension WS {
     
     public func get<T: ArrowInitializable>(_ url: String,
                                            params: Params = Params(),
-                                           keypath: String? = nil) -> Promise<[T]> {
-        let req: Promise<JSON> = getRequest(url, params: params).fetch()
+                                           keypath: String? = nil) -> WSCall<[T]> {
+        let req: WSCall<JSON> = getRequest(url, params: params).fetch()
         let keypath = keypath ?? defaultCollectionParsingKeyPath
         return req.tryMap { (json:JSON) -> [T] in
             if let t: [T] = WSModelJSONParser<T>().toModels(json, keypath: keypath) {
@@ -74,36 +74,36 @@ extension WS {
             } else {
                 throw WSError.unableToParseResponse
             }
-        }.eraseToAnyPublisher().resolveOnMainThread()
+        }.eraseToAnyPublisher().receiveOnMainThread()
     }
     
     public func get<T: ArrowInitializable>(_ url: String,
                                            params: Params = Params(),
-                                           keypath: String? = nil) -> Promise<T> {
+                                           keypath: String? = nil) -> WSCall<T> {
         return typeCall(.get, url: url, params: params, keypath: keypath)
     }
     
     public func post<T: ArrowInitializable>(_ url: String,
                                             params: Params = Params(),
-                                            keypath: String? = nil) -> Promise<T> {
+                                            keypath: String? = nil) -> WSCall<T> {
         return typeCall(.post, url: url, params: params, keypath: keypath)
     }
     
     public func put<T: ArrowInitializable>(_ url: String,
                                            params: Params = Params(),
-                                           keypath: String? = nil) -> Promise<T> {
+                                           keypath: String? = nil) -> WSCall<T> {
         return typeCall(.put, url: url, params: params, keypath: keypath)
     }
     
     public func delete<T: ArrowInitializable>(_ url: String,
                                               params: Params = Params(),
-                                              keypath: String? = nil) -> Promise<T> {
+                                              keypath: String? = nil) -> WSCall<T> {
         return typeCall(.delete, url: url, params: params, keypath: keypath)
     }
     
     private func typeCall<T: ArrowInitializable>(_ verb: WSHTTPVerb,
                                                  url: String, params: Params = Params(),
-                                                 keypath: String? = nil) -> Promise<T> {
+                                                 keypath: String? = nil) -> WSCall<T> {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
@@ -116,7 +116,7 @@ extension WS {
             } else {
                 throw WSError.unableToParseResponse
             }
-        }.eraseToAnyPublisher().resolveOnMainThread()
+        }.eraseToAnyPublisher().receiveOnMainThread()
     }
     
 }

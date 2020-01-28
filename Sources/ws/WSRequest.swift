@@ -97,12 +97,12 @@ open class WSRequest {
     }
 
     /// Returns Promise containing JSON
-    open func fetch() -> Promise<JSON> {
+    open func fetch() -> WSCall<JSON> {
         self.fetch().map { return $0.2 }.eraseToAnyPublisher()
     }
     
     /// Returns Promise containing response status code, headers and parsed JSON
-    open func fetch() -> Promise<(Int, [AnyHashable: Any], JSON)> {
+    open func fetch() -> WSCall<(Int, [AnyHashable: Any], JSON)> {
         
         let future = Future<(Int, [AnyHashable: Any], JSON), Error>  { promise in
             

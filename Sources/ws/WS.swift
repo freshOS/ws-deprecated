@@ -11,7 +11,7 @@ import Arrow
 import Foundation
 import Combine
 
-public typealias Promise<T> = AnyPublisher<T, Error>
+public typealias WSCall<T> = AnyPublisher<T, Error>
 
 open class WS {
     
@@ -85,46 +85,46 @@ open class WS {
     
     // MARK: JSON calls
     
-    open func get(_ url: String, params: Params = Params()) -> Promise<JSON> {
-        return getRequest(url, params: params).fetch()//.resolveOnMainThread()
+    open func get(_ url: String, params: Params = Params()) -> WSCall<JSON> {
+        return getRequest(url, params: params).fetch().receiveOnMainThread()
     }
     
-    open func post(_ url: String, params: Params = Params()) -> Promise<JSON> {
-        return postRequest(url, params: params).fetch().resolveOnMainThread()
+    open func post(_ url: String, params: Params = Params()) -> WSCall<JSON> {
+        return postRequest(url, params: params).fetch().receiveOnMainThread()
     }
     
-    open func put(_ url: String, params: Params = Params()) -> Promise<JSON> {
-        return putRequest(url, params: params).fetch().resolveOnMainThread()
+    open func put(_ url: String, params: Params = Params()) -> WSCall<JSON> {
+        return putRequest(url, params: params).fetch().receiveOnMainThread()
     }
     
-    open func delete(_ url: String, params: Params = Params()) -> Promise<JSON> {
-        return deleteRequest(url, params: params).fetch().resolveOnMainThread()
+    open func delete(_ url: String, params: Params = Params()) -> WSCall<JSON> {
+        return deleteRequest(url, params: params).fetch().receiveOnMainThread()
     }
     
     // MARK: Void calls
     
-    open func get(_ url: String, params: Params = Params()) -> Promise<Void> {
+    open func get(_ url: String, params: Params = Params()) -> WSCall<Void> {
         let r = getRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().toVoidPromise().resolveOnMainThread()
+        return r.fetch().toVoid().receiveOnMainThread()
     }
     
-    open func post(_ url: String, params: Params = Params()) -> Promise<Void> {
+    open func post(_ url: String, params: Params = Params()) -> WSCall<Void> {
         let r = postRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().toVoidPromise().resolveOnMainThread()
+        return r.fetch().toVoid().receiveOnMainThread()
     }
     
-    open func put(_ url: String, params: Params = Params()) -> Promise<Void> {
+    open func put(_ url: String, params: Params = Params()) -> WSCall<Void> {
         let r = putRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().toVoidPromise().resolveOnMainThread()
+        return r.fetch().toVoid().receiveOnMainThread()
     }
     
-    open func delete(_ url: String, params: Params = Params()) -> Promise<Void> {
+    open func delete(_ url: String, params: Params = Params()) -> WSCall<Void> {
         let r = deleteRequest(url, params: params)
         r.returnsJSON = false
-        return r.fetch().toVoidPromise().resolveOnMainThread()
+        return r.fetch().toVoid().receiveOnMainThread()
     }
     
     // MARK: - Multipart
@@ -134,14 +134,14 @@ open class WS {
                             name: String,
                             data: Data,
                             fileName: String,
-                            mimeType: String) -> Promise<JSON> {
+                            mimeType: String) -> WSCall<JSON> {
         let r = postMultipartRequest(url,
                                      params: params,
                                      name: name,
                                      data: data,
                                      fileName: fileName,
                                      mimeType: mimeType)
-        return r.fetch().resolveOnMainThread()
+        return r.fetch().receiveOnMainThread()
     }
     
     open func putMultipart(_ url: String,
@@ -149,63 +149,32 @@ open class WS {
                            name: String,
                            data: Data,
                            fileName: String,
-                           mimeType: String) -> Promise<JSON> {
+                           mimeType: String) -> WSCall<JSON> {
         let r = putMultipartRequest(url, params: params, name: name, data: data, fileName: fileName, mimeType: mimeType)
-        return r.fetch().resolveOnMainThread()
+        return r.fetch().receiveOnMainThread()
     }
     
 }
 
-//public extension Promise {
-//
-//    func resolveOnMainThread() -> Promise<T> {
-//        return Promise<T> { resolve, reject, progress in
-//            self.progress { p in
-//                DispatchQueue.main.async {
-//                    progress(p)
-//                }
-//            }
-//            self.registerThen { t in
-//                DispatchQueue.main.async {
-//                    resolve(t)
-//                }
-//            }
-//            self.onError { e in
-//                DispatchQueue.main.async {
-//                    reject(e)
-//                }
-//            }
-//        }
-//    }
-//}
-
-public extension AnyPublisher where Output == JSON, Failure == Error {
+public extension Publisher where Output == JSON, Failure == Error {
         
-    func toVoidPromise() -> AnyPublisher<Void, Error> {
-        return self.map { _ -> Void in
-            return ()
-        }.eraseToAnyPublisher()
+    func toVoid() -> AnyPublisher<Void, Error> {
+        return self.map { _ in }.eraseToAnyPublisher()
     }
 }
 
-public extension AnyPublisher where Failure == Error {
+public extension Publisher where Failure == Error {
 
-    func resolveOnMainThread() -> AnyPublisher<Output, Error> {
-        return self.subscribe(on: DispatchQueue.main).eraseToAnyPublisher()
+    func receiveOnMainThread() -> AnyPublisher<Output, Error> {
+        return self.receive(on: DispatchQueue.main).eraseToAnyPublisher()
     }
 }
 
-public extension Future where Failure == Error {
-
-    func resolveOnMainThread() -> Future<Output, Error> {
-        return self//receive(on: DispatchQueue.main) as! Future<Output, Error>
-    }
-}
 
 extension Publisher {
     
     @discardableResult
-    func then(closure: @escaping (Output) -> Void) -> Self {
+    func then(_ closure: @escaping (Output) -> Void) -> Self {
         var cancellable: AnyCancellable?
         cancellable = self.sink(receiveCompletion: { completion in
             cancellable = nil
@@ -216,23 +185,20 @@ extension Publisher {
     }
     
     @discardableResult
-    func onError(closure: @escaping (Failure) -> Void) -> Self {
+    func onError(_ closure: @escaping (Failure) -> Void) -> Self {
 //        self.catch { (e:Failure) -> AnyPublisher<Output, Failure> in
 //            closure(e)
 //            return self
 //        }
         return self
     }
-    
+        
     @discardableResult
-    func finally(closure: @escaping () -> Void) -> Self {
-        var cancellable: AnyCancellable?
-        cancellable = self.sink(receiveCompletion: { completion in
-            cancellable = nil
+    func finally(_ closure: @escaping () -> Void) -> Self {
+        return then { value in
             closure()
-        }) { _ in
-            
         }
-        return self
     }
 }
+
+var cancellable: AnyCancellable?
