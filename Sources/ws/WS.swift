@@ -7,10 +7,10 @@
 //
 
 import Alamofire
-import Arrow
 import Foundation
 import Combine
 
+public typealias WSJSON = Any
 public typealias WSCall<T> = AnyPublisher<T, Error>
 
 open class WS {
@@ -44,7 +44,7 @@ open class WS {
      Custom error handler block, to parse error returned in response body.
      For example: `{ error: { code: 1, message: "Server error" } }`
      */
-    open var errorHandler: ((JSON) -> Error?)?
+    open var errorHandler: ((WSJSON) -> Error?)?
     
     open var baseURL = ""
     open var headers = [String: String]()
@@ -85,19 +85,19 @@ open class WS {
     
     // MARK: JSON calls
     
-    open func get(_ url: String, params: Params = Params()) -> WSCall<JSON> {
+    open func get(_ url: String, params: Params = Params()) -> WSCall<WSJSON> {
         return getRequest(url, params: params).fetch().receiveOnMainThread()
     }
     
-    open func post(_ url: String, params: Params = Params()) -> WSCall<JSON> {
+    open func post(_ url: String, params: Params = Params()) -> WSCall<WSJSON> {
         return postRequest(url, params: params).fetch().receiveOnMainThread()
     }
     
-    open func put(_ url: String, params: Params = Params()) -> WSCall<JSON> {
+    open func put(_ url: String, params: Params = Params()) -> WSCall<WSJSON> {
         return putRequest(url, params: params).fetch().receiveOnMainThread()
     }
     
-    open func delete(_ url: String, params: Params = Params()) -> WSCall<JSON> {
+    open func delete(_ url: String, params: Params = Params()) -> WSCall<WSJSON> {
         return deleteRequest(url, params: params).fetch().receiveOnMainThread()
     }
     
@@ -134,7 +134,7 @@ open class WS {
                             name: String,
                             data: Data,
                             fileName: String,
-                            mimeType: String) -> WSCall<JSON> {
+                            mimeType: String) -> WSCall<WSJSON> {
         let r = postMultipartRequest(url,
                                      params: params,
                                      name: name,
@@ -149,56 +149,9 @@ open class WS {
                            name: String,
                            data: Data,
                            fileName: String,
-                           mimeType: String) -> WSCall<JSON> {
+                           mimeType: String) -> WSCall<WSJSON> {
         let r = putMultipartRequest(url, params: params, name: name, data: data, fileName: fileName, mimeType: mimeType)
         return r.fetch().receiveOnMainThread()
     }
     
 }
-
-public extension Publisher where Output == JSON, Failure == Error {
-        
-    func toVoid() -> AnyPublisher<Void, Error> {
-        return self.map { _ in }.eraseToAnyPublisher()
-    }
-}
-
-public extension Publisher where Failure == Error {
-
-    func receiveOnMainThread() -> AnyPublisher<Output, Error> {
-        return self.receive(on: DispatchQueue.main).eraseToAnyPublisher()
-    }
-}
-
-
-extension Publisher {
-    
-    @discardableResult
-    func then(_ closure: @escaping (Output) -> Void) -> Self {
-        var cancellable: AnyCancellable?
-        cancellable = self.sink(receiveCompletion: { completion in
-            cancellable = nil
-        }) { value in
-            closure(value)
-        }
-        return self
-    }
-    
-    @discardableResult
-    func onError(_ closure: @escaping (Failure) -> Void) -> Self {
-//        self.catch { (e:Failure) -> AnyPublisher<Output, Failure> in
-//            closure(e)
-//            return self
-//        }
-        return self
-    }
-        
-    @discardableResult
-    func finally(_ closure: @escaping () -> Void) -> Self {
-        return then { value in
-            closure()
-        }
-    }
-}
-
-var cancellable: AnyCancellable?

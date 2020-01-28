@@ -63,8 +63,8 @@ class MappingTests: XCTestCase {
         ws = WS("http://www.mocky.io/v2/")
         ws.logLevels = .debug
         
-        ws.errorHandler = { json in
-            if let errorPayload = json["error"] {
+        ws.errorHandler = { wsjson in
+            if let json = JSON(wsjson), let errorPayload = json["error"] {
                 var code = 0
                 var message = ""
                 code <-- errorPayload["code"]

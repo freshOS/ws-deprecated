@@ -66,7 +66,7 @@ class WSTests: XCTestCase {
         let exp = expectation(description: "")
         
         // use "call" to get back a json
-        ws.get("/users").then { (_: JSON) in
+        ws.get("/users").then { (_: WSJSON) in
             exp.fulfill()
         }
         waitForExpectations(timeout: 10, handler: nil)

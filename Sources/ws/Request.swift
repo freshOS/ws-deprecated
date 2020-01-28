@@ -7,7 +7,6 @@
 //
 
 import Alamofire
-import Arrow
 import Foundation
 import Combine
 
@@ -34,7 +33,7 @@ open class WSRequest {
     }
     open var postParameterEncoding: ParameterEncoding = URLEncoding()
     open var showsNetworkActivityIndicator = true
-    open var errorHandler: ((JSON) -> Error?)?
+    open var errorHandler: ((WSJSON) -> Error?)?
     open var requestAdapter: RequestAdapter?
     open var requestRetrier: RequestRetrier?
 
@@ -97,16 +96,16 @@ open class WSRequest {
     }
 
     /// Returns Promise containing JSON
-    open func fetch() -> WSCall<JSON> {
+    open func fetch() -> WSCall<WSJSON> {
         self.fetch().map { return $0.2 }.eraseToAnyPublisher()
     }
     
     /// Returns Promise containing response status code, headers and parsed JSON
-    open func fetch() -> WSCall<(Int, [AnyHashable: Any], JSON)> {
+    open func fetch() -> WSCall<(Int, [AnyHashable: Any], WSJSON)> {
         
-        let future = Future<(Int, [AnyHashable: Any], JSON), Error>  { promise in
+        let future = Future<(Int, [AnyHashable: Any], WSJSON), Error>  { promise in
             
-            let resolve = { (result:(Int, [AnyHashable: Any], JSON)) in
+            let resolve = { (result:(Int, [AnyHashable: Any], WSJSON)) in
                 promise(.success(result))
             }
             let reject = { (error:Error) in
@@ -133,7 +132,7 @@ open class WSRequest {
         return future.eraseToAnyPublisher()
     }
     
-    func sendMultipartRequest(_ resolve: @escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
+    func sendMultipartRequest(_ resolve: @escaping (_ result: (Int, [AnyHashable: Any], WSJSON)) -> Void,
                               reject: @escaping (_ error: Error) -> Void,
                               progress:@escaping (Float) -> Void) {
         wsUpload(multipartFormData: { formData in
@@ -172,7 +171,7 @@ open class WSRequest {
         logger.logMultipartRequest(self)
     }
     
-    func sendRequest(_ resolve:@escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
+    func sendRequest(_ resolve:@escaping (_ result: (Int, [AnyHashable: Any], WSJSON)) -> Void,
                      reject: @escaping (_ error: Error) -> Void) {
         self.req = wsRequest(self.buildRequest())
         logger.logRequest(self.req!)
@@ -182,14 +181,14 @@ open class WSRequest {
             self.logger.logResponse(response)
             if response.error == nil {
                 resolve((response.response?.statusCode ?? 0,
-                         response.response?.allHeaderFields ?? [:], JSON(1 as AnyObject)!))
+                         response.response?.allHeaderFields ?? [:], 1 as! WSJSON))
             } else {
                 self.rejectCallWithMatchingError(response.response, data: response.data, reject: reject)
             }
         }
     }
     
-    func sendJSONRequest(_ resolve: @escaping (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
+    func sendJSONRequest(_ resolve: @escaping (_ result: (Int, [AnyHashable: Any], WSJSON)) -> Void,
                          reject: @escaping (_ error: Error) -> Void) {
         self.req = wsRequest(self.buildRequest())
         logger.logRequest(self.req!)
@@ -200,13 +199,13 @@ open class WSRequest {
     }
     
     func handleJSONResponse(_ response: DataResponse<Any>,
-                            resolve: (_ result: (Int, [AnyHashable: Any], JSON)) -> Void,
+                            resolve: (_ result: (Int, [AnyHashable: Any], WSJSON)) -> Void,
                             reject: (_ error: Error) -> Void) {
         WSNetworkIndicator.shared.stopRequest()
         logger.logResponse(response)
         switch response.result {
         case .success(let value):
-            if let json: JSON = JSON(value as AnyObject?) {
+            if let json: WSJSON = value {
                 if let error = errorHandler?(json) {
                     reject(error)
                     return
@@ -226,9 +225,8 @@ open class WSRequest {
         var error = WSError(httpStatusCode: response?.statusCode ?? 0)
         if let d = data,
             let json = try? JSONSerialization.jsonObject(with: d,
-                                                         options: JSONSerialization.ReadingOptions.allowFragments),
-            let j = JSON(json as AnyObject?) {
-            error.jsonPayload = j
+                                                         options: JSONSerialization.ReadingOptions.allowFragments) {
+            error.jsonPayload = json
         }
         reject(error as Error)
     }
