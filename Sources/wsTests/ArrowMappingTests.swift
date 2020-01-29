@@ -10,10 +10,6 @@ import Arrow
 @testable import ws
 import XCTest
 
-struct Article {
-    var id: Int = 0
-    var name: String = ""
-}
 
 extension Article: ArrowParsable {
     mutating func deserialize(_ json: JSON) {
@@ -22,10 +18,6 @@ extension Article: ArrowParsable {
     }
 }
 
-enum FooBar: String {
-    case foo = "Foo"
-    case bar = "Bar"
-}
 
 extension FooBar: ArrowInitializable {}
 
@@ -78,8 +70,7 @@ class MappingTests: XCTestCase {
     }
     
     func testMapping() {
-        let e = expectation(description: "")
-        
+        let e = expectation(description: "")        
         getArticles()
             .then { articles in
                 XCTAssertEqual(articles.count, 2)
@@ -94,50 +85,50 @@ class MappingTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testTypeMapping() {
-        let e = expectation(description: "")
-        
-        getArticlesCount()
-            .then { count in
-                XCTAssertEqual(count, 2)
-                e.fulfill()
-            }
-            .onError { error in
-                print("ERROR: \(error)")
-                XCTFail("Type Mapping Fails")
-                e.fulfill()
-            }
-        
-        waitForExpectations(timeout: 10, handler: nil)
-    }
-    
-    func testRawTypeMapping() {
-        let e = expectation(description: "")
-        
-        getFooBar()
-            .then { foobar in
-                XCTAssertEqual(foobar, FooBar.foo)
-                e.fulfill()
-            }
-            .onError{ error in
-                print("ERROR: \(error)")
-                XCTFail("Raw type mapping fails")
-                e.fulfill()
-            }
-        
-        waitForExpectations(timeout: 10, handler: nil)
-    }
+//    func testTypeMapping() {
+//        let e = expectation(description: "")
+//
+//        getArticlesCount()
+//            .then { count in
+//                XCTAssertEqual(count, 2)
+//                e.fulfill()
+//            }
+//            .onError { error in
+//                print("ERROR: \(error)")
+//                XCTFail("Type Mapping Fails")
+//                e.fulfill()
+//            }
+//
+//        waitForExpectations(timeout: 10, handler: nil)
+//    }
+//
+//    func testRawTypeMapping() {
+//        let e = expectation(description: "")
+//
+//        getFooBar()
+//            .then { foobar in
+//                XCTAssertEqual(foobar, FooBar.foo)
+//                e.fulfill()
+//            }
+//            .onError{ error in
+//                print("ERROR: \(error)")
+//                XCTFail("Raw type mapping fails")
+//                e.fulfill()
+//            }
+//
+//        waitForExpectations(timeout: 10, handler: nil)
+//    }
     
     func getArticles() -> WSCall<[Article]> {
         return ws.get(path, keypath: "articles")
     }
     
-    func getArticlesCount() -> WSCall<Int> {
-        return ws.get(path, keypath: "count")
-    }
-    
-    func getFooBar() -> WSCall<FooBar> {
-        return ws.get(path, keypath: "articles.0.name")
-    }
+//    func getArticlesCount() -> WSCall<Int> {
+//        return ws.get(path, keypath: "count")
+//    }
+
+//    func getFooBar() -> WSCall<FooBar> {
+//        return ws.get(path, keypath: "articles.0.name")
+//    }
     
 }

@@ -23,7 +23,7 @@ public extension Publisher where Failure == Error {
 }
 
 
-extension Publisher {
+public extension Publisher {
     
     @discardableResult
     func then(_ closure: @escaping (Output) -> Void) -> Self {

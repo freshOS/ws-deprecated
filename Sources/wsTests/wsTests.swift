@@ -7,46 +7,9 @@
 //
 
 import Alamofire
-import Arrow
 @testable import ws
 import XCTest
 import Combine
-
-// MARK: - Models
-
-struct User {
-    var identifier = 0
-    var username = ""
-    var email = ""
-    var name = ""
-    var phone = ""
-    var website: NSURL?
-    var company = Company()
-    var address = Address()
-}
-
-//todo Does not work when useing forced !
-
-struct Company {
-    var bs = ""
-    var catchPhrase = ""
-    var name = ""
-}
-
-struct Address {
-    var city = ""
-    var street = ""
-    var suite = ""
-    var zipcode = ""
-    var geo = Geo()
-}
-
-struct Geo {
-    var lat = ""
-    var lng = ""
-}
-
-// MARK: - Usage
 
 class WSTests: XCTestCase {
     
@@ -72,19 +35,19 @@ class WSTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testModels() {
-        let exp = expectation(description: "")
-        latestUsers().then { users in
-            XCTAssertEqual(users.count, 10)
-            
-            let u = users[0]
-            XCTAssertEqual(u.identifier, 1)
-            exp.fulfill()
-            
-            print(users)
-        }
-        waitForExpectations(timeout: 10, handler: nil)
-    }
+//    func testModels() {
+//        let exp = expectation(description: "")
+//        latestUsers().then { users in
+//            XCTAssertEqual(users.count, 10)
+//
+//            let u = users[0]
+//            XCTAssertEqual(u.identifier, 1)
+//            exp.fulfill()
+//
+//            print(users)
+//        }
+//        waitForExpectations(timeout: 10, handler: nil)
+//    }
     
     func testResponse() {
         let exp = expectation(description: "")
@@ -117,9 +80,11 @@ class WSTests: XCTestCase {
     
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects
-    func latestUsers() -> WSCall<[User]> {
-        return ws.get("/users")
-    }
+//    func latestUsers() -> WSCall<[User]> {
+//        let test: WSCall<[User]> = ws.get("/users")
+//
+//        return test
+//    }
     
     func testReceiveOnMainThreadWorks() {
         let thenExp = expectation(description: "thenExp")
