@@ -10,7 +10,7 @@ import Alamofire
 import Foundation
 import Combine
 
-public typealias WSJSON = Any
+public typealias WSJSON = Any//Data
 public typealias WSCall<T> = AnyPublisher<T, Error>
 
 open class WS {

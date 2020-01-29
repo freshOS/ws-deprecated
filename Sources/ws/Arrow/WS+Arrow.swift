@@ -5,76 +5,75 @@
 //
 //  Created by Sacha DSO on 28/01/2020.
 //
-
-import Foundation
-import Arrow
-
-func resourceData(from wsJSON: WSJSON, keypath: String?) -> WSJSON {
-    if let json = JSON(wsJSON), let k = keypath, !k.isEmpty,
-        let j = json[k] {
-        return j
-    }
-    return wsJSON
-}
-
-
-extension WSModelJSONParser where T: ArrowInitializable {
-
-    open func toModel(_ wsJSON: WSJSON, keypath: String? = nil) -> T? {
-        let json = JSON(resourceData(from: wsJSON, keypath: keypath))
-        if let j = json {
-            return T.init(j)
-        }
-        return T.init(json)
-    }
-
-    open func toModels(_ wsJSON: WSJSON, keypath: String? = nil) -> [T]? {
-        let json = JSON(resourceData(from: wsJSON, keypath: keypath))
-        return [T].init(json)
-    }
-}
-
-extension WSModelJSONParser where T: ArrowParsable {
-
-    open func toModel(_ wsJSON: WSJSON, keypath: String? = nil) -> T {
-        let json = resourceData(from: wsJSON, keypath: keypath)
-        return resource(from: json)
-    }
-
-    open func toModels(_ wsJSON: WSJSON, keypath: String? = nil) -> [T] {
-        let arrowJSON = JSON(resourceData(from: wsJSON, keypath: keypath))
-        guard let array = arrowJSON?.collection else {
-            return [T]()
-        }
-        return array.map { resource(from: $0) }
-    }
-
-    private func resource(from wsjson: WSJSON) -> T {
-        var t = T()
-        t.deserialize(JSON(wsjson)!)
-        return t
-    }
-}
+//
+//import Foundation
+//
+//func resourceData(from wsJSON: WSJSON, keypath: String?) -> WSJSON {
+//    if let json = JSON(wsJSON), let k = keypath, !k.isEmpty,
+//        let j = json[k] {
+//        return j
+//    }
+//    return wsJSON
+//}
 
 
-extension WS {
+//extension WSModelJSONParser where T: ArrowInitializable {
+//
+//    open func toModel(_ wsJSON: WSJSON, keypath: String? = nil) -> T? {
+//        let json = JSON(resourceData(from: wsJSON, keypath: keypath))
+//        if let j = json {
+//            return T.init(j)
+//        }
+//        return T.init(json)
+//    }
+//
+//    open func toModels(_ wsJSON: WSJSON, keypath: String? = nil) -> [T]? {
+//        let json = JSON(resourceData(from: wsJSON, keypath: keypath))
+//        return [T].init(json)
+//    }
+//}
+//
+//extension WSModelJSONParser where T: ArrowParsable {
+//
+//    open func toModel(_ wsJSON: WSJSON, keypath: String? = nil) -> T {
+//        let json = resourceData(from: wsJSON, keypath: keypath)
+//        return resource(from: json)
+//    }
+//
+//    open func toModels(_ wsJSON: WSJSON, keypath: String? = nil) -> [T] {
+//        let arrowJSON = JSON(resourceData(from: wsJSON, keypath: keypath))
+//        guard let array = arrowJSON?.collection else {
+//            return [T]()
+//        }
+//        return array.map { resource(from: $0) }
+//    }
+//
+//    private func resource(from wsjson: WSJSON) -> T {
+//        var t = T()
+//        t.deserialize(JSON(wsjson)!)
+//        return t
+//    }
+//}
 
-    public func get<T: ArrowParsable>(_ url: String,
-                                      params: Params = Params(),
-                                      keypath: String? = nil) -> WSCall<[T]> {
-        let keypath = keypath ?? defaultCollectionParsingKeyPath
-        return getRequest(url, params: params)
-            .fetch()
-            .map { json -> [T] in
-                return WSModelJSONParser<T>().toModels(json, keypath: keypath)
-            }.eraseToAnyPublisher()
-    }
 
-    public func get<T: ArrowParsable>(_ url: String,
-                                      params: Params = Params(),
-                                      keypath: String? = nil) -> WSCall<T> {
-        return resourceCall(.get, url: url, params: params, keypath: keypath)
-    }
+//extension WS {
+//
+//    public func get<T: ArrowParsable>(_ url: String,
+//                                      params: Params = Params(),
+//                                      keypath: String? = nil) -> WSCall<[T]> {
+//        let keypath = keypath ?? defaultCollectionParsingKeyPath
+//        return getRequest(url, params: params)
+//            .fetch()
+//            .map { json -> [T] in
+//                return WSModelJSONParser<T>().toModels(json, keypath: keypath)
+//            }.eraseToAnyPublisher()
+//    }
+//
+//    public func get<T: ArrowParsable>(_ url: String,
+//                                      params: Params = Params(),
+//                                      keypath: String? = nil) -> WSCall<T> {
+//        return resourceCall(.get, url: url, params: params, keypath: keypath)
+//    }
 
 //    public func post<T: ArrowParsable>(_ url: String,
 //                                       params: Params = Params(),
@@ -94,19 +93,19 @@ extension WS {
 //        return resourceCall(.delete, url: url, params: params, keypath: keypath)
 //    }
 
-    private func resourceCall<T: ArrowParsable>(_ verb: WSHTTPVerb,
-                                                url: String,
-                                                params: Params = Params(),
-                                                keypath: String? = nil) -> WSCall<T> {
-        let c = defaultCall()
-        c.httpVerb = verb
-        c.URL = url
-        c.params = params
-        return c.fetch().map { (json: WSJSON) -> T in
-            return WSModelJSONParser<T>().toModel(json, keypath: keypath)
-        }.eraseToAnyPublisher().receiveOnMainThread()
-    }
-}
+//    private func resourceCall<T: ArrowParsable>(_ verb: WSHTTPVerb,
+//                                                url: String,
+//                                                params: Params = Params(),
+//                                                keypath: String? = nil) -> WSCall<T> {
+//        let c = defaultCall()
+//        c.httpVerb = verb
+//        c.URL = url
+//        c.params = params
+//        return c.fetch().map { (json: WSJSON) -> T in
+//            return WSModelJSONParser<T>().toModel(json, keypath: keypath)
+//        }.eraseToAnyPublisher().receiveOnMainThread()
+//    }
+//}
 
 // get, post, put, delete <T:ArrowInitializable> (_ url: String, params: Params = Params(), keypath: String? = nil) -> WSCall<T>
 

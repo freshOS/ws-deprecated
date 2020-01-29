@@ -9,15 +9,6 @@
           "revision": "747c8db8d57b68d5e35275f10c92d55f982adbd4",
           "version": "4.9.1"
         }
-      },
-      {
-        "package": "Arrow",
-        "repositoryURL": "https://github.com/freshOS/Arrow",
-        "state": {
-          "branch": null,
-          "revision": "ede0996c0b8f32a67bba80ae384f0898e9a8cb95",
-          "version": "5.1.2"
-        }
       }
     ]
   },

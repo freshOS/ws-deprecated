@@ -25,8 +25,6 @@ struct User {
     var address = Address()
 }
 
-//todo Does not work when useing forced !
-
 struct Company {
     var bs = ""
     var catchPhrase = ""

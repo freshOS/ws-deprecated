@@ -7,11 +7,10 @@ let package = Package(
     platforms: [.iOS(.v13)],
     products: [.library(name: "ws", targets: ["ws"])],
     dependencies: [
-        .package(url: "https://github.com/freshOS/Arrow", .exact("5.1.2")),
         .package(url: "https://github.com/Alamofire/Alamofire", .exact("4.9.1"))
     ],
     targets: [
-        .target(name: "ws", dependencies:["Arrow", "Alamofire"]),
+        .target(name: "ws", dependencies:[ "Alamofire"]),
         .testTarget(name: "wsTests", dependencies: ["ws"])
     ]
 )

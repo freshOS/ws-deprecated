@@ -7,11 +7,6 @@
 //
 
 import Foundation
-import Arrow
-
-//extension Collection: ArrowParsable where Self.Element: ArrowParsable {
-//    
-//}
 
 extension User: Decodable {
     
@@ -85,7 +80,6 @@ extension Article: Decodable {
  */
 
 
-//import Arrow
 //extension User: ArrowParsable {
 //    mutating func deserialize(_ json: JSON) {
 //        identifier <-- json["id"]

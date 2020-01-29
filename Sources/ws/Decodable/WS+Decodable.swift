@@ -5,9 +5,9 @@
 ////  Created by Sacha DSO on 28/01/2020.
 ////
 //
-//import Foundation
-//import Combine
-//
+import Foundation
+import Combine
+
 open class WSModelJSONParser<T> {
     
     public init() {}
@@ -74,93 +74,86 @@ open class WSModelJSONParser<T> {
 //
 //
 //
-//public extension WS {
-//    
-//    func get<T>(_ url: String, params: Params = Params(), keypath: String? = nil) -> WSCall<T> where T:Decodable {
-//        return typeCall(.get, url: url, params: params, keypath: keypath)
-//    }
-//    
-//    func get<T: Collection>(_ url: String, params: Params = Params(), keypath: String? = nil) -> WSCall<T> where T.Element: Decodable {
-//        let sub = PassthroughSubject<T, Error>()
-//        return sub.eraseToAnyPublisher()
-////        return typeCall(.get, url: url, params: params, keypath: keypath)
-//    }
-//
-////    func get<Decodable>(_ url: String, params: Params = Params(), keypath: String? = nil) -> WSCall<[T]> {
-////        let keypath = keypath ?? defaultCollectionParsingKeyPath
-////        return getRequest(url, params: params)
-////            .fetch()
-////            .map { json -> [T] in
-////                return WSModelJSONParser<T>().toModels(json, keypath: keypath)
-////            }.eraseToAnyPublisher()
-////    }
-//    
-//}
-//
-//extension WS {
-//    
-//    private func typeCall<T: Decodable>(_ verb: WSHTTPVerb,
-//                                                 url: String, params: Params = Params(),
-//                                                 keypath: String? = nil) -> WSCall<T> {
-//        let c = defaultCall()
-//        c.httpVerb = verb
-//        c.URL = url
-//        c.params = params
-//        
-//        // Apply corresponding JSON mapper
-//        return c.fetch().tryMap { (json:WSJSON) -> T in
-//            if let t: T = WSModelJSONParser<T>().toModel(json, keypath: keypath) {
-//                return t
-//            } else {
-//                throw WSError.unableToParseResponse
-//            }
-//        }.eraseToAnyPublisher().receiveOnMainThread()
-//    }
-//}
-//
-//
-//extension WSModelJSONParser where T: Decodable {
-//    
-//    open func toModel(_ wsJSON: WSJSON, keypath: String? = nil) -> T? {
-//        let subJSON = resourceDataZ(from: wsJSON, keypath: keypath)
-//        if let type = subJSON as? T {
-//            return type
-//        }
-//        
-//        if let str = subJSON as? String {
-//            let decoder = JSONDecoder()
-//             if let jsonData = str.data(using: .utf8), let t = try? decoder.decode(T.self, from: jsonData) {
-//                 return t
-//             } else {
-//                 return nil
-//             }
-//        }
-//        
-//        if let arr = subJSON as? NSArray {
-//            
-//        }
-//        
-//        let decoder = JSONDecoder()
-//        let jsonData = subJSON as! Data
-//        if let t = try? decoder.decode(T.self, from: jsonData) {
-//            return t
-//        } else {
-//            return nil
-//        }
-//    }
-// 
-//    open func toModels(_ wsJSON: WSJSON, keypath: String? = nil) -> [T] {
-//        let arrayJSON = resourceDataZ(from: wsJSON, keypath: keypath)
-//        if let array = arrayJSON as? [WSJSON] {
-//            let models = array.map { (jsonObject:WSJSON) -> T in
-//                let decoder = JSONDecoder()
-//                let t = try! decoder.decode(T.self, from: jsonObject as! Data)
-//                return t
-//            }
-//        }
-//        return [T]()
-//        
-//        
+public extension WS {
+    
+    func get<T: Decodable>(_ url: String, params: Params = Params(), keypath: String? = nil) -> WSCall<T> {
+        return typeCall(.get, url: url, params: params, keypath: keypath)
+    }
+    
+    func getList<T: Decodable> (_ url: String, params: Params = Params(), keypath: String? = nil) -> WSCall<[T]> {
+        let keypath = keypath ?? defaultCollectionParsingKeyPath
+        let req = getRequest(url, params: params)
+        return req.fetch().map { (json:WSJSON) in
+            return WSModelJSONParser<T>().toModels(json, keypath: keypath)
+        }.eraseToAnyPublisher()
+    }
+}
+
+extension WS {
+    
+    private func typeCall<T: Decodable>(_ verb: WSHTTPVerb,
+                                                 url: String, params: Params = Params(),
+                                                 keypath: String? = nil) -> WSCall<T> {
+        let c = defaultCall()
+        c.httpVerb = verb
+        c.URL = url
+        c.params = params
+        
+        // Apply corresponding JSON mapper
+        return c.fetch().tryMap { (json:WSJSON) -> T in
+            if let t: T = WSModelJSONParser<T>().toModel(json, keypath: keypath) {
+                return t
+            } else {
+                throw WSError.unableToParseResponse
+            }
+        }.eraseToAnyPublisher().receiveOnMainThread()
+    }
+}
+
+
+extension WSModelJSONParser where T: Decodable {
+    
+    open func toModel(_ wsJSON: WSJSON, keypath: String? = nil) -> T? {
+        let subJSON = resourceDataZ(from: wsJSON, keypath: keypath)
+        if let type = subJSON as? T {
+            return type
+        }
+        
+        if let str = subJSON as? String {
+            let decoder = JSONDecoder()
+             if let jsonData = str.data(using: .utf8), let t = try? decoder.decode(T.self, from: jsonData) {
+                 return t
+             } else {
+                 return nil
+             }
+        }
+        
+        if let arr = subJSON as? NSArray {
+            
+        }
+        
+        let decoder = JSONDecoder()
+        let jsonData = subJSON as! Data
+        if let t = try? decoder.decode(T.self, from: jsonData) {
+            return t
+        } else {
+            return nil
+        }
+    }
+ 
+    open func toModels(_ wsJSON: WSJSON, keypath: String? = nil) -> [T] {
+        let arrayJSON = resourceDataZ(from: wsJSON, keypath: keypath)
+        if let array = arrayJSON as? [WSJSON] {
+            let models = array.map { (jsonObject:WSJSON) -> T in
+                let decoder = JSONDecoder()
+                let t = try! decoder.decode(T.self, from: jsonObject as! Data)
+                return t
+            }
+        }
+        return [T]()
+    }
+}
+        
 ////
 ////        return array.map { resource(from: $0) }
 ////
