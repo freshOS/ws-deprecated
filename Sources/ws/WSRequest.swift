@@ -52,6 +52,7 @@ open class WSRequest {
     open var errorHandler: ((JSON) -> Error?)?
     open var requestAdapter: RequestAdapter?
     open var requestRetrier: RequestRetrier?
+    open var sessionManager: SessionManager?
 
     private let logger = WSLogger()
     
@@ -84,14 +85,14 @@ open class WSRequest {
     }
 
     func wsSessionManager() -> SessionManager {
-        let sessionManager = Alamofire.SessionManager.default
+        let activeSessionManager = sessionManager ?? Alamofire.SessionManager.default
         if let adapter = requestAdapter {
-            sessionManager.adapter = adapter
+            activeSessionManager.adapter = adapter
         }
         if let retrier = requestRetrier {
-            sessionManager.retrier = retrier
+            activeSessionManager.retrier = retrier
         }
-        return sessionManager
+        return activeSessionManager
     }
     
     func wsRequest(_ urlRequest: URLRequestConvertible) -> DataRequest {

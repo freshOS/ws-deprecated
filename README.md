@@ -133,16 +133,26 @@ modelArrayCall().then { users in
 
 ## Settings
 
-Want to log all network calls and responses ?
+Want to log all network calls and responses?
 ```swift
 ws.logLevels = .debug
 ```
 
-Want to hide network activity indicator ?
+Want to hide network activity indicator?
 
 ```swift
 ws.showsNetworkActivityIndicator = false
 ```
+
+Want to override the default session manager to customize trust policies?
+
+```swift
+import Alamofire
+
+ws.sessionManager = SessionManager(serverTrustPolicyManager: ServerTrustPolicyManager(
+  policies: ["myspecialhostname.com" : .disableEvaluation]
+))
+```   
 
 ## Api Example
 Here is a Typical CRUD example for Articles :
