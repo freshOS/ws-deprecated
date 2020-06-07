@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		991774D623A39A6B00FB36FE /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991774D523A39A6B00FB36FE /* Arrow.framework */; };
-		991774D823A39A6D00FB36FE /* Then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991774D723A39A6D00FB36FE /* Then.framework */; };
-		991774DA23A39A6F00FB36FE /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991774D923A39A6F00FB36FE /* Alamofire.framework */; };
-		991774DB23A39AE200FB36FE /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991774D523A39A6B00FB36FE /* Arrow.framework */; };
 		994E914523B1284C002F6D2B /* WSNetworkIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994E913A23B1284B002F6D2B /* WSNetworkIndicator.swift */; platformFilter = ios; };
 		994E914623B1284C002F6D2B /* WS+TypedCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994E913B23B1284B002F6D2B /* WS+TypedCalls.swift */; platformFilter = ios; };
 		994E914723B1284C002F6D2B /* WS+Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994E913C23B1284B002F6D2B /* WS+Requests.swift */; platformFilter = ios; };
@@ -26,6 +22,9 @@
 		994E916423B12B0D002F6D2B /* Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 994E916123B12B0D002F6D2B /* Mapping.swift */; };
 		994E916523B12B4B002F6D2B /* 1px.jpg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 994E915E23B12B0D002F6D2B /* 1px.jpg */; };
 		996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 996CAB901BF67A7C00931EAD /* ws.framework */; };
+		99A3FC02248D47FA006260BE /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A3FC01248D47FA006260BE /* Alamofire.framework */; };
+		99A3FC04248D47FD006260BE /* Arrow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A3FC03248D47FD006260BE /* Arrow.framework */; };
+		99A3FC06248D47FF006260BE /* Then.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A3FC05248D47FF006260BE /* Then.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,9 +51,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		991774D523A39A6B00FB36FE /* Arrow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Arrow.framework; path = Carthage/Build/iOS/Arrow.framework; sourceTree = "<group>"; };
-		991774D723A39A6D00FB36FE /* Then.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Then.framework; path = Carthage/Build/iOS/Then.framework; sourceTree = "<group>"; };
-		991774D923A39A6F00FB36FE /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		994E913A23B1284B002F6D2B /* WSNetworkIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WSNetworkIndicator.swift; path = Sources/ws/WSNetworkIndicator.swift; sourceTree = SOURCE_ROOT; };
 		994E913B23B1284B002F6D2B /* WS+TypedCalls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WS+TypedCalls.swift"; path = "Sources/ws/WS+TypedCalls.swift"; sourceTree = SOURCE_ROOT; };
 		994E913C23B1284B002F6D2B /* WS+Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "WS+Requests.swift"; path = "Sources/ws/WS+Requests.swift"; sourceTree = SOURCE_ROOT; };
@@ -73,6 +69,9 @@
 		994E916123B12B0D002F6D2B /* Mapping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Mapping.swift; path = Sources/wsTests/Mapping.swift; sourceTree = SOURCE_ROOT; };
 		996CAB901BF67A7C00931EAD /* ws.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ws.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		996CAB9A1BF67A7C00931EAD /* wsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		99A3FC01248D47FA006260BE /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		99A3FC03248D47FD006260BE /* Arrow.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Arrow.framework; path = Carthage/Build/iOS/Arrow.framework; sourceTree = "<group>"; };
+		99A3FC05248D47FF006260BE /* Then.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Then.framework; path = Carthage/Build/iOS/Then.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				991774D623A39A6B00FB36FE /* Arrow.framework in Frameworks */,
-				991774D823A39A6D00FB36FE /* Then.framework in Frameworks */,
-				991774DA23A39A6F00FB36FE /* Alamofire.framework in Frameworks */,
+				99A3FC02248D47FA006260BE /* Alamofire.framework in Frameworks */,
+				99A3FC04248D47FD006260BE /* Arrow.framework in Frameworks */,
+				99A3FC06248D47FF006260BE /* Then.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,7 +90,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				996CAB9B1BF67A7C00931EAD /* ws.framework in Frameworks */,
-				991774DB23A39AE200FB36FE /* Arrow.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,9 +99,9 @@
 		991774D223A399FC00FB36FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				991774D923A39A6F00FB36FE /* Alamofire.framework */,
-				991774D723A39A6D00FB36FE /* Then.framework */,
-				991774D523A39A6B00FB36FE /* Arrow.framework */,
+				99A3FC05248D47FF006260BE /* Then.framework */,
+				99A3FC03248D47FD006260BE /* Arrow.framework */,
+				99A3FC01248D47FA006260BE /* Alamofire.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -467,7 +465,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.ws;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -497,7 +495,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 5.1.1;
+				MARKETING_VERSION = 5.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.freshOS.ws;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

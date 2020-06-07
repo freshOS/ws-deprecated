@@ -9,7 +9,7 @@
 import Alamofire
 import Arrow
 import Foundation
-import then
+import Then
 
 public struct WSMultiPartData {
     public var multipartData = Data()
