@@ -1,7 +1,7 @@
 ![ws](https://raw.githubusercontent.com/freshOS/ws/master/banner.png)
 
 # ⚠ Important Notice: Farewell ws... hello Networking !
-Networking is the next generation of the [ws](https://github.com/freshOS/ws) project. Think of it as ws 2.0 built for iOS13.
+[Networking](https://github.com/freshOS/Networking) is the next generation of the [ws](https://github.com/freshOS/ws) project. Think of it as ws 2.0 built for iOS13.
 It uses Combine native Apple's framework over [Then](https://github.com/freshOS/Then) Promise Library, removes [Arrow](https://github.com/freshOS/Arrow) dependency to favour Codable (Arrow can still be adapted easily though) and removes the [Alamofire](https://github.com/Alamofire/Alamofire) dependency in favour of a simpler purely native [URLSession](https://developer.apple.com/documentation/foundation/urlsession) implementation. In essence, less dependencies and more native stuff with an almost identical api. If your app supports iOS13 and up, it is strongly advised to migrate to Networking. WS will be "maintained" for backwards compatibility reasons but consider it deprectaed starting iOS13.
 
 # ws
