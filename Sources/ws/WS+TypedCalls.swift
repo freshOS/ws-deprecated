@@ -58,7 +58,7 @@ extension WS {
         // Apply corresponding JSON mapper
         return c.fetch().registerThen { (json: JSON) -> T in
             return WSModelJSONParser<T>().toModel(json, keypath: keypath ?? self.defaultObjectParsingKeyPath)
-            }.resolveOnMainThread()
+        }.resolveOnMainThread()
     }
     
 }
@@ -119,7 +119,8 @@ extension WS {
         return c.fetch()
             .registerThen { (json: JSON) in
                 Promise<T> { (resolve, reject) in
-                    if let t: T = WSModelJSONParser<T>().toModel(json, keypath: keypath ?? self.defaultObjectParsingKeyPath) {
+                    if let t: T = WSModelJSONParser<T>().toModel(json, keypath: keypath
+                        ?? self.defaultObjectParsingKeyPath) {
                         resolve(t)
                     } else {
                         reject(WSError.unableToParseResponse)
@@ -130,4 +131,3 @@ extension WS {
     }
     
 }
-

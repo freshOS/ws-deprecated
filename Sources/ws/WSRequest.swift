@@ -9,7 +9,7 @@
 import Alamofire
 import Arrow
 import Foundation
-import Then
+import then
 
 public struct WSMultiPartData {
     public var multipartData = Data()
@@ -19,7 +19,10 @@ public struct WSMultiPartData {
     
     public init() {
     }
-    public init(multipartData: Data, multipartName: String, multipartFileName: String? = nil, multipartMimeType: String) {
+    public init(multipartData: Data,
+                multipartName: String,
+                multipartFileName: String? = nil,
+                multipartMimeType: String) {
         self.multipartData = multipartData
         self.multipartName = multipartName
         self.multipartFileName = multipartFileName ?? self.multipartFileName
@@ -151,7 +154,7 @@ open class WSRequest {
                     formData.append(data, withName: key)
                 }
             }
-            self.multiPartData.forEach{ data in
+            self.multiPartData.forEach { data in
                     formData.append(data.multipartData,
                                     withName: data.multipartName,
                                     fileName: data.multipartFileName,
