@@ -94,24 +94,25 @@ class WSTests: XCTestCase {
         waitForExpectations(timeout: 10, handler: nil)
     }
     
-    func testMultipart() {
-        let exp = expectation(description: "")
-        let wsFileIO = WS("https://file.io")
-        wsFileIO.logLevels = .debug
-        wsFileIO.postParameterEncoding = JSONEncoding.default
-        wsFileIO.showsNetworkActivityIndicator = false
-        
-        let imgPath = Bundle(for: type(of: self)).path(forResource: "1px", ofType: "jpg")
-        let img = UIImage(contentsOfFile: imgPath!)
-        let data = img!.jpegData(compressionQuality: 1.0)!
-        
-        wsFileIO.postMultipart("", name: "file", data: data, fileName: "file", mimeType: "image/jpeg").then { _ in
-            exp.fulfill()
-        }.onError { _ in
-            XCTFail("Posting multipart Fails")
-        }
-        waitForExpectations(timeout: 10, handler: nil)
-    }
+    // SPM doesn't support resources so this test fails under SPM
+//    func testMultipart() {
+//        let exp = expectation(description: "")
+//        let wsFileIO = WS("https://file.io")
+//        wsFileIO.logLevels = .debug
+//        wsFileIO.postParameterEncoding = JSONEncoding.default
+//        wsFileIO.showsNetworkActivityIndicator = false
+//
+//        let imgPath = Bundle(for: type(of: self)).path(forResource: "1px", ofType: "jpg")
+//        let img = UIImage(contentsOfFile: imgPath!)
+//        let data = img!.jpegData(compressionQuality: 1.0)!
+//
+//        wsFileIO.postMultipart("", name: "file", data: data, fileName: "file", mimeType: "image/jpeg").then { _ in
+//            exp.fulfill()
+//        }.onError { _ in
+//            XCTFail("Posting multipart Fails")
+//        }
+//        waitForExpectations(timeout: 10, handler: nil)
+//    }
     
     // Here is typically how you would define an api endpoint.
     // aka latestUsers is a GET on /users and I should get back User objects
