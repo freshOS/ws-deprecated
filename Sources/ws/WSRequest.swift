@@ -11,13 +11,26 @@ import Arrow
 import Foundation
 import Then
 
+public struct WSMultiPartData {
+    public var multipartData = Data()
+    public var multipartName = ""
+    public var multipartFileName = "photo.jpg"
+    public var multipartMimeType = "image/*"
+    
+    public init() {
+    }
+    public init(multipartData: Data, multipartName: String, multipartFileName: String? = nil, multipartMimeType: String) {
+        self.multipartData = multipartData
+        self.multipartName = multipartName
+        self.multipartFileName = multipartFileName ?? self.multipartFileName
+        self.multipartMimeType = multipartMimeType
+    }
+}
+
 open class WSRequest {
    
     var isMultipart = false
-    var multipartData = Data()
-    var multipartName = ""
-    var multipartFileName = "photo.jpg"
-    var multipartMimeType = "image/jpeg"
+    var multiPartData = [WSMultiPartData]()
     
     open var baseURL = ""
     open var URL = ""
@@ -59,7 +72,7 @@ open class WSRequest {
         }
         
         var request: URLRequest?
-        if httpVerb == .post || httpVerb == .put {
+        if httpVerb == .post || httpVerb == .put || httpVerb == .patch {
             request = try? postParameterEncoding.encode(r, with: params)
         } else {
             request = try? URLEncoding.default.encode(r, with: params)
@@ -138,10 +151,12 @@ open class WSRequest {
                     formData.append(data, withName: key)
                 }
             }
-            formData.append(self.multipartData,
-                            withName: self.multipartName,
-                            fileName: self.multipartFileName,
-                            mimeType: self.multipartMimeType)
+            self.multiPartData.forEach{ data in
+                    formData.append(data.multipartData,
+                                    withName: data.multipartName,
+                                    fileName: data.multipartFileName,
+                                    mimeType: data.multipartMimeType)
+            }
         }, with: self.buildRequest(),
            encodingCompletion: { encodingResult in
             switch encodingResult {
@@ -209,6 +224,7 @@ open class WSRequest {
                                      data: Data? = nil,
                                      reject: (_ error: Error) -> Void) {
         var error = WSError(httpStatusCode: response?.statusCode ?? 0)
+        error.responseData = data
         if let d = data,
             let json = try? JSONSerialization.jsonObject(with: d,
                                                          options: JSONSerialization.ReadingOptions.allowFragments),
@@ -226,6 +242,8 @@ open class WSRequest {
             return .post
         case .put:
             return  .put
+        case .patch:
+            return  .patch
         case .delete:
             return .delete
         }

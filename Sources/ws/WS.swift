@@ -21,6 +21,9 @@ open class WS {
      */
     open var defaultCollectionParsingKeyPath: String?
     
+    // Same but for ArrowInitializable objects
+    open var defaultObjectParsingKeyPath: String?
+
     @available(*, unavailable, renamed:"defaultCollectionParsingKeyPath")
     open var jsonParsingColletionKey: String?
     
@@ -65,8 +68,9 @@ open class WS {
         let c = defaultCall()
         c.httpVerb = verb
         c.URL = url
-        if mandatoryQueryParams.isEmpty { c.params = params }
-        else {
+        if mandatoryQueryParams.isEmpty {
+            c.params = params
+        } else {
             c.params = params.merging(mandatoryQueryParams) { (current, _) in current }
         }
         return c
@@ -145,6 +149,15 @@ open class WS {
                                      mimeType: mimeType)
         return r.fetch().resolveOnMainThread()
     }
+
+    open func postMultipart(_ url: String,
+                            params: Params = Params(),
+                            multiParts: [WSMultiPartData]) -> Promise<JSON> {
+        let r = postMultipartRequest(url,
+                                     params: params,
+                                     multiParts: multiParts)
+        return r.fetch().resolveOnMainThread()
+    }
     
     open func putMultipart(_ url: String,
                            params: Params = Params(),
@@ -156,16 +169,27 @@ open class WS {
         return r.fetch().resolveOnMainThread()
     }
     
+    open func putMultipart(_ url: String,
+                           params: Params = Params(),
+                           multiParts: [WSMultiPartData]) -> Promise<JSON> {
+        let r = postMultipartRequest(url, params: params, multiParts: multiParts, verb: .put)
+        return r.fetch().resolveOnMainThread()
+    }
+    
+    open func patchMultipart(_ url: String, params: Params = Params(), multiParts: [WSMultiPartData]) -> Promise<JSON> {
+        let r = postMultipartRequest(url, params: params, multiParts: multiParts, verb: .patch)
+        return r.fetch().resolveOnMainThread()
+    }
+    
     open func addMandatoryQueryParameter(key: String, value: Any) -> WS {
         mandatoryQueryParams[key] = value
         return self
     }
     
-    open func addMandatoryQueryParameter(params: Params) -> WS{
+    open func addMandatoryQueryParameter(params: Params) -> WS {
         mandatoryQueryParams.merge(params) { (current, _) in current }
         return self
     }
-    
 }
 
 public extension Promise {

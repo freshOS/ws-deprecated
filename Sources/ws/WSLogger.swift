@@ -37,8 +37,11 @@ class WSLogger {
         for (k, v) in request.headers {
             print("  \(k) : \(v)")
         }
-        print("  name : \(request.multipartName),"
-            + "mimeType: \(request.multipartMimeType), filename: \(request.multipartFileName)")
+        request.multiPartData.forEach { 
+            print("  name : \($0.multipartName),"
+                + "mimeType: \($0.multipartMimeType), filename: \($0.multipartFileName)")
+        }
+        
         if logLevels == .debug {
             print()
         }

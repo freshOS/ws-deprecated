@@ -73,6 +73,8 @@ public struct WSError: Error {
     
     public var jsonPayload: JSON?
     
+    public var responseData: Data?
+    
     public init(httpStatusCode: Int) {
         self.status = Status(rawValue: httpStatusCode) ?? .unknown
     }

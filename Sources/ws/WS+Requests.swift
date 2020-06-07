@@ -34,27 +34,38 @@ extension WS {
                                      data: Data,
                                      fileName: String,
                                      mimeType: String) -> WSRequest {
-        let c = call(url, verb: .post, params: params)
-        c.isMultipart = true
-        c.multipartData = data
-        c.multipartName = name
-        c.multipartFileName = fileName
-        c.multipartMimeType = mimeType
-        return c
+        let multiPart = WSMultiPartData(
+            multipartData: data, 
+            multipartName: name, 
+            multipartFileName: fileName, 
+            multipartMimeType: mimeType
+        )
+        return postMultipartRequest(url, params: params, multiParts: [multiPart])
     }
     
+    public func postMultipartRequest(_ url: String,
+                                     params: Params = Params(),
+                                     multiParts: [WSMultiPartData],
+                                     verb: WSHTTPVerb = .post) -> WSRequest {
+        let c = call(url, verb: verb, params: params)
+        c.isMultipart = true
+        c.multiPartData = multiParts
+        return c
+    }
+
     public func putMultipartRequest(_ url: String,
                                     params: Params = Params(),
                                     name: String,
                                     data: Data,
                                     fileName: String,
                                     mimeType: String) -> WSRequest {
-        let c = call(url, verb: .put, params: params)
-        c.isMultipart = true
-        c.multipartData = data
-        c.multipartName = name
-        c.multipartFileName = fileName
-        c.multipartMimeType = mimeType
-        return c
+        let multiPart = WSMultiPartData(
+            multipartData: data, 
+            multipartName: name, 
+            multipartFileName: fileName, 
+            multipartMimeType: mimeType
+        )
+        return postMultipartRequest(url, params: params, multiParts: [multiPart], verb: .put)
     }
+
 }
