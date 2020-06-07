@@ -391,6 +391,9 @@ ws.get(user)
 Of course, the same logic can be applied to the all the other ws functions (`post`, `put` `delete` etc) ! 🎉
 ## Installation
 
+### Swift Package Manager (SPM)
+Due to the challenge of supporting all package manager at once, SPM support is availlable on a separate branch `spm-only`.
+
 ### Carthage
 In your Cartfile
 ```
